@@ -48,21 +48,32 @@ public class ClientController {
         return "Hello World!";
     }
 
-    // display image
+    // // display image
+    // @GetMapping("/display")
+    // public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id)
+    // throws IOException, SQLException {
+    // // ---> my code
+    // // Product newProduct = productService.getLastProductAdded();
+    // // System.out.println("\t\t--> display method,last product added is :" +
+    // // newProduct.getProductName());
+    // // System.out.println("\n id number in display is:" + id);
+
+    // // ---> my code
+
+    // Image image = imageService.viewById(id);
+    // byte[] imageBytes = null;
+    // imageBytes = image.getImage().getBytes(1, (int) image.getImage().length());
+    // return
+    // ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+    // }
     @GetMapping("/display")
-    public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id) throws IOException, SQLException {
-        // ---> my code
-        // Product newProduct = productService.getLastProductAdded();
-        // System.out.println("\t\t--> display method,last product added is :" +
-        // newProduct.getProductName());
-        // System.out.println("\n id number in display is:" + id);
-
-        // ---> my code
-
-        Image image = imageService.viewById(id);
-        byte[] imageBytes = null;
-        imageBytes = image.getImage().getBytes(1, (int) image.getImage().length());
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+    @ResponseBody
+    public ResponseEntity<byte[]> displayImage(@RequestParam("id") String productCode)
+            throws SQLException, IOException {
+        Product product = productService.getProductByProductCode(productCode);
+        Blob imageBlob = product.getBlobType();
+        byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes); // Adjust media type as needed
     }
 
     // view All images
@@ -79,7 +90,7 @@ public class ClientController {
         System.out.println("\t\t--> last Product added (allImagesPage) : " + lastProductCategory);
 
         if (currentProductCatagory.equals("Vitamins")) {
-            List<Product> productListByCategory = productService.getAllProductByCatagory("Vitamins");
+            List<Product> productVitaminsListByCategory = productService.getAllProductByCatagory("Vitamins");
             List<Image> vitaminsListImages = productService.getAllProductImagesByCatagory("Vitamins");
             // ----> test
             List<Product> list = productService.getAllProductByCatagory("Vitamins");
@@ -90,30 +101,22 @@ public class ClientController {
 
             // ----> test
             mv = new ModelAndView("VitaminsPage");// load model and view for images in new page called VitaminsPage.html
-            mv.addObject("vitaminsListImages", vitaminsListImages);// add vitamins products in the VitaminsPage
+            mv.addObject("productVitaminsListByCategory", productVitaminsListByCategory);// add vitamins products in the
+                                                                                         // VitaminsPage
             return mv;
 
         }
         if (currentProductCatagory.equals("Perfumes")) {
+            List<Product> productPerfumesListByCategory = productService.getAllProductByCatagory("Perfumes");
             List<Image> prefumeList = productService.getAllProductImagesByCatagory("Perfumes");
             mv = new ModelAndView("PrefumePage");// load model and view for images in new page called PerfumesPage.html
-            mv.addObject("prefumeList", prefumeList);// add prefumes products in the PrefumePage
+            mv.addObject("productPerfumesListByCategory", productPerfumesListByCategory);// add prefumes products in the
+                                                                                         // PrefumePage
             return mv;
         }
 
         mv = new ModelAndView("index");
         imageList = imageService.viewAll();
-
-        // productService.PrintAllProductNames();
-        // long size = productService.getSize();
-        // System.out.println("size of prdouctRepo:" + size);
-        // imageList = imageService.viewAll();
-        // ---> new code
-        // productService.PrintAllProductNamesByCatagory("Perfumes");
-        // int size1 = imageList.size();
-        // System.out.println("The size of the image list is: " + size1);
-        // ---> new code
-
         mv.addObject("imageList", imageList);
         return mv;
     }
@@ -150,8 +153,6 @@ public class ClientController {
         byte[] bytes = file.getBytes();
         Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
 
-
-        
         Image image = new Image();
         image.setImage(blob);
         imageService.create(image);

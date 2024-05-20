@@ -30,6 +30,12 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ImageRepository imageNameRepository;
 
+
+    @Override //this method must be aded in the ProductRepostory&ProductService
+    public Product getProductByProductCode(String productCode) {
+        return productRepo.findByProductCode(productCode);
+    }
+
     @Override
     public List<Image> viewAllImageCategory() {
         @SuppressWarnings("unchecked")
@@ -41,12 +47,11 @@ public class ProductServiceImpl implements ProductService {
         productRepo.deleteAll();
     }
 
-    // return list of the products of the same SerachCategory 
+    // return list of the products of the same SerachCategory
     public List<Product> getAllProductByCatagory(String SerachCategory) {
         List<Product> productsListByCatagory = productRepo.findByProductCategory(SerachCategory);
         return productsListByCatagory;
     }
-
 
     @Override
     public List<Product> viewAll() {

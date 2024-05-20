@@ -7,6 +7,9 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, String> {
+    
     List<Product> findByProductCategory(String productCategory);
+
+    Product findByProductCode(String productCode);
 
 }

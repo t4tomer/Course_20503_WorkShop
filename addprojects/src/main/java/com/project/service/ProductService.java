@@ -34,6 +34,9 @@ public interface ProductService {
     public void deleteAll();
 
     public List<Product> viewAll();
+
+    Product getProductByProductCode(String productCode);
+
     // ! findByProductCategory -explanantion
     /*
      * The findByProductCategory method is automatically implemented by Spring Data
