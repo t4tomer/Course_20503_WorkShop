@@ -8,18 +8,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootMysqlImageUploadApplication {
+public class MainSpring {
     // this is test for git 123456
     public static void main(String[] args) {
         // ! run OpenURL python script
 
-        SpringApplication.run(SpringBootMysqlImageUploadApplication.class, args);
+        SpringApplication.run(MainSpring.class, args);
 
         System.out.println("Main Spring!!!!");
-        // String
-        // WindowsOpenURL_CD="D:/vs_java_codes/Course_20503_WorkShop/Proj1/OpenUrl.py";
-        String WindowsOpenURL_CD = "D:/vs_java_codes/add_proucts_and_images/spring-boot-mysql-image-upload-view/OpenUrl.py";
-        // D:/vs_java_codes/add_proucts_and_images/spring-boot-mysql-image-upload-view/OpenUrl.py
+        String WindowsOpenURL_CD = "D:/vs_java_codes/AddProducts_Update/addprojects/OpenUrl.py";
+
         runPythonScript(WindowsOpenURL_CD);
 
     }
