@@ -30,7 +30,7 @@
     <!-- View Images -->
     <!--Main Content-->
     <div class="mt-5">
-        <h1 class="text-center">View Vitamins Products</h1>
+        <h1 class="text-center">View Perfumes Products</h1>
         <div class="container">
             <!--Add User Button-->
             <div class="my-3">
@@ -44,17 +44,19 @@
                         <th scope="col">Product Name</th>
                         <th scope="col">Product Price</th>
                         <th scope="col">Product Quantity</th>
-                        
+                        <th scope="col">Buy Product</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="product : ${productVitaminsListByCategory}">
                         <td th:text="${product.productCode}"></td>
-                        <td><img height="250px" th:src="@{'/display?id=' + ${product.productCode}}" alt=""></td>
+                        <td><img height="250px" th:src="@{'/display?id=' + ${product.productCode}}" alt="Product Image"></td>
                         <td th:text="${product.productName}"></td>
                         <td th:text="${product.productPrice}"></td>
                         <td th:text="${product.productQuantity}"></td>
-
+                        <td>
+                            <a th:href="@{/buyProduct/{productCode}(productCode=${product.productCode})}" class="btn btn-success">Buy Product</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

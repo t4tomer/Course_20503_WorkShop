@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,24 +49,8 @@ public class ClientController {
         return "Hello World!";
     }
 
-    // // display image
-    // @GetMapping("/display")
-    // public ResponseEntity<byte[]> displayImage(@RequestParam("id") long id)
-    // throws IOException, SQLException {
-    // // ---> my code
-    // // Product newProduct = productService.getLastProductAdded();
-    // // System.out.println("\t\t--> display method,last product added is :" +
-    // // newProduct.getProductName());
-    // // System.out.println("\n id number in display is:" + id);
+    // display image
 
-    // // ---> my code
-
-    // Image image = imageService.viewById(id);
-    // byte[] imageBytes = null;
-    // imageBytes = image.getImage().getBytes(1, (int) image.getImage().length());
-    // return
-    // ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
-    // }
     @GetMapping("/display")
     @ResponseBody
     public ResponseEntity<byte[]> displayImage(@RequestParam("id") String productCode)
@@ -76,11 +61,19 @@ public class ClientController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes); // Adjust media type as needed
     }
 
+    // --->test
+
+    @GetMapping("/buyProduct/{productCode}")
+    public ModelAndView buyProduct(@PathVariable("productCode") String productCode) {
+        ModelAndView mav = new ModelAndView("ProductDetails");
+        mav.addObject("productCode", productCode);
+        return mav;
+    }
+    // ---> test
+
     // view All images
     @GetMapping("/allImagesPage")
     public ModelAndView home() {
-        // ModelAndView mv = new ModelAndView("index");
-        String pagePerfume = "PrefumePage";
         ModelAndView mv;
         List<Image> imageList;
 
@@ -91,27 +84,17 @@ public class ClientController {
 
         if (currentProductCatagory.equals("Vitamins")) {
             List<Product> productVitaminsListByCategory = productService.getAllProductByCatagory("Vitamins");
-            List<Image> vitaminsListImages = productService.getAllProductImagesByCatagory("Vitamins");
-            // ----> test
-            List<Product> list = productService.getAllProductByCatagory("Vitamins");
-            // Print the product names
-            for (Product product : list) {
-                System.out.println("\t\t--> the product code is :" + product.getProductCode());
-            }
-
-            // ----> test
             mv = new ModelAndView("VitaminsPage");// load model and view for images in new page called VitaminsPage.html
-            mv.addObject("productVitaminsListByCategory", productVitaminsListByCategory);// add vitamins products in the
-                                                                                         // VitaminsPage
+            mv.addObject("productVitaminsListByCategory", productVitaminsListByCategory);// add vitamins products to the
+                                                                                         // Vitamins page //
             return mv;
 
         }
         if (currentProductCatagory.equals("Perfumes")) {
             List<Product> productPerfumesListByCategory = productService.getAllProductByCatagory("Perfumes");
-            List<Image> prefumeList = productService.getAllProductImagesByCatagory("Perfumes");
             mv = new ModelAndView("PrefumePage");// load model and view for images in new page called PerfumesPage.html
             mv.addObject("productPerfumesListByCategory", productPerfumesListByCategory);// add prefumes products in the
-                                                                                         // PrefumePage
+                                                                                         // // PrefumePage
             return mv;
         }
 
