@@ -38,7 +38,7 @@ public class ClientController {
     @Autowired
     private ProductRepository productRepo; // Inject your UserRepository
 
-    private String currentProductCatagory; // the current category of a product that was just added
+    private String chosenProductCatagory; // the current category of a product that was just added
 
     @GetMapping("/ping")
     @ResponseBody
@@ -70,13 +70,17 @@ public class ClientController {
 
     // method that shows the product of store by catagory
     @GetMapping("/page_prefume123")
-    public ModelAndView prefumePage() {
-
+    public ModelAndView prefumePage(String chosenProductCatagory) {
+        String pageName = "";
         ModelAndView mv;
-        List<Product> productPerfumesListByCategory = productService.getAllProductByCatagory("Perfumes");
-        mv = new ModelAndView("PrefumePage");// load model and view for images in new page called PerfumesPage.html
-        mv.addObject("productPerfumesListByCategory", productPerfumesListByCategory);// add prefumes products in the
-                                                                                     // // PrefumePage
+        if (chosenProductCatagory.equals("Perfumes"))
+            pageName = "PrefumePage";
+        if (chosenProductCatagory.equals("Vitamins"))
+            pageName = "VitaminsPage";
+        List<Product> productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
+        mv = new ModelAndView(pageName);// load model and view for images in new page called .
+        mv.addObject("productListByCategory", productListByCategory);// add prefumes products in the
+
         return mv;
 
     }
@@ -86,15 +90,19 @@ public class ClientController {
     public ModelAndView home() {
         ModelAndView mv;
         List<Image> imageList;
-        if (currentProductCatagory.equals("Vitamins")) {
-            List<Product> productVitaminsListByCategory = productService.getAllProductByCatagory("Vitamins");
-            mv = new ModelAndView("VitaminsPage");// load model and view for images in new page called VitaminsPage.html
-            mv.addObject("productVitaminsListByCategory", productVitaminsListByCategory);// add vitamins products to the
-                                                                                         // // Vitamins page //
-            return mv;
+        if (chosenProductCatagory.equals("Vitamins")) {
+            return prefumePage(chosenProductCatagory);
+            // List<Product> productVitaminsListByCategory =
+            // productService.getAllProductByCatagory("Vitamins");
+            // mv = new ModelAndView("VitaminsPage");// load model and view for images in
+            // new page called VitaminsPage.html
+            // mv.addObject("productVitaminsListByCategory",
+            // productVitaminsListByCategory);// add vitamins products to the
+            // // // Vitamins page //
+            // return mv;
         }
-        if (currentProductCatagory.equals("Perfumes")) {
-            return prefumePage();
+        if (chosenProductCatagory.equals("Perfumes")) {
+            return prefumePage(chosenProductCatagory);
             // List<Product> productPerfumesListByCategory =
             // productService.getAllProductByCatagory("Perfumes");
             // mv = new ModelAndView("PrefumePage");// load model and view for images in new
@@ -138,7 +146,7 @@ public class ClientController {
             System.out.println("blank textbox");
             return "redirect:/add";
         }
-        currentProductCatagory = productCategory;
+        chosenProductCatagory = productCategory;
         byte[] bytes = file.getBytes();
         Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
 
@@ -166,7 +174,7 @@ public class ClientController {
     @PostMapping("/test123")
     public ModelAndView PrintMsg() {
         System.out.println("TEST123");
-        return prefumePage();
+        return prefumePage("Perfumes");
     }
 
 }

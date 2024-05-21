@@ -48,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="product : ${productPerfumesListByCategory}">
+                    <tr th:each="product : ${productListByCategory}">
                         <td th:text="${product.productCode}"></td>
                         <td><img height="250px" th:src="@{'/display?id=' + ${product.productCode}}" alt="Product Image"></td>
                         <td th:text="${product.productName}"></td>
