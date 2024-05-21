@@ -32,8 +32,6 @@ public class ClientController {
     @Autowired
     private ImageService imageService;
 
-    @Autowired
-    private ImageService imageServicePrefumes;
 
     @Autowired
     private ProductService productService;
@@ -65,10 +63,12 @@ public class ClientController {
 
     @GetMapping("/buyProduct/{productCode}")
     public ModelAndView buyProduct(@PathVariable("productCode") String productCode) {
-        ModelAndView mav = new ModelAndView("ProductDetails");
-        mav.addObject("productCode", productCode);
+        Product currentProduct = productService.getProductByProductCode(productCode);
+        ModelAndView mav = new ModelAndView("ProductDetails"); // This should match the HTML file name
+        mav.addObject("currentProduct", currentProduct); // Add the product object to the model
         return mav;
     }
+    
     // ---> test
 
     // view All images
@@ -76,12 +76,6 @@ public class ClientController {
     public ModelAndView home() {
         ModelAndView mv;
         List<Image> imageList;
-
-        Product lastProduct = productService.getLastProductAdded();
-        String lastProductCategory = lastProduct.getproductCategory();
-        System.out.println("\t\t\t  $$$$$$---->the value of currentProductCatagory is :" + currentProductCatagory);
-        System.out.println("\t\t--> last Product added (allImagesPage) : " + lastProductCategory);
-
         if (currentProductCatagory.equals("Vitamins")) {
             List<Product> productVitaminsListByCategory = productService.getAllProductByCatagory("Vitamins");
             mv = new ModelAndView("VitaminsPage");// load model and view for images in new page called VitaminsPage.html
@@ -139,16 +133,6 @@ public class ClientController {
         Image image = new Image();
         image.setImage(blob);
         imageService.create(image);
-        System.out.println("product catagory:is" + productCategory);
-        // if (productCategory.equals("Perfumes")) {
-        // System.out.println("\t\t\t----->added image to ServicePrefumes!!!");
-        // blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-        // Image imagePrefume = new Image();
-        // imagePrefume.setImage(blob);
-        // imageServicePrefumes.create(imagePrefume);
-
-        // // imageServicePrefumes
-        // }
 
         Product newProduct = new Product(
                 productCode,
@@ -159,16 +143,11 @@ public class ClientController {
                 image.getDate(),
                 image.getImage());
 
-        System.out.println(newProduct.toString());
+        // System.out.println(newProduct.toString());
 
         // System.out.println(image.toString());
         productService.addNewProduct(newProduct);
-        // ---> new code lines
-        productService.addNewProduct2(newProduct);
 
-        Image newImage = new Image(image.getId(), image.getDate(), image.getImage());
-        // imageRepo.saveAll(Arrays.asList(newImage));
-        productRepo.saveAll(Arrays.asList(newProduct));
 
         return "redirect:/allImagesPage";
     }

@@ -21,15 +21,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ImageService ImageServiceByCategory;// used to store the images of image spesefic catagpry
 
-    @Autowired
-    private ProductRepository ProductsListByCatagoryRepo;// used to store the products
-
-    @Autowired
-    private ImageRepository imageRepository2;
-
-    @Autowired
-    private ImageRepository imageNameRepository;
-
 
     @Override //this method must be aded in the ProductRepostory&ProductService
     public Product getProductByProductCode(String productCode) {

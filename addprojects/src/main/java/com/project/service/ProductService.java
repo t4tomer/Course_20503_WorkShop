@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public interface ProductService {
 
-    // public void addNewProduct(Product newProduct);
 
     public Product addNewProduct(Product newProduct);
 
