@@ -69,8 +69,8 @@ public class ClientController {
     }
 
     // method that shows the product of store by catagory
-    @GetMapping("/page_prefume123")
-    public ModelAndView prefumePage(String chosenProductCatagory) {
+    @GetMapping("/allImagesPage")
+    public ModelAndView home() {
         String pageName = "";
         ModelAndView mv;
         if (chosenProductCatagory.equals("Perfumes"))
@@ -81,40 +81,6 @@ public class ClientController {
         mv = new ModelAndView(pageName);// load model and view for images in new page called .
         mv.addObject("productListByCategory", productListByCategory);// add prefumes products in the
 
-        return mv;
-
-    }
-
-    // view All images
-    @GetMapping("/allImagesPage")
-    public ModelAndView home() {
-        ModelAndView mv;
-        List<Image> imageList;
-        if (chosenProductCatagory.equals("Vitamins")) {
-            return prefumePage(chosenProductCatagory);
-            // List<Product> productVitaminsListByCategory =
-            // productService.getAllProductByCatagory("Vitamins");
-            // mv = new ModelAndView("VitaminsPage");// load model and view for images in
-            // new page called VitaminsPage.html
-            // mv.addObject("productVitaminsListByCategory",
-            // productVitaminsListByCategory);// add vitamins products to the
-            // // // Vitamins page //
-            // return mv;
-        }
-        if (chosenProductCatagory.equals("Perfumes")) {
-            return prefumePage(chosenProductCatagory);
-            // List<Product> productPerfumesListByCategory =
-            // productService.getAllProductByCatagory("Perfumes");
-            // mv = new ModelAndView("PrefumePage");// load model and view for images in new
-            // page called PerfumesPage.html
-            // mv.addObject("productPerfumesListByCategory",
-            // productPerfumesListByCategory);// add prefumes products in the
-            // // // PrefumePage
-            // return mv;
-        }
-        mv = new ModelAndView("index");
-        imageList = imageService.viewAll();
-        mv.addObject("imageList", imageList);
         return mv;
     }
 
@@ -171,10 +137,18 @@ public class ClientController {
         return "redirect:/allImagesPage";
     }
 
-    @PostMapping("/test123")
-    public ModelAndView PrintMsg() {
-        System.out.println("TEST123");
-        return prefumePage("Perfumes");
+    @PostMapping("/Redirect2VitaminsPage")
+    public ModelAndView toVitaminsPage() {
+        System.out.println("rederciting to vitamins page");
+        chosenProductCatagory = "Vitamins";
+        return home();
+    }
+
+    @PostMapping("/Redirect2PerfumesPage")
+    public ModelAndView toPrefumesPage() {
+        System.out.println("rederciting to prefumes page");
+        chosenProductCatagory = "Perfumes";
+        return home();
     }
 
 }
