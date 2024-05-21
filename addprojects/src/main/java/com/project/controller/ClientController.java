@@ -32,7 +32,6 @@ public class ClientController {
     @Autowired
     private ImageService imageService;
 
-
     @Autowired
     private ProductService productService;
 
@@ -68,8 +67,19 @@ public class ClientController {
         mav.addObject("currentProduct", currentProduct); // Add the product object to the model
         return mav;
     }
-    
-    // ---> test
+
+    // method that shows the product of store by catagory
+    @GetMapping("/page_prefume123")
+    public ModelAndView prefumePage() {
+
+        ModelAndView mv;
+        List<Product> productPerfumesListByCategory = productService.getAllProductByCatagory("Perfumes");
+        mv = new ModelAndView("PrefumePage");// load model and view for images in new page called PerfumesPage.html
+        mv.addObject("productPerfumesListByCategory", productPerfumesListByCategory);// add prefumes products in the
+                                                                                     // // PrefumePage
+        return mv;
+
+    }
 
     // view All images
     @GetMapping("/allImagesPage")
@@ -80,18 +90,20 @@ public class ClientController {
             List<Product> productVitaminsListByCategory = productService.getAllProductByCatagory("Vitamins");
             mv = new ModelAndView("VitaminsPage");// load model and view for images in new page called VitaminsPage.html
             mv.addObject("productVitaminsListByCategory", productVitaminsListByCategory);// add vitamins products to the
-                                                                                         // Vitamins page //
+                                                                                         // // Vitamins page //
             return mv;
-
         }
         if (currentProductCatagory.equals("Perfumes")) {
-            List<Product> productPerfumesListByCategory = productService.getAllProductByCatagory("Perfumes");
-            mv = new ModelAndView("PrefumePage");// load model and view for images in new page called PerfumesPage.html
-            mv.addObject("productPerfumesListByCategory", productPerfumesListByCategory);// add prefumes products in the
-                                                                                         // // PrefumePage
-            return mv;
+            return prefumePage();
+            // List<Product> productPerfumesListByCategory =
+            // productService.getAllProductByCatagory("Perfumes");
+            // mv = new ModelAndView("PrefumePage");// load model and view for images in new
+            // page called PerfumesPage.html
+            // mv.addObject("productPerfumesListByCategory",
+            // productPerfumesListByCategory);// add prefumes products in the
+            // // // PrefumePage
+            // return mv;
         }
-
         mv = new ModelAndView("index");
         imageList = imageService.viewAll();
         mv.addObject("imageList", imageList);
@@ -148,7 +160,13 @@ public class ClientController {
         // System.out.println(image.toString());
         productService.addNewProduct(newProduct);
 
-
         return "redirect:/allImagesPage";
     }
+
+    @PostMapping("/test123")
+    public ModelAndView PrintMsg() {
+        System.out.println("TEST123");
+        return prefumePage();
+    }
+
 }
