@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -47,7 +49,6 @@ public class ClientController {
     }
 
     // display image
-
     @GetMapping("/display")
     @ResponseBody
     public ResponseEntity<byte[]> displayImage(@RequestParam("id") String productCode)
@@ -58,8 +59,7 @@ public class ClientController {
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes); // Adjust media type as needed
     }
 
-    // --->test
-
+    // method that used to redirect to the product details
     @GetMapping("/buyProduct/{productCode}")
     public ModelAndView buyProduct(@PathVariable("productCode") String productCode) {
         Product currentProduct = productService.getProductByProductCode(productCode);
@@ -68,18 +68,21 @@ public class ClientController {
         return mav;
     }
 
+    RedirectAttributes redirectAttributes;
+
     // method that shows the product of store by catagory
     @GetMapping("/allImagesPage")
     public ModelAndView home() {
         String pageName = "";
-        ModelAndView mv;
         if (chosenProductCatagory.equals("Perfumes"))
             pageName = "PrefumePage";
-        if (chosenProductCatagory.equals("Vitamins"))
+        else if (chosenProductCatagory.equals("Vitamins"))
             pageName = "VitaminsPage";
+
         List<Product> productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
-        mv = new ModelAndView(pageName);// load model and view for images in new page called .
-        mv.addObject("productListByCategory", productListByCategory);// add prefumes products in the
+        ModelAndView mv = new ModelAndView(pageName);
+        mv.addObject("productListByCategory", productListByCategory);
+        mv.addObject("pageName", pageName); // Add pageName to the model
 
         return mv;
     }
@@ -137,6 +140,7 @@ public class ClientController {
         return "redirect:/allImagesPage";
     }
 
+    // method that rediects to VitaminsPage after pressing the Perfumes Page button
     @PostMapping("/Redirect2VitaminsPage")
     public ModelAndView toVitaminsPage() {
         System.out.println("rederciting to vitamins page");
@@ -144,6 +148,7 @@ public class ClientController {
         return home();
     }
 
+    // method that rediects to PrefumesPage after pressing the Perfumes Page button
     @PostMapping("/Redirect2PerfumesPage")
     public ModelAndView toPrefumesPage() {
         System.out.println("rederciting to prefumes page");
