@@ -20,28 +20,39 @@
                 <p class="card-text">Price: <span th:text="${currentProduct.productPrice}"></span></p>
                 <p class="card-text">Available Quantity: <span th:text="${currentProduct.productQuantity}"></span></p>
                 <img th:src="@{'/display?id=' + ${currentProduct.productCode}}" alt="Product Image" class="img-fluid">
+                
                 <form th:action="@{/confirmPurchase}" method="post">
                     <input type="hidden" name="productCode" th:value="${currentProduct.productCode}">
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity to Buy</label>
                         <input type="number" class="form-control quantity-input" id="quantity" name="quantity" min="1" max="5" value="1" required>
                     </div>
-                    <button type="submit" class="btn btn-success mt-3">Add to cart</button>
-                    <!-- Tooltip Code -->
-                    <div id="cms-popover-tooltip" style="display:inline-block; margin-left:10px;">
-                        <cms-popover data-offset="10" data-placement="top" data-arrow-padding="0" data-auto-update="true">
-                            <span class="svg-icon-wrapper" data-slot="reference-element">
-                                <svg class="icon icon-info-lined">
-                                    <use class="tooltip-icon" xlink:href="#icon-info-lined"></use>
-                                </svg>
-                            </span>
-                            <div data-slot="floating-element" style="display:none; width: 200px;">
-                                <div data-slot="content" style="font-size:14px">Due to limited inventory, this item has a maximum quantity limit of 5 per order.</div>
-                            </div>
-                        </cms-popover>
-                    </div>
-                    <!-- End Tooltip Code -->
+                    <button type="submit" class="btn btn-primary mt-3">Buy Now</button>
                 </form>
+
+                <form th:action="@{/add2Cart}" method="post">
+                    <input type="hidden" name="productCode" th:value="${currentProduct.productCode}">
+                    <div class="mb-3">
+                        <label for="quantityCart" class="form-label">Quantity to Add to Cart</label>
+                        <input type="number" class="form-control quantity-input" id="quantityCart" name="quantity" min="1" max="5" value="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Add to cart</button>
+                </form>
+
+                <!-- Tooltip Code -->
+                <div id="cms-popover-tooltip" style="display:inline-block; margin-left:10px;">
+                    <cms-popover data-offset="10" data-placement="top" data-arrow-padding="0" data-auto-update="true">
+                        <span class="svg-icon-wrapper" data-slot="reference-element">
+                            <svg class="icon icon-info-lined">
+                                <use class="tooltip-icon" xlink:href="#icon-info-lined"></use>
+                            </svg>
+                        </span>
+                        <div data-slot="floating-element" style="display:none; width: 200px;">
+                            <div data-slot="content" style="font-size:14px">Due to limited inventory, this item has a maximum quantity limit of 5 per order.</div>
+                        </div>
+                    </cms-popover>
+                </div>
+                <!-- End Tooltip Code -->
             </div>
         </div>
         <a href="/allImagesPage" class="btn btn-primary mt-3">Back to Products</a>

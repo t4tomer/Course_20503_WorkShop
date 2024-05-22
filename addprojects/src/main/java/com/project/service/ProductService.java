@@ -11,14 +11,11 @@ import java.util.List;
 @Service
 public interface ProductService {
 
-
     public Product addNewProduct(Product newProduct);
 
     public void addNewProduct2(Product newProduct);
 
     List<Product> viewAllProduct();
-
-    List<Image> viewAllImageCategory();
 
     public void PrintAllProductNames();
 
@@ -45,6 +42,8 @@ public interface ProductService {
      */
 
     public List<Product> getAllProductByCatagory(String category);
+
+    void removeProductByProductCode(String productCode);
 
 
 }

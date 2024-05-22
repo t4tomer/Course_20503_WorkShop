@@ -89,13 +89,40 @@ public class ClientController {
 
     // add image - get
     @GetMapping("/add")
-    public ModelAndView addImage() {
-        return new ModelAndView("addimage");
+    public ModelAndView AddProduct() {
+        return new ModelAndView("AddProduct");
+    }
+
+    Product updateProductQuantity(int update, Product currentProduct) {
+
+        String currentQuantityStr = currentProduct.getProductQuantity();
+        int currentQuantityInt = Integer.parseInt(currentQuantityStr) - update;// cast String to int
+        currentQuantityStr = currentQuantityInt + "";
+        currentProduct.setProductQuantity(currentQuantityStr);
+        return currentProduct;
+    }
+
+    @PostMapping("/add2Cart")
+    public String add2Cart(@RequestParam String productCode, @RequestParam int quantity, Model model) {
+        System.out.println("Pressed the add to cart");
+
+        // Retrieve the current product again to add to the model after the update of
+        // the quantity.
+        Product currentProduct = productService.getProductByProductCode(productCode);
+
+        // update the quantity of the product
+        currentProduct = updateProductQuantity(quantity, currentProduct);
+
+        // update the sql database with the currentPrdouct with the updated quantity
+        productService.addNewProduct(currentProduct);
+        model.addAttribute("currentProduct", currentProduct);
+
+        return "ProductDetails"; // Return the view name for the current page
     }
 
     // add image - post
     @PostMapping("/add")
-    public String addImagePost(HttpServletRequest request,
+    public String AddProductPost(HttpServletRequest request,
             Model model,
             @RequestParam("image") MultipartFile file,
             @RequestParam("productCode") String productCode,

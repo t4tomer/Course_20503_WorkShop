@@ -27,10 +27,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Image> viewAllImageCategory() {
-        @SuppressWarnings("unchecked")
-        List<Image> images = (List<Image>) ((Product) productRepo.findAll()).getBlobType();
-        return images;
+    public void removeProductByProductCode(String productCode) {
+        System.out.println("\t\t-->product" + productCode + " has been removed");
+        productRepo.deleteByProductCode(productCode);
     }
 
     public void deleteAll() { // delete all the values in the product repository

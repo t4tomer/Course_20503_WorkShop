@@ -12,4 +12,7 @@ public interface ProductRepository extends CrudRepository<Product, String> {
 
     Product findByProductCode(String productCode);
 
+    void deleteByProductCode(String productCode);
+
+
 }
