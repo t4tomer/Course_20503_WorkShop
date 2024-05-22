@@ -75,12 +75,12 @@ public class ClientController {
     public ModelAndView home() {
         String pageName = "";
         if (chosenProductCatagory.equals("Perfumes"))
-            pageName = "PrefumePage";
+            pageName = "Prefumes";
         else if (chosenProductCatagory.equals("Vitamins"))
-            pageName = "VitaminsPage";
+            pageName = "Vitamins";
 
         List<Product> productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
-        ModelAndView mv = new ModelAndView(pageName);
+        ModelAndView mv = new ModelAndView("AllPrdouctsPage");
         mv.addObject("productListByCategory", productListByCategory);
         mv.addObject("pageName", pageName); // Add pageName to the model
 
