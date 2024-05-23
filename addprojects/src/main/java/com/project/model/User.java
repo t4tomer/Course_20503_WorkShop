@@ -9,7 +9,8 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
-// @Table(name = "user")//---> not sure if I need it
+// create table called Product_Table in the Project_Data_Base
+@Table(name = "Users_Table")
 
 public class User {
 

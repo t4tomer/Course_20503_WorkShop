@@ -9,6 +9,8 @@ import java.sql.Blob;
 import java.util.Date;
 
 @Entity
+//create table called image_table in the Project_Data_Base
+
 @Table(name = "image_table")
 public class Image {
     @Id

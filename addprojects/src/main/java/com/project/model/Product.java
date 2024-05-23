@@ -6,7 +6,8 @@ import java.sql.Blob;
 import com.project.model.Image;
 
 @Entity
-@Table(name = "Product_Table")
+//create table called Product_Table in the Project_Data_Base
+@Table(name = "Product_Table") 
 public class Product {
     @Id
     private String productCode;// primary key of the product db
