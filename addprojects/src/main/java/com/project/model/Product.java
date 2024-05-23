@@ -15,14 +15,9 @@ public class Product {
     private String productPrice;// The price on one product
     private String productQuantity; // The quantity of the product
     private Date productDate;// The date the product was uploaded to the website
-    // @OneToOne
-    // // @JoinColumn(name = "image_id")
-    // private Image productImage;// Image of the product
 
     @Lob
     private Blob productImage;
-
-    // public com.project.model.Image productImage;
 
     private String productCategory;// The category of the product
 

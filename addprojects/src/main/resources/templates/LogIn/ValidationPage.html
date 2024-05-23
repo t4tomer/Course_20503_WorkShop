@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email and Authorization Code Form</title>
+</head>
+<body>
+
+<!-- Form for email and authorization code -->
+<h2>Email and Authorization Code Form</h2>
+<div class="right">
+  <form action="/validate" method="post">
+    <!-- Email input -->
+    <div>
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email" placeholder="Enter your email">
+    </div>
+    <br>
+    <!-- Authorization code input -->
+    <div>
+        <label for="authCode">Authorization Code:</label><br>
+        <input type="text" id="authCode" name="authCode" placeholder="Enter authorization code">
+        <!-- Display validation success message -->
+        <div th:if="${validationSuccessful}" style="color: green">Validation successful. Please proceed.</div>
+        <!-- Display validation failure message (can still try 3 more times) -->
+        <div th:if="${validationFailedTryAgain}" style="color: red">Validation failed. Number of tries left: <span th:text="${NumberOfLoginAttempts}"></span>.</div>
+
+
+      </div>
+    <br>
+    <!-- Submit button -->
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+</body>
+</html>

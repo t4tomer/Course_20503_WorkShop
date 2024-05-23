@@ -1,7 +1,8 @@
 
 
 -- ! create new Project_Data_Base  databse 
-Create DataBase Project_Data_Base
+Create DataBase Project_Data_Base;
+Create DataBase UserDB;
 
 
 -- ! delete databse
@@ -11,7 +12,8 @@ DROP database Project_Data_Base;
 -- ! show Image Table from Project_Data_Base 
 select * from Project_Data_Base.Image_Table;
 select * from Project_Data_Base.Product_Table;    
-select * from Project_Data_Base.Users_Table;    
+select * from Project_Data_Base.Users_Table;   
+
 
 
 

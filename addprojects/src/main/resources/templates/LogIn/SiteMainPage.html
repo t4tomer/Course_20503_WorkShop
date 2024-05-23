@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Navigation Menu</title>
+    <style>
+        .menu {
+            list-style-type: none;
+            padding: 0;
+            float: left;
+        }
+
+        .submenu-items {
+            display: none;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .submenu:hover .submenu-items {
+            display: block;
+        }
+
+        .basket-menu {
+            list-style-type: none;
+            padding: 0;
+            float: right;
+        }
+
+        .basket-submenu-items {
+            display: none;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .basket-submenu:hover .basket-submenu-items {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="menu">
+            <li class="submenu">
+                <a href="#">Cosmetics and Pharma</a>
+                <ul class="submenu-items">
+                    <li><a href="#">Perfume</a></li>
+                    <li><a href="#">Makeup</a></li>
+                    <li><a href="#">Facial Care</a></li>
+                    <li><a href="#">Bathing and Hygiene</a></li>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Babies and Children</a></li>
+                    <li><a href="#">Bulbs and Atmosphere</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="basket-menu">
+            <li class="basket-submenu">
+                <a href="#">Hi : <span th:text="${param.name}"></span></p> </a>                
+                <ul class="basket-submenu-items">
+                    <li><a href="#">Shopping Cart</a></li>
+                    <li><a href="#">Wish List</a></li>
+                    <li><a href="#">Saved Items</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <!-- Other content of your page goes here -->
+    <p>Welcome Back(first name): <span th:text="${param.FirstName}"></span></p>
+    <p>Welcome Back(last name): <span th:text="${param.LastName}"></span></p>
+    
+
+</body>
+</html>

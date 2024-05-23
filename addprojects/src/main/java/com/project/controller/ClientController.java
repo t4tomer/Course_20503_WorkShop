@@ -2,7 +2,9 @@ package com.project.controller;
 
 import com.project.model.Image;
 import com.project.model.Product;
+import com.project.model.User;
 import com.project.repository.ProductRepository;
+import com.project.repository.UserRepository;
 import com.project.service.ImageService;
 import com.project.service.ProductService;
 
@@ -31,6 +33,8 @@ import java.util.List;
 
 @Controller
 public class ClientController {
+
+    // ---> used for the products
     @Autowired
     private ImageService imageService;
 
@@ -41,6 +45,21 @@ public class ClientController {
     private ProductRepository productRepo; // Inject your UserRepository
 
     private String chosenProductCatagory; // the current category of a product that was just added
+    // ----------------> used for the clients that want to register/login to the
+    // site
+    @Autowired
+    private EmailController senderService;// used to send mail to new users
+
+    private String Email; // email of the logging user
+    private String NewTempPswd;
+    private String NewFirstName;
+    private String NewLastName;
+    private String NewEmail;
+    private String NewPass;
+    private String NewDateOfB;
+    private String gender;
+    private int NumberOfLoginAttempts = 3;
+    User newUser;
 
     @GetMapping("/ping")
     @ResponseBody
