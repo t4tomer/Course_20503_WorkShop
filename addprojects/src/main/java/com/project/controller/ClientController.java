@@ -50,16 +50,7 @@ public class ClientController {
     @Autowired
     private EmailController senderService;// used to send mail to new users
 
-    private String Email; // email of the logging user
-    private String NewTempPswd;
-    private String NewFirstName;
-    private String NewLastName;
-    private String NewEmail;
-    private String NewPass;
-    private String NewDateOfB;
-    private String gender;
-    private int NumberOfLoginAttempts = 3;
-    User newUser;
+
 
     @GetMapping("/ping")
     @ResponseBody

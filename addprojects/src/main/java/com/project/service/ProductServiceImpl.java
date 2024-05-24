@@ -1,14 +1,9 @@
 package com.project.service;
 
-import com.project.model.Image;
 import com.project.model.Product;
-import com.project.repository.ImageRepository;
 import com.project.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,8 +13,6 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepo; // ---> Inject your ProductRepository
     public int NumProd = 1;
 
-    @Autowired
-    private ImageService ImageServiceByCategory;// used to store the images of image spesefic catagpry
 
     @Override // this method must be aded in the ProductRepostory&ProductService
     public Product getProductByProductCode(String productCode) {
@@ -67,21 +60,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    public List<Image> getAllProductImagesByCatagory(String SerachCategory) {
-        List<Product> productsListByCatagory = productRepo.findByProductCategory(SerachCategory);
 
-        ImageServiceByCategory.deleteAll();// delete Image Service images, becouse Image Service is singleton
-
-        for (Product product : productsListByCatagory) {
-            // create new Image object and add it to ImageServiceByCategory
-            Image image = new Image();
-            image.setImage(product.getBlobType());
-            ImageServiceByCategory.create(image);
-        }
-
-        List<Image> imageListByCategory = ImageServiceByCategory.viewAll();
-        return imageListByCategory;
-    }
 
     public Product getLastProductAdded() {
         List<Product> productsList = (List<Product>) productRepo.findAll(); // Assuming productService.findAll() fetches
@@ -101,11 +80,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.save(newProduct);
     }
 
-    @Override
-    public void addNewProduct2(Product newProduct) {
-        // return productRepo.save(newProduct);
-        productRepo.saveAll(Arrays.asList(newProduct));
-    }
 
     @Override
     public List<Product> viewAllProduct() {
@@ -116,5 +90,13 @@ public class ProductServiceImpl implements ProductService {
     public long getSize() {
         return productRepo.count();
     }
+
+
+    /*     @Override
+    public void addNewProduct2(Product newProduct) {
+        // return productRepo.save(newProduct);
+        productRepo.saveAll(Arrays.asList(newProduct));
+    }
+    */
 
 }

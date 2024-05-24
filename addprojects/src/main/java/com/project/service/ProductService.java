@@ -13,13 +13,9 @@ public interface ProductService {
 
     public Product addNewProduct(Product newProduct);
 
-    public void addNewProduct2(Product newProduct);
-
     List<Product> viewAllProduct();
 
     public void PrintAllProductNames();
-
-    public List<Image> getAllProductImagesByCatagory(String catagory);
 
     public Product getLastProductAdded();
 
@@ -45,5 +41,6 @@ public interface ProductService {
 
     void removeProductByProductCode(String productCode);
 
+    // public void addNewProduct2(Product newProduct);
 
 }

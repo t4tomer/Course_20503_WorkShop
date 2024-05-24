@@ -1,5 +1,6 @@
 package com.project.controller;
 
+// $ this class is used for regisertation/log in of users 
 //the code that saves the user in the db after he passed the validation
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
@@ -18,11 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.project.service.UserService;
 
 import javax.mail.MessagingException;
+import com.project.service.UserService;
 
 import com.project.model.User;
 import com.project.repository.UserRepository;
+import com.project.service.ImageService;
 
 import javax.servlet.http.HttpSession;
 
@@ -48,11 +52,9 @@ public class IndexController {
 	private String gender;
 	private int NumberOfLoginAttempts = 3;
 	User newUser;
-	// @Autowired
-	// UserRepository UserRepo;
 
 	@Autowired
-	private UserRepository userRepo; // Inject your UserRepository
+	private UserService userService;
 
 	@GetMapping("/PrefumePage")
 	public String PrefumePage(@RequestParam("FirstName") String name, Model model) {
@@ -102,12 +104,12 @@ public class IndexController {
 		// password that is sent to email
 
 		// !Check if the email exists in UserDB
-		User existingUser = userRepo.findByEmail(NewEmail);
+		User existingUser = userService.getUserByEmail(NewEmail);
 		if (existingUser != null) {
 			model.addAttribute("userExists", true); // Set userExists Failed attribute to
-			System.out.println("User is allready registered in userRepo");
+			System.out.println("User is allready registered in userService");
 			// TODO to fix the problem why I can not write return"LogIn/RegistrationPage"
-			return "index";
+			return "LogIn/RegistrationPage";
 		}
 
 		// ! Create a new User instance using the first constructor
@@ -141,12 +143,12 @@ public class IndexController {
 			RedirectAttributes redirectAttributes) {
 		System.out.println("Email html page: " + email);
 		System.out.println("Authorization html page: " + authCode);
-		User login = userRepo.findByEmail(email);// user login from the validate page
+		User login = userService.getUserByEmail(email);// user login from the validate page
 		if (newUser.getEmail().equals(email) && newUser.getTemp_passwd().equals(authCode)) {
 			model.addAttribute("validationSuccessful", true); // Set validation Successful attribute to true
 			System.out.println("\t-->Verification passed successfully");
 			// ! Adding newUSer to a SQL db
-			userRepo.saveAll(Arrays.asList(newUser));
+			userService.addNewUser(newUser);
 			Email = email;
 			model.addAttribute("email", Email);
 			redirectAttributes.addAttribute("FirstName", newUser.getFname()); // show name in the validation page
@@ -190,7 +192,7 @@ public class IndexController {
 	public String loginRegistration(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
 		Email = user.getEmail();
 		String password = user.getPasswd();
-		User login = userRepo.findByEmail(Email);
+		User login = userService.getUserByEmail(Email);
 		if (login != null && login.getEmail().equals(Email) && login.getPasswd().equals(password)) {
 			System.out.println("\t-->Login passed successfully");
 			model.addAttribute("loginSuccessful", true);
