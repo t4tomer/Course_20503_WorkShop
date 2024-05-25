@@ -13,6 +13,8 @@ DROP database Project_Data_Base;
 select * from Project_Data_Base.Image_Table;
 select * from Project_Data_Base.Product_Table;    
 select * from Project_Data_Base.Users_Table;   
+select * from Project_Data_Base.Cart_Table;   
+
 
 
 

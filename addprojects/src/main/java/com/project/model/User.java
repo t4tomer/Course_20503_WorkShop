@@ -22,7 +22,8 @@ public class User {
 	private String dob;
 	private String gender;
 	private String temp_passwd;// tempral password that server sends to the login email for user authentication
-
+	
+	// private 
 	public User() {
 		System.out.println("empty constructor");
 	}
