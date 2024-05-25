@@ -22,8 +22,9 @@ public class User {
 	private String dob;
 	private String gender;
 	private String temp_passwd;// tempral password that server sends to the login email for user authentication
-	
-	// private 
+	private String balance;// amount of meony in the user account
+
+	// private
 	public User() {
 		System.out.println("empty constructor");
 	}
@@ -35,7 +36,8 @@ public class User {
 			String passwd,
 			String dob,
 			String gender,
-			String temp_passwd) {
+			String temp_passwd,
+			String balance) {
 		super();
 		this.fname = fname;
 		this.lname = lname;
@@ -49,6 +51,8 @@ public class User {
 		// Generate a random number between 0 and 100 (inclusive)
 		int randomNumber = random.nextInt(101); // Generates a random integer between 0 (inclusive) and 101 (exclusive)
 		System.out.println(" new entity created!" + randomNumber);
+		this.balance = balance;
+
 	}
 
 	// get the current date and time
@@ -78,6 +82,14 @@ public class User {
 		System.out.println("registrationTime:" + registrationTime);
 		return registrationTime;
 
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
 	}
 
 	public String getFname() {

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -52,6 +53,7 @@ public class IndexController {
 	private String NewDateOfB;
 	private String gender;
 	private int NumberOfLoginAttempts = 3;
+	private String NewBalance;
 	User newUser;
 
 	@Autowired
@@ -101,11 +103,11 @@ public class IndexController {
 		NewPass = user.getPasswd();
 		NewDateOfB = user.getDob();
 		gender = user.getGender();
-
 		NewTempPswd = "123";// ! test password
 		// tempral password that is sent to email
 		// NewTempPswd = senderService.generateRandomString();//! generate random
 		// password that is sent to email
+		NewBalance = user.getBalance();
 
 		// !Check if the email exists in UserDB
 		User existingUser = userService.getUserByEmail(NewEmail);
@@ -124,7 +126,8 @@ public class IndexController {
 				NewPass,
 				NewDateOfB,
 				gender,
-				NewTempPswd);
+				NewTempPswd,
+				NewBalance);
 		// eRepo.saveAll(Arrays.asList(newUser));
 
 		// ! send verefication mail-by sending NewTempPswd
@@ -205,9 +208,6 @@ public class IndexController {
 			redirectAttributes.addAttribute("LastName", login.getLname()); // Add last name as a parameter in the
 																			// redirect URL
 			return "redirect:/LogIn/siteMainPage";// ! the original line
-			// return "redirect:/Product1/page2";
-
-			// return "redirect:/Product1/PerfumePage";
 
 		} else {
 			NumberOfLoginAttempts--;
@@ -225,6 +225,20 @@ public class IndexController {
 	@ResponseBody
 	public String getEmail() {
 		return Email; // Assuming Email is a class-level field in your controller
+	}
+
+	@PostMapping("/test123")
+	public String test123(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
+
+		User login = userService.getUserByEmail(Email);
+
+		redirectAttributes.addAttribute("FirstName", login.getFname()); // Add first name as a parameter in the
+		// redirect URL
+		redirectAttributes.addAttribute("LastName", login.getLname()); // Add last name as a parameter in the
+		// redirect URL
+
+		System.out.println(" pressed test123 button ");
+		return "redirect:/LogIn/siteMainPage";// ! the original line
 	}
 
 }
