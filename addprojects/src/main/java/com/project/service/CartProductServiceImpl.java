@@ -26,7 +26,7 @@ public class CartProductServiceImpl implements CartProductService {
     private CartProductReposotory cartRepo; // ---> Inject your ProductRepository
     public int NumProd = 1;
     @Override
-    public Product addProductToCart(Product newProductAdeed) {
+    public CartProduct addProductToCart(CartProduct newProductAdeed) {
         return cartRepo.save(newProductAdeed);
     }
 
