@@ -10,7 +10,7 @@ import com.project.model.Product;
 
 @Entity
 @Table(name = "Cart_Table")
-public class Cart {
+public class CartProduct {
     @Id
     private String emailCostomer;
     private String productCodeAdded;// code of the product that added to the cart
@@ -22,7 +22,7 @@ public class Cart {
     // @Lob
     // private Image productImageAdded;
 
-    public Cart(String emailCostomer, Product productAdded, String productQuantityAdded) {
+    public CartProduct(String emailCostomer, Product productAdded, String productQuantityAdded) {
         this.emailCostomer = emailCostomer;
         this.productCodeAdded = productAdded.getProductCode();
         this.productNameAdded = productAdded.getProductName();

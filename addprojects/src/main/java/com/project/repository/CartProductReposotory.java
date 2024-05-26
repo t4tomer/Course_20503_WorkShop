@@ -7,6 +7,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CartRepository extends CrudRepository<Product, String> {
+public interface CartProductReposotory extends CrudRepository<Product, String> {
 
 }

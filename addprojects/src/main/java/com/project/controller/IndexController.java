@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.project.service.UserService;
-import com.project.service.CartService;
+import com.project.service.CartProductService;
 
 import javax.mail.MessagingException;
 import com.project.service.UserService;
@@ -60,7 +60,7 @@ public class IndexController {
 	private UserService userService;
 
 	@Autowired
-	private CartService cartService;
+	private CartProductService cartService;
 
 	@GetMapping("/PrefumePage")
 	public String PrefumePage(@RequestParam("FirstName") String name, Model model) {
