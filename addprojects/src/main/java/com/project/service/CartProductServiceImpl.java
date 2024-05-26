@@ -30,6 +30,12 @@ public class CartProductServiceImpl implements CartProductService {
         return cartRepo.save(newProductAdeed);
     }
 
+    @Override
+    public List<CartProduct> viewAll() {
+        return (List<CartProduct>) cartRepo.findAll();
+    }
+
+
 
 
 

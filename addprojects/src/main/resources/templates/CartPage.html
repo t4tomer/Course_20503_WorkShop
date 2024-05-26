@@ -36,26 +36,18 @@
             <table class="table border">
                 <thead>
                     <tr>
-                        <th scope="col">Product Code</th>
-                        <th scope="col">Image</th>
                         <th scope="col">Product Name</th>
-                        <th scope="col">Product Price</th>
                         <th scope="col">Product Quantity</th>
-                        <th scope="col">Buy Product</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="product : ${productListByCategory}">
-                        <td th:text="${product.productCode}"></td>
-                        <td><img height="250px" th:src="@{'/display?id=' + ${product.productCode}}" alt="Product Image"></td>
-                        <td th:text="${product.productName}"></td>
-                        <td th:text="${product.productPrice}"></td>
-                        <td th:text="${product.productQuantity}"></td>
+                    <tr th:each="productCart : ${cartProductsList}">
+                        <td th:text="${productCart.productNameAdded}"></td>
+                        <td th:text="${productCart.getProductQuantityAdded}"></td>
+
                     </tr>
 
-                    <td>
-                        <a th:href="@{/buyProduct/{productCode}(productCode=${product.productCode})}" class="btn btn-success">Buy Products</a>
-                    </td>
 
                 </tbody>
             </table>

@@ -1,5 +1,6 @@
 package com.project.controller;
 
+import com.project.model.CartProduct;
 import com.project.model.Image;
 import com.project.model.Product;
 import com.project.model.User;
@@ -7,6 +8,7 @@ import com.project.repository.ProductRepository;
 import com.project.repository.UserRepository;
 import com.project.service.ImageService;
 import com.project.service.ProductService;
+import com.project.service.CartProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -42,15 +44,13 @@ public class ClientController {
     private ProductService productService;
 
     @Autowired
-    private ProductRepository productRepo; // Inject your UserRepository
+    private CartProductService cartService; // Inject your UserRepository
 
     private String chosenProductCatagory; // the current category of a product that was just added
     // ----------------> used for the clients that want to register/login to the
     // site
     @Autowired
     private EmailController senderService;// used to send mail to new users
-
-
 
     @GetMapping("/ping")
     @ResponseBody
@@ -119,8 +119,13 @@ public class ClientController {
         // Retrieve the current product again to add to the model after the update of
         // the quantity.
         Product currentProduct = productService.getProductByProductCode(productCode);
+        // TODO fix the problem that I can see in the cart only the last product added
+        CartProduct p1 = new CartProduct("test1", currentProduct, quantity + "");
+        String num = p1.getProductQuantityAdded();
+        System.out.println("\t\t\t--->the new quantity is " + num);
+        cartService.addProductToCart(p1);
 
-        // update the quantity of the product
+        // update the quantity of the product in the Product Table
         currentProduct = updateProductQuantity(quantity, currentProduct);
 
         // update the sql database with the currentPrdouct with the updated quantity
@@ -191,6 +196,27 @@ public class ClientController {
         System.out.println("rederciting to prefumes page");
         chosenProductCatagory = "Perfumes";
         return home();
+    }
+
+    @PostMapping("/RedirectToCart")
+    public ModelAndView toCartPage() {
+        System.out.println(" \\t\\t--> rederciting to Cart page");
+        chosenProductCatagory = "Perfumes";
+        return cart();
+    }
+
+    // getProductQuantityAdded
+    // method that shows the product of store by catagory
+    @GetMapping("/allPrdocutInCart")
+    public ModelAndView cart() {
+        String pageName = "cart";
+        System.out.println("\t\t--> PAGE CART!!!");
+        List<CartProduct> cartProductsList = cartService.viewAll();
+        ModelAndView mv = new ModelAndView("CartPage");
+        mv.addObject("cartProductsList", cartProductsList);
+        mv.addObject("pageName", pageName); // Add pageName to the model
+
+        return mv;
     }
 
 }

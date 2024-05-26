@@ -1,26 +1,24 @@
 package com.project.model;
 
-import java.util.Random;
 import javax.persistence.*;
-
 import java.sql.Blob;
-import java.util.Date;
-import java.util.List;
-import com.project.model.Product;
 
 @Entity
 @Table(name = "Cart_Table")
 public class CartProduct {
     @Id
     private String emailCostomer;
-    private String productCodeAdded;// code of the product that added to the cart
-    private String productNameAdded;// product name of the product that added to the cart
+    private String productCodeAdded;
+    private String productNameAdded;
+    private String productPriceAdded;
+    private String productQuantityAdded;
 
-    private String productPriceAdded;// price of the product that is added to the cart
-    private String productQuantityAdded; // quantity of the product that is added to the cart
+    @Lob
+    private Blob productImageAdded;
 
-    // @Lob
-    // private Image productImageAdded;
+    public CartProduct() {
+        // Default constructor for JPA
+    }
 
     public CartProduct(String emailCostomer, Product productAdded, String productQuantityAdded) {
         this.emailCostomer = emailCostomer;
@@ -28,15 +26,55 @@ public class CartProduct {
         this.productNameAdded = productAdded.getProductName();
         this.productPriceAdded = productAdded.getProductPrice();
         this.productQuantityAdded = productQuantityAdded;
-        // this.productImageAdded = productImageAdded.getBlobType();
+        this.productImageAdded = productAdded.getBlobType();
+    }
+
+    // Getters and setters
+    public String getEmailCostomer() {
+        return emailCostomer;
     }
 
     public void setEmailCostomer(String emailCostomer) {
         this.emailCostomer = emailCostomer;
     }
 
-    public String getCustomerEmail() {
-        return emailCostomer;
+    public String getProductCodeAdded() {
+        return productCodeAdded;
     }
 
+    public void setProductCodeAdded(String productCodeAdded) {
+        this.productCodeAdded = productCodeAdded;
+    }
+
+    public String getProductNameAdded() {
+        return productNameAdded;
+    }
+
+    public void setProductNameAdded(String productNameAdded) {
+        this.productNameAdded = productNameAdded;
+    }
+
+    public String getProductPriceAdded() {
+        return productPriceAdded;
+    }
+
+    public void setProductPriceAdded(String productPriceAdded) {
+        this.productPriceAdded = productPriceAdded;
+    }
+
+    public String getProductQuantityAdded() {
+        return productQuantityAdded;
+    }
+
+    public void setProductQuantityAdded(String productQuantityAdded) {
+        this.productQuantityAdded = productQuantityAdded;
+    }
+
+    public Blob getProductImageAdded() {
+        return productImageAdded;
+    }
+
+    public void setProductImageAdded(Blob productImageAdded) {
+        this.productImageAdded = productImageAdded;
+    }
 }

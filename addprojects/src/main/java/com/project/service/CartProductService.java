@@ -11,4 +11,6 @@ import java.util.List;
 @Service
 public interface CartProductService {
     public CartProduct addProductToCart(CartProduct newProductAdeed);
+
+    public List<CartProduct> viewAll();
 }
