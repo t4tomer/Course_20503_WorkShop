@@ -119,10 +119,8 @@ public class ClientController {
         // Retrieve the current product again to add to the model after the update of
         // the quantity.
         Product currentProduct = productService.getProductByProductCode(productCode);
-        // TODO fix the problem that I can see in the cart only the last product added
-        CartProduct p1 = new CartProduct("test1", currentProduct, quantity + "");
-        String num = p1.getProductQuantityAdded();
-        System.out.println("\t\t\t--->the new quantity is " + num);
+        // ---> add currentProduct to the Cart Table
+        CartProduct p1 = new CartProduct("test2", currentProduct, quantity + "");
         cartService.addProductToCart(p1);
 
         // update the quantity of the product in the Product Table
@@ -211,7 +209,9 @@ public class ClientController {
     public ModelAndView cart() {
         String pageName = "cart";
         System.out.println("\t\t--> PAGE CART!!!");
-        List<CartProduct> cartProductsList = cartService.viewAll();
+        // List<CartProduct> cartProductsList = cartService.viewAll();// orginal code
+        List<CartProduct> cartProductsList = cartService.getAllProductsInCartOfUser("test1");
+
         ModelAndView mv = new ModelAndView("CartPage");
         mv.addObject("cartProductsList", cartProductsList);
         mv.addObject("pageName", pageName); // Add pageName to the model

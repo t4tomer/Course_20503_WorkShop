@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MainSpring {
     // this is test for git 123456
     public static void main(String[] args) {
-        // ! run OpenURL python script
+        // $ run OpenURL python script
 
         SpringApplication.run(MainSpring.class, args);
 

@@ -36,15 +36,25 @@
             <table class="table border">
                 <thead>
                     <tr>
+                        <th scope="col">Product Code</th>
                         <th scope="col">Product Name</th>
                         <th scope="col">Product Quantity</th>
-
+                        <th scope="col">Product Price</th>
+                        <th scope="col">Image</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="productCart : ${cartProductsList}">
-                        <td th:text="${productCart.productNameAdded}"></td>
-                        <td th:text="${productCart.getProductQuantityAdded}"></td>
+                        <!-- product code-->
+                        <td th:text="${productCart.getproductCodeInCart}"></td> 
+                        <!-- product name-->
+                        <td th:text="${productCart.getProductNameInCart}"></td>
+                        <!-- product quantity-->
+                        <td th:text="${productCart.getProductQuantityInCart}"></td>
+                        <!-- product price-->
+                        <td th:text="${productCart.getProductPriceInCart}"></td>
+                         <!-- product image-->
+                         <td><img height="250px" th:src="@{'/display?id=' + ${productCart.getproductCodeInCart}}" alt="Product Image"></td>
 
                     </tr>
 

@@ -1,80 +1,89 @@
 package com.project.model;
 
+// code that works 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Blob;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+// @Entity
+// @Table(name = "Cart_Table")
 
 @Entity
-@Table(name = "Cart_Table")
+@Table(name = "Cart_Table", schema = "oper")
+@Data
+// @NoArgsConstructor
+@IdClass(CartProductId.class)
 public class CartProduct {
     @Id
-    private String emailCostomer;
-    private String productCodeAdded;
-    private String productNameAdded;
-    private String productPriceAdded;
-    private String productQuantityAdded;
+    private String emailCustomer = "";
+    @Id
+    private String productCodeInCart = ""; // code of the product that added to the cart
+    private String productNameInCart; // product name of the product that added to the cart
+    private String productPriceInCart; // price of the product that is added to the cart
+    private String productQuantityInCart; // quantity of the product that is added to the cart
 
     @Lob
-    private Blob productImageAdded;
+    private Blob productImageInCart;
 
     public CartProduct() {
         // Default constructor for JPA
     }
 
-    public CartProduct(String emailCostomer, Product productAdded, String productQuantityAdded) {
-        this.emailCostomer = emailCostomer;
-        this.productCodeAdded = productAdded.getProductCode();
-        this.productNameAdded = productAdded.getProductName();
-        this.productPriceAdded = productAdded.getProductPrice();
-        this.productQuantityAdded = productQuantityAdded;
-        this.productImageAdded = productAdded.getBlobType();
+    public CartProduct(String emailCustomer, Product productAdded, String productQuantityInCart) {
+        this.emailCustomer = emailCustomer;
+        this.productCodeInCart = productAdded.getProductCode();
+        this.productNameInCart = productAdded.getProductName();
+        this.productPriceInCart = productAdded.getProductPrice();
+        this.productQuantityInCart = productQuantityInCart;
+        this.productImageInCart = productAdded.getBlobType();
     }
 
-    // Getters and setters
     public String getEmailCostomer() {
-        return emailCostomer;
+        return emailCustomer;
     }
 
     public void setEmailCostomer(String emailCostomer) {
-        this.emailCostomer = emailCostomer;
+        this.emailCustomer = emailCostomer;
     }
 
-    public String getProductCodeAdded() {
-        return productCodeAdded;
+    public String getproductCodeInCart() {
+        return productCodeInCart;
     }
 
-    public void setProductCodeAdded(String productCodeAdded) {
-        this.productCodeAdded = productCodeAdded;
+    public void setProductCodeInCart(String productCodeInCart) {
+        this.productCodeInCart = productCodeInCart;
     }
 
-    public String getProductNameAdded() {
-        return productNameAdded;
+    public String getProductNameInCart() {
+        return productNameInCart;
     }
 
-    public void setProductNameAdded(String productNameAdded) {
-        this.productNameAdded = productNameAdded;
+    public void setproductNameInCart(String productNameInCart) {
+        this.productNameInCart = productNameInCart;
     }
 
-    public String getProductPriceAdded() {
-        return productPriceAdded;
+    public String getProductPriceInCart() {
+        return productPriceInCart;
     }
 
-    public void setProductPriceAdded(String productPriceAdded) {
-        this.productPriceAdded = productPriceAdded;
+    public void setProductPriceInCart(String productPriceInCart) {
+        this.productPriceInCart = productPriceInCart;
     }
 
-    public String getProductQuantityAdded() {
-        return productQuantityAdded;
+    public String getProductQuantityInCart() {
+        return productQuantityInCart;
     }
 
-    public void setProductQuantityAdded(String productQuantityAdded) {
-        this.productQuantityAdded = productQuantityAdded;
+    public void setProductQuantityInCart(String productQuantityInCart) {
+        this.productQuantityInCart = productQuantityInCart;
     }
 
-    public Blob getProductImageAdded() {
-        return productImageAdded;
+    public Blob getproductImageInCart() {
+        return productImageInCart;
     }
 
-    public void setProductImageAdded(Blob productImageAdded) {
-        this.productImageAdded = productImageAdded;
+    public void setproductImageInCart(Blob productImageInCart) {
+        this.productImageInCart = productImageInCart;
     }
 }

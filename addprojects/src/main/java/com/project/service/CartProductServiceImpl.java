@@ -1,7 +1,7 @@
 package com.project.service;
 
 import com.project.model.Product;
-import com.project.repository.CartProductReposotory;
+import com.project.repository.CartProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,8 +23,9 @@ import java.util.List;
 public class CartProductServiceImpl implements CartProductService {
 
     @Autowired
-    private CartProductReposotory cartRepo; // ---> Inject your ProductRepository
+    private CartProductRepository cartRepo; // ---> Inject your ProductRepository
     public int NumProd = 1;
+
     @Override
     public CartProduct addProductToCart(CartProduct newProductAdeed) {
         return cartRepo.save(newProductAdeed);
@@ -35,10 +36,10 @@ public class CartProductServiceImpl implements CartProductService {
         return (List<CartProduct>) cartRepo.findAll();
     }
 
+    // return list of the products of the same SerachCategory
+    public List<CartProduct> getAllProductsInCartOfUser(String clientEmail) {
+        List<CartProduct> productsListCartByUser = cartRepo.findByEmailCustomer(clientEmail);
+        return productsListCartByUser;
+    }
 
-
-
-
-
-    
 }

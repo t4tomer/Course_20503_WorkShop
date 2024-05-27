@@ -34,7 +34,7 @@
                     <input type="hidden" name="productCode" th:value="${currentProduct.productCode}">
                     <div class="mb-3">
                         <label for="quantityCart" class="form-label">Quantity to Add to Cart</label>
-                        <input type="number" class="form-control quantity-input" id="quantityCart" name="quantity" min="1" max="5" value="1" required>
+                        <input type="number" class="form-control quantity-input" id="quantityCart" name="quantity" min="1" max="100" value="1" required>
                     </div>
                     <button type="submit" class="btn btn-success mt-3">Add to cart</button>
                 </form>
@@ -57,6 +57,14 @@
         </div>
         <a href="/allImagesPage" class="btn btn-primary mt-3">Back to Products</a>
     </div>
+
+    <!-- button to see the cart page-->
+    <div class="mt-5">
+        <form action="/RedirectToCart" method="post">
+            <button type="submit" class="btn btn-secondary">Cart</button>
+        </form>
+    </div>
+
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

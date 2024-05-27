@@ -49,11 +49,11 @@
                 </thead>
                 <tbody>
                     <tr th:each="product : ${productListByCategory}">
-                        <td th:text="${product.productCode}"></td>
-                        <td><img height="250px" th:src="@{'/display?id=' + ${product.productCode}}" alt="Product Image"></td>
-                        <td th:text="${product.productName}"></td>
-                        <td th:text="${product.productPrice}"></td>
-                        <td th:text="${product.productQuantity}"></td>
+                        <td th:text="${product.getProductCode}"></td>
+                        <td><img height="250px" th:src="@{'/display?id=' + ${product.getProductCode}}" alt="Product Image"></td>
+                        <td th:text="${product.getProductName}"></td>
+                        <td th:text="${product.getProductPrice}"></td>
+                        <td th:text="${product.getProductQuantity}"></td>
                         <td>
                             <a th:href="@{/buyProduct/{productCode}(productCode=${product.productCode})}" class="btn btn-success">Buy Product</a>
                         </td>
@@ -61,6 +61,14 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+
+    <!-- button to see the cart page-->
+    <div class="mt-5">
+        <form action="RedirectToCart" method="post">
+            <button type="submit" class="btn btn-secondary">Cart</button>
+        </form>
     </div>
 
     <!--Bootstrap JS -->
