@@ -236,6 +236,8 @@ public class IndexController {
 		// redirect URL
 		redirectAttributes.addAttribute("LastName", login.getLname()); // Add last name as a parameter in the
 		// redirect URL
+		long a = userService.getUserCount();
+		System.out.println("\t\t---> user count is :" + a);
 
 		System.out.println(" pressed test123 button ");
 		return "redirect:/LogIn/siteMainPage";// ! the original line

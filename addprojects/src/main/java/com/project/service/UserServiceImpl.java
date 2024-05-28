@@ -29,4 +29,9 @@ public class UserServiceImpl implements UserService {
         userRepo.removeByEmail(email);
     }
 
+    @Override
+    public long getUserCount() {
+        return userRepo.count(); // Add this method
+    }
+
 }

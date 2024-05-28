@@ -10,4 +10,6 @@ public interface UserService {
     User getUserByEmail(String productCode);
 
     void removeUserByEmail(String email);
+
+    public long getUserCount();
 }
