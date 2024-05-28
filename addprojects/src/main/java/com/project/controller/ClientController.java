@@ -53,8 +53,7 @@ public class ClientController {
     private String chosenProductCatagory; // the current category of a product that was just added
     // ----------------> used for the clients that want to register/login to the
     // site
-    @Autowired
-    private EmailController senderService;// used to send mail to new users
+    String clientEmail = "test1";
 
     @GetMapping("/ping")
     @ResponseBody
@@ -124,7 +123,7 @@ public class ClientController {
         // the quantity.
         Product currentProduct = productService.getProductByProductCode(productCode);
         // ---> add currentProduct to the Cart Table
-        CartProduct p1 = new CartProduct("test2", currentProduct, quantity + "");
+        CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
         cartService.addProductToCart(p1);
 
         // update the quantity of the product in the Product Table
@@ -135,6 +134,23 @@ public class ClientController {
         model.addAttribute("currentProduct", currentProduct);
 
         return "ProductDetails"; // Return the view name for the current page
+    }
+
+    @PostMapping("/changeProductQuantity")
+    public ModelAndView changeProductQuantity(@RequestParam String productCodeInCart, @RequestParam int quantity,
+            Model model) {
+        System.out.println(
+                "\t\t\t-->#### the product code is: " + productCodeInCart + " and the quantity is :" + quantity);
+
+        // if (quantity == 0)
+        //     cartService.removeProductFromCart(productCodeInCart, clientEmail);
+
+        // ---> update the profuct quantity in the cart of the user
+        Product currentProduct = productService.getProductByProductCode(productCodeInCart);
+        CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
+        cartService.addProductToCart(p1);
+
+        return cart();
     }
 
     // add image - post
@@ -209,7 +225,7 @@ public class ClientController {
 
     @PostMapping("/GetToCheackOut")
     public ModelAndView calculateSubTotal() {
-        List<CartProduct> productsInCart = cartService.getAllProductsInCartOfUser("test1");
+        List<CartProduct> productsInCart = cartService.getAllProductsInCartOfUser(clientEmail);
         int subTotal = cartService.getSubTotal(productsInCart);
         System.out.println("\t\t---> the sub total is :" + subTotal);
         return cart();
@@ -222,11 +238,11 @@ public class ClientController {
         String pageName = "cart";
         System.out.println("\t\t--> PAGE CART!!!");
         // List<CartProduct> cartProductsList = cartService.viewAll();// orginal code
-        List<CartProduct> cartProductsList = cartService.getAllProductsInCartOfUser("test1");
+        List<CartProduct> cartProductsList = cartService.getAllProductsInCartOfUser(clientEmail);
 
         long a = userService.getUserCount();
         System.out.println("\t\t---> user count is(Client Controller) :" + a);
-        String clientName = userService.getUserFirstNameByEmail("test1");
+        String clientName = userService.getUserFirstNameByEmail(clientEmail);
 
         ModelAndView mv = new ModelAndView("CartPage");
         mv.addObject("cartProductsList", cartProductsList);

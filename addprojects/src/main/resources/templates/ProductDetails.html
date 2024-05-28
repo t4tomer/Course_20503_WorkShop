@@ -29,7 +29,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary mt-3">Buy Now</button>
                 </form>
-
+                <!-- Add product to the cart of the user -->
                 <form th:action="@{/add2Cart}" method="post">
                     <input type="hidden" name="productCode" th:value="${currentProduct.productCode}">
                     <div class="mb-3">
