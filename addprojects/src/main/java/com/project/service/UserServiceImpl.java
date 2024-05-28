@@ -24,6 +24,17 @@ public class UserServiceImpl implements UserService {
         return userRepo.findByEmail(productCode);
     }
 
+    @Override // this method must be aded in the ProductRepostory&ProductService
+    public String getUserFirstNameByEmail(String emailClient) {
+        User currentUser= userRepo.findByEmail(emailClient);
+        if (currentUser==null)
+            return emailClient; 
+        return currentUser.getFname();
+    
+    }
+
+
+
     @Override
     public void removeUserByEmail(String email) {
         userRepo.removeByEmail(email);

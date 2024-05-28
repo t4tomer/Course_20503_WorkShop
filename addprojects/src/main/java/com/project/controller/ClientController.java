@@ -8,6 +8,7 @@ import com.project.repository.ProductRepository;
 import com.project.repository.UserRepository;
 import com.project.service.ImageService;
 import com.project.service.ProductService;
+import com.project.service.UserService;
 import com.project.service.CartProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class ClientController {
 
     @Autowired
     private CartProductService cartService; // Inject your UserRepository
+
+    @Autowired
+    private UserService userService;
 
     private String chosenProductCatagory; // the current category of a product that was just added
     // ----------------> used for the clients that want to register/login to the
@@ -212,9 +216,14 @@ public class ClientController {
         // List<CartProduct> cartProductsList = cartService.viewAll();// orginal code
         List<CartProduct> cartProductsList = cartService.getAllProductsInCartOfUser("test1");
 
+        long a = userService.getUserCount();
+        System.out.println("\t\t---> user count is(Client Controller) :" + a);
+        String clientName = userService.getUserFirstNameByEmail("test1");
+
         ModelAndView mv = new ModelAndView("CartPage");
         mv.addObject("cartProductsList", cartProductsList);
         mv.addObject("pageName", pageName); // Add pageName to the model
+        mv.addObject("clientName", "hi " + clientName); // Add pageName to the model
 
         return mv;
     }

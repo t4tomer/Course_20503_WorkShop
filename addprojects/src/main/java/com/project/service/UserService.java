@@ -12,4 +12,6 @@ public interface UserService {
     void removeUserByEmail(String email);
 
     public long getUserCount();
+
+    public String getUserFirstNameByEmail(String emailClient);
 }
