@@ -57,4 +57,9 @@ public class CartProductServiceImpl implements CartProductService {
 
     }
 
+    // Method to remove a product by its code from the cart
+    public void removeProductFromCart(CartProduct p1) {
+        cartRepo.delete(p1);
+    }
+
 }

@@ -142,13 +142,16 @@ public class ClientController {
         System.out.println(
                 "\t\t\t-->#### the product code is: " + productCodeInCart + " and the quantity is :" + quantity);
 
-        // if (quantity == 0)
-        //     cartService.removeProductFromCart(productCodeInCart, clientEmail);
-
         // ---> update the profuct quantity in the cart of the user
         Product currentProduct = productService.getProductByProductCode(productCodeInCart);
         CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
         cartService.addProductToCart(p1);
+
+        if (quantity == 0) {
+            Product currentProductToRemove = productService.getProductByProductCode(productCodeInCart);
+            CartProduct pRemove = new CartProduct(clientEmail, currentProductToRemove, quantity + "");
+            cartService.removeProductFromCart(pRemove);
+        }
 
         return cart();
     }

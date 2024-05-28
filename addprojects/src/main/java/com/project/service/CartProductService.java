@@ -18,4 +18,6 @@ public interface CartProductService {
 
     public int getSubTotal(List<CartProduct> productsInCart);
 
+    public void removeProductFromCart(CartProduct p1);
+
 }
