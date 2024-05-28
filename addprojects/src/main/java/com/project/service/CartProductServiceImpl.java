@@ -42,4 +42,19 @@ public class CartProductServiceImpl implements CartProductService {
         return productsListCartByUser;
     }
 
+    public int getSubTotal(List<CartProduct> productsInCart) {
+        // List<CartProduct> ListProductsInCart = viewAll();
+        int subTotal = 0;
+        // Iterate over each CartProduct object
+        for (CartProduct cartProduct : productsInCart) {
+            // Access the product name using getProduct().getProductName() method
+            String productQuantity = cartProduct.getProductQuantityInCart();
+            String productPrice = cartProduct.getProductPriceInCart();
+            subTotal = subTotal + Integer.parseInt(productPrice) * Integer.parseInt(productQuantity);
+        }
+        System.out.println("SubTotal: " + subTotal);
+        return subTotal;
+
+    }
+
 }

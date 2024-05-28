@@ -16,4 +16,6 @@ public interface CartProductService {
 
     public List<CartProduct> getAllProductsInCartOfUser(String clientEmail);
 
+    public int getSubTotal(List<CartProduct> productsInCart);
+
 }

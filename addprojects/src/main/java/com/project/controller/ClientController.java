@@ -207,6 +207,14 @@ public class ClientController {
         return cart();
     }
 
+    @PostMapping("/GetToCheackOut")
+    public ModelAndView calculateSubTotal() {
+        List<CartProduct> productsInCart = cartService.getAllProductsInCartOfUser("test1");
+        int subTotal = cartService.getSubTotal(productsInCart);
+        System.out.println("\t\t---> the sub total is :" + subTotal);
+        return cart();
+    }
+
     // getProductQuantityAdded
     // method that shows the product of store by catagory
     @GetMapping("/allPrdocutInCart")
