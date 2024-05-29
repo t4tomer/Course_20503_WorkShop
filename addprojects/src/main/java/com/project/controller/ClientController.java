@@ -77,7 +77,7 @@ public class ClientController {
     @GetMapping("/buyProduct/{productCode}")
     public ModelAndView buyProduct(@PathVariable("productCode") String productCode) {
         Product currentProduct = productService.getProductByProductCode(productCode);
-        ModelAndView mav = new ModelAndView("ProductDetails"); // This should match the HTML file name
+        ModelAndView mav = new ModelAndView("ProductPages/ProductDetails"); // This should match the HTML file name
         mav.addObject("currentProduct", currentProduct); // Add the product object to the model
         return mav;
     }
@@ -94,7 +94,7 @@ public class ClientController {
             pageName = "Vitamins";
 
         List<Product> productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
-        ModelAndView mv = new ModelAndView("AllPrdouctsPage");
+        ModelAndView mv = new ModelAndView("ProductPages/AllPrdouctsPage");
         mv.addObject("productListByCategory", productListByCategory);
         mv.addObject("pageName", pageName); // Add pageName to the model
 
@@ -104,7 +104,7 @@ public class ClientController {
     // add image - get
     @GetMapping("/add")
     public ModelAndView AddProduct() {
-        return new ModelAndView("AddProduct");
+        return new ModelAndView("ProductPages/AddProduct");
     }
 
     Product updateProductQuantity(int update, Product currentProduct) {
@@ -134,7 +134,7 @@ public class ClientController {
         productService.addNewProduct(currentProduct);
         model.addAttribute("currentProduct", currentProduct);
 
-        return "ProductDetails"; // Return the view name for the current page
+        return "ProductPages/ProductDetails"; // Return the view name for the current page
     }
 
     // this method is used to update the quantity of the products in the user's cart
@@ -272,7 +272,7 @@ public class ClientController {
         String userBalance = currentCartUser.getBalance();
         int subTotal = cartService.getSubTotal(cartProductsList);
 
-        ModelAndView mv = new ModelAndView("CartPage");
+        ModelAndView mv = new ModelAndView("ProductPages/CartPage");
         mv.addObject("cartProductsList", cartProductsList);
         mv.addObject("pageName", pageName); // Add pageName to the model
         mv.addObject("clientName", "hi " + clientName); // Add pageName to the model

@@ -20,7 +20,10 @@ DELETE FROM Project_Data_Base.Users_Table;
 
 
 
-
+-- Update the balance
+UPDATE Project_Data_Base.Users_Table
+SET balance = 1400
+WHERE email = 'tomer.polsky1@gmail.com';
 
 -- ! delete all the raws of the Project_Data_Base.Image_Table
 DELETE FROM Project_Data_Base.Image_Table;
