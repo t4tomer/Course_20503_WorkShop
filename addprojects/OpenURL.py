@@ -10,5 +10,5 @@ url_bookAdd="http://127.0.0.1:8081"
 
 # webbrowser.open(url1)
 # webbrowser.open(url_uploadImage)
-webbrowser.open(url_addProduct)
+webbrowser.open(url_RegisterLogin)
 

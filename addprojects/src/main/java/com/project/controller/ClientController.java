@@ -53,7 +53,7 @@ public class ClientController {
     private String chosenProductCatagory; // the current category of a product that was just added
     // ----------------> used for the clients that want to register/login to the
     // site
-    String clientEmail = "tomer.polsky1@gmail.com";
+    String clientEmail = "tomer.a1@gmail.com";
     boolean insufficientFunds = false;
 
     @GetMapping("/ping")

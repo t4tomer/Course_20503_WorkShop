@@ -126,7 +126,6 @@ public class IndexController {
 				NewPass,
 				NewDateOfB,
 				gender,
-				NewTempPswd,
 				NewBalance);
 		// eRepo.saveAll(Arrays.asList(newUser));
 
@@ -151,7 +150,8 @@ public class IndexController {
 		System.out.println("Email html page: " + email);
 		System.out.println("Authorization html page: " + authCode);
 		User login = userService.getUserByEmail(email);// user login from the validate page
-		if (newUser.getEmail().equals(email) && newUser.getTemp_passwd().equals(authCode)) {
+
+		if (NewTempPswd.equals(authCode)) {
 			model.addAttribute("validationSuccessful", true); // Set validation Successful attribute to true
 			System.out.println("\t-->Verification passed successfully");
 			// ! Adding newUSer to a SQL db

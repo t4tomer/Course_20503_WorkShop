@@ -21,7 +21,6 @@ public class User {
 	private String passwd;
 	private String dob;
 	private String gender;
-	private String temp_passwd;// tempral password that server sends to the login email for user authentication
 	private String balance;// amount of meony in the user account
 
 	// private
@@ -36,7 +35,6 @@ public class User {
 			String passwd,
 			String dob,
 			String gender,
-			String temp_passwd,
 			String balance) {
 		super();
 		this.fname = fname;
@@ -45,7 +43,6 @@ public class User {
 		this.passwd = passwd;
 		this.dob = dob;
 		this.gender = gender;
-		this.temp_passwd = temp_passwd;
 		// ! testing
 		Random random = new Random();
 		// Generate a random number between 0 and 100 (inclusive)
@@ -134,13 +131,6 @@ public class User {
 		this.gender = gender;
 	}
 
-	public String getTemp_passwd() {
-		return temp_passwd;
-	}
-
-	public void setTemp_passwd(String temp_passwd) {
-		this.temp_passwd = temp_passwd;
-	}
 
 
 	public String getBalance() {
