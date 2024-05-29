@@ -22,6 +22,7 @@ public class User {
 	private String dob;
 	private String gender;
 	private String balance;// amount of meony in the user account
+	private String title;// the title of the user is it manager or client
 
 	// private
 	public User() {
@@ -35,7 +36,8 @@ public class User {
 			String passwd,
 			String dob,
 			String gender,
-			String balance) {
+			String balance,
+			String title) {
 		super();
 		this.fname = fname;
 		this.lname = lname;
@@ -43,45 +45,20 @@ public class User {
 		this.passwd = passwd;
 		this.dob = dob;
 		this.gender = gender;
-		// ! testing
-		Random random = new Random();
-		// Generate a random number between 0 and 100 (inclusive)
-		int randomNumber = random.nextInt(101); // Generates a random integer between 0 (inclusive) and 101 (exclusive)
-		System.out.println(" new entity created!" + randomNumber);
 		this.balance = balance;
-
+		this.title = title;
+		if (title.equals("manager"))
+			this.balance = "XXX";
 	}
 
-	// get the current date and time
-	public String getTime() {
-		// Get the current local date and time
-		LocalDateTime now = LocalDateTime.now();
-
-		// Define date and time formats
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-		// Format date and time as strings
-		String formattedDate = now.format(dateFormat);
-		String formattedTime = now.format(timeFormat);
-
-		// Print formatted date and time
-		System.out.println("Formatted Date: " + formattedDate);
-		System.out.println("Formatted Time: " + formattedTime);
-
-		// Optionally, you can also save them into strings
-		String dateString = formattedDate;
-		String timeString = formattedTime;
-		String registrationTime = dateString + "," + timeString;
-		// Print saved strings
-		System.out.println("Date String: " + dateString);
-		System.out.println("Time String: " + timeString);
-		System.out.println("registrationTime:" + registrationTime);
-		return registrationTime;
-
+	public String getUserRole(String input) {
+		if (input.contains("@TbuyManager")) {
+			this.setBalance("XXX");
+			return "manager";
+		} else {
+			return "client";
+		}
 	}
-
-
 
 	public String getFname() {
 		return fname;
@@ -131,14 +108,20 @@ public class User {
 		this.gender = gender;
 	}
 
-
-
 	public String getBalance() {
 		return balance;
 	}
 
 	public void setBalance(String balance) {
 		this.balance = balance;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	@Override

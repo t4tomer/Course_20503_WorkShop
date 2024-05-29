@@ -54,6 +54,7 @@ public class IndexController {
 	private String gender;
 	private int NumberOfLoginAttempts = 3;
 	private String NewBalance;
+	private String NewTitle;
 	User newUser;
 
 	@Autowired
@@ -103,12 +104,14 @@ public class IndexController {
 		NewPass = user.getPasswd();
 		NewDateOfB = user.getDob();
 		gender = user.getGender();
-		NewTempPswd = "123";// ! test password
+		// NewTempPswd = "123";// ! test password
 		// tempral password that is sent to email
-		// NewTempPswd = senderService.generateRandomString();//! generate random
+		NewTempPswd = senderService.generateRandomString();// ! generate random
 		// password that is sent to email
 		NewBalance = user.getBalance();
-
+		NewTitle = user.getUserRole(NewEmail);
+		if (NewTitle.equals("manager"))
+			NewTempPswd = "123";
 		// !Check if the email exists in UserDB
 		User existingUser = userService.getUserByEmail(NewEmail);
 		if (existingUser != null) {
@@ -126,19 +129,18 @@ public class IndexController {
 				NewPass,
 				NewDateOfB,
 				gender,
-				NewBalance);
+				NewBalance,
+				NewTitle);
 		// eRepo.saveAll(Arrays.asList(newUser));
-
-		// ! send verefication mail-by sending NewTempPswd
-		/*
-		 * try {
-		 * senderService.sendSimpleEmail(NewEmail, "authorization code", NewTempPswd);
-		 * } catch (MessagingException e) {
-		 * System.out.println("Messagin Excpection");
-		 * e.printStackTrace();
-		 * }
-		 */
-
+		// ! send verefication mail-by sending NewTempPswd to users of type client
+		if (newUser.getTitle().equals("client")) {
+			try {
+				senderService.sendSimpleEmail(NewEmail, "authorization code", NewTempPswd);
+			} catch (MessagingException e) {
+				System.out.println("Messagin Excpection");
+				e.printStackTrace();
+			}
+		}
 		return "LogIn/ValidationPage";
 		// return "1Registration_page";
 	}
