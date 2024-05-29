@@ -104,14 +104,13 @@ public class IndexController {
 		NewPass = user.getPasswd();
 		NewDateOfB = user.getDob();
 		gender = user.getGender();
-		// NewTempPswd = "123";// ! test password
+		NewTempPswd = "123";// ! test password
 		// tempral password that is sent to email
-		NewTempPswd = senderService.generateRandomString();// ! generate random
+		// NewTempPswd = senderService.generateRandomString();//! generate random
 		// password that is sent to email
 		NewBalance = user.getBalance();
 		NewTitle = user.getUserRole(NewEmail);
-		if (NewTitle.equals("manager"))
-			NewTempPswd = "123";
+
 		// !Check if the email exists in UserDB
 		User existingUser = userService.getUserByEmail(NewEmail);
 		if (existingUser != null) {
@@ -129,18 +128,18 @@ public class IndexController {
 				NewPass,
 				NewDateOfB,
 				gender,
-				NewBalance,
-				NewTitle);
+				NewBalance, NewTitle);
 		// eRepo.saveAll(Arrays.asList(newUser));
-		// ! send verefication mail-by sending NewTempPswd to users of type client
-		if (newUser.getTitle().equals("client")) {
-			try {
-				senderService.sendSimpleEmail(NewEmail, "authorization code", NewTempPswd);
-			} catch (MessagingException e) {
-				System.out.println("Messagin Excpection");
-				e.printStackTrace();
-			}
+
+		// ! send verefication mail-by sending NewTempPswd
+
+		try {
+			senderService.sendSimpleEmail(NewEmail, "authorization code", NewTempPswd);
+		} catch (MessagingException e) {
+			System.out.println("Messagin Excpection");
+			e.printStackTrace();
 		}
+
 		return "LogIn/ValidationPage";
 		// return "1Registration_page";
 	}
@@ -151,7 +150,6 @@ public class IndexController {
 			RedirectAttributes redirectAttributes) {
 		System.out.println("Email html page: " + email);
 		System.out.println("Authorization html page: " + authCode);
-		User login = userService.getUserByEmail(email);// user login from the validate page
 
 		if (NewTempPswd.equals(authCode)) {
 			model.addAttribute("validationSuccessful", true); // Set validation Successful attribute to true
@@ -162,6 +160,10 @@ public class IndexController {
 			model.addAttribute("email", Email);
 			redirectAttributes.addAttribute("FirstName", newUser.getFname()); // show name in the validation page
 			redirectAttributes.addAttribute("LastName", newUser.getLname()); // show name in the validation page
+			// TODO problem with this 2 lines below
+			redirectAttributes.addAttribute("Balance", newUser.getBalance());
+			redirectAttributes.addAttribute("Email", newUser.getEmail());
+
 			return "redirect:/LogIn/siteMainPage";
 
 		} else {
@@ -208,12 +210,10 @@ public class IndexController {
 			redirectAttributes.addAttribute("FirstName", login.getFname()); // Add first name as a parameter in the
 																			// redirect URL
 			redirectAttributes.addAttribute("LastName", login.getLname()); // Add last name as a parameter in the
-																			// redirect URL
 			redirectAttributes.addAttribute("Balance", login.getBalance());
 
 			redirectAttributes.addAttribute("Email", login.getEmail());
-
-
+			// redirect URL
 			return "redirect:/LogIn/siteMainPage";// ! the original line
 
 		} else {
