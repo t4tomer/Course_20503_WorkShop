@@ -160,7 +160,6 @@ public class IndexController {
 			model.addAttribute("email", Email);
 			redirectAttributes.addAttribute("FirstName", newUser.getFname()); // show name in the validation page
 			redirectAttributes.addAttribute("LastName", newUser.getLname()); // show name in the validation page
-			// TODO problem with this 2 lines below
 			redirectAttributes.addAttribute("Balance", newUser.getBalance());
 			redirectAttributes.addAttribute("Email", newUser.getEmail());
 

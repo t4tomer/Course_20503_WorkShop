@@ -26,15 +26,15 @@
             </div>
         </div>
     </nav>
-=
+
     <!-- View Images -->
     <!--Main Content-->
     <div class="mt-5">
-        <h1 class="text-center">View <span th:text="${pageName}"> </span>  Products</h1>
+        <h1 class="text-center">View <span th:text="${pageName}"> </span> Products</h1>
         <div class="container">
             <!--Add User Button-->
-            <div class="my-3">
-                <a href="/add"><button type="button" class="btn btn-primary">Add Image</button></a>
+            <div class="my-3" th:if="${Title == 'manager'}"> 
+                <a href="/add"><button type="button" class="btn btn-primary">Add Product</button></a>
             </div>
             <table class="table border">
                 <thead>
@@ -44,17 +44,17 @@
                         <th scope="col">Product Name</th>
                         <th scope="col">Product Price</th>
                         <th scope="col">Product Quantity</th>
-                        <th scope="col">Buy Product</th>
+                        <th th:if="${Title == 'client'}" scope="col">Buy Product</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="product : ${productListByCategory}">
-                        <td th:text="${product.getProductCode}"></td>
-                        <td><img height="250px" th:src="@{'/display?id=' + ${product.getProductCode}}" alt="Product Image"></td>
-                        <td th:text="${product.getProductName}"></td>
-                        <td th:text="${product.getProductPrice}"></td>
-                        <td th:text="${product.getProductQuantity}"></td>
-                        <td>
+                        <td th:text="${product.productCode}"></td>
+                        <td><img height="250px" th:src="@{'/display?id=' + ${product.productCode}}" alt="Product Image"></td>
+                        <td th:text="${product.productName}"></td>
+                        <td th:text="${product.productPrice}"></td>
+                        <td th:text="${product.productQuantity}"></td>
+                        <td th:if="${Title == 'client'}">
                             <a th:href="@{/buyProduct/{productCode}(productCode=${product.productCode})}" class="btn btn-success">Buy Product</a>
                         </td>
                     </tr>
@@ -62,7 +62,6 @@
             </table>
         </div>
     </div>
-
 
     <li>
         Hi, <span th:text="${FirstName}">User</span> | Balance: $<span th:text="${Balance}">0.00</span>

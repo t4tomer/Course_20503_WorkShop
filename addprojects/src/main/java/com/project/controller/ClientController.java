@@ -91,6 +91,8 @@ public class ClientController {
         String pageName = "";
         String FirstName = currentUser.getFname();
         String Balance = currentUser.getBalance();
+        String Title = currentUser.getTitle();
+        System.out.println("the title is :" + Title);
         if (chosenProductCatagory.equals("Perfumes"))
             pageName = "Prefumes";
         else if (chosenProductCatagory.equals("Vitamins"))
@@ -102,6 +104,7 @@ public class ClientController {
         mv.addObject("pageName", pageName); // Add pageName to the model
         mv.addObject("FirstName", FirstName); // Add pageName to the model
         mv.addObject("Balance", Balance); // Add pageName to the model
+        mv.addObject("Title", Title); // Add Title to the model
 
         return mv;
     }
