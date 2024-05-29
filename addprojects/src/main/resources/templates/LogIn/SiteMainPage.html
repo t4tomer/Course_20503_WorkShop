@@ -5,78 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigation Menu</title>
     <style>
-        .menu, .basket-menu {
+        .menu, .user-menu {
             list-style-type: none;
             padding: 0;
             margin: 0;
+            display: flex;
+            align-items: center;
         }
 
         .menu {
-            float: left;
+            flex: 1;
         }
 
-        .basket-menu {
-            float: right;
+        .menu li {
+            margin-right: 20px;
         }
 
-        .submenu-items, .basket-submenu-items {
+        .submenu-items {
             display: none;
             list-style-type: none;
             padding: 0;
             margin: 0;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
-        .submenu:hover .submenu-items, .basket-submenu:hover .basket-submenu-items {
+        .submenu:hover .submenu-items {
             display: block;
         }
+
+        .submenu-items li {
+            padding: 8px 12px;
+        }
+
+        .submenu-items li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .submenu-items li:hover {
+            background-color: #ddd;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            padding: 14px 20px;
+            color: white;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+        }
     </style>
+    <script>
+        function redirectToPerfumesPage() {
+            document.getElementById("perfumesForm").submit();
+        }
+
+        function redirectToVitaminsPage() {
+            document.getElementById("vitaminsForm").submit();
+        }
+    </script>
 </head>
 <body>
-    <nav>
+    <nav class="nav">
         <ul class="menu">
             <li class="submenu">
-                <a href="#">Cosmetics and Pharma</a>
+                <a href="#">Products</a>
                 <ul class="submenu-items">
-                    <li><a href="#">Perfume</a></li>
-                    <li><a href="#">Makeup</a></li>
-                    <li><a href="#">Facial Care</a></li>
-                    <li><a href="#">Bathing and Hygiene</a></li>
-                    <li><a href="#">Men</a></li>
-                    <li><a href="#">Babies and Children</a></li>
-                    <li><a href="#">Bulbs and Atmosphere</a></li>
+                    <li><a href="#" onclick="redirectToPerfumesPage()">Perfumes</a></li>
+                    <li><a href="#" onclick="redirectToVitaminsPage()">Vitamins</a></li>
                 </ul>
             </li>
         </ul>
-        <ul class="basket-menu">
-            <li class="basket-submenu">
-                <a href="#">Hi: <span th:text="${param.name}"></span></a>
-                <ul class="basket-submenu-items">
-                    <li><a href="#">Shopping Cart</a></li>
-                    <li><a href="#">Wish List</a></li>
-                    <li><a href="#">Saved Items</a></li>
-                </ul>
+        <ul class="user-menu">
+            <li>
+                Hi, <span th:text="${param.FirstName}">User</span> | Balance: $<span th:text="${param.Balance}">0.00</span>
             </li>
         </ul>
     </nav>
+
+    <!-- Hidden form for redirecting to Perfumes page -->
+    <form id="perfumesForm" action="/Redirect2PerfumesPage" method="post" style="display: none;">
+        <input type="hidden" name="Email" th:value="${param.Email}" />
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Hidden form for redirecting to Vitamins page -->
+    <form id="vitaminsForm" action="/Redirect2VitaminsPage" method="post" style="display: none;">
+        <input type="hidden" name="Email" th:value="${param.Email}" />
+        <button type="submit">Submit</button>
+    </form>
+
     <!-- Other content of your page goes here -->
     <p>Welcome Back (First Name): <span th:text="${param.FirstName}"></span></p>
     <p>Welcome Back (Last Name): <span th:text="${param.LastName}"></span></p>
-    <p>Welcome Back (Last Name): <span th:text="${param.BalanceJJ}"></span></p>
 
-    
     <!-- Button to see the Vitamins page -->
     <div class="mt-3">
         <form action="/test123" method="post">
             <button type="submit" class="btn btn-secondary">Test123</button>
         </form>
     </div>
-
-    <!-- button to see the Prefumes page-->
-    <div class="mt-4">
-        <form action="/Redirect2PerfumesPage" method="post">
-            <button type="submit" class="btn btn-secondary">Perfumes Page</button>
-        </form>
-    </div>
-
 </body>
 </html>

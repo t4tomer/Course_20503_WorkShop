@@ -209,6 +209,11 @@ public class IndexController {
 																			// redirect URL
 			redirectAttributes.addAttribute("LastName", login.getLname()); // Add last name as a parameter in the
 																			// redirect URL
+			redirectAttributes.addAttribute("Balance", login.getBalance());
+
+			redirectAttributes.addAttribute("Email", login.getEmail());
+
+
 			return "redirect:/LogIn/siteMainPage";// ! the original line
 
 		} else {

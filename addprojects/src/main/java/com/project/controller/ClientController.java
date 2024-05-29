@@ -53,8 +53,9 @@ public class ClientController {
     private String chosenProductCatagory; // the current category of a product that was just added
     // ----------------> used for the clients that want to register/login to the
     // site
-    String clientEmail = "tomer.a1@gmail.com";
+    String clientEmail = "test";
     boolean insufficientFunds = false;
+    User currentUser = null;
 
     @GetMapping("/ping")
     @ResponseBody
@@ -88,6 +89,8 @@ public class ClientController {
     @GetMapping("/allImagesPage")
     public ModelAndView home() {
         String pageName = "";
+        String FirstName = currentUser.getFname();
+        String Balance = currentUser.getBalance();
         if (chosenProductCatagory.equals("Perfumes"))
             pageName = "Prefumes";
         else if (chosenProductCatagory.equals("Vitamins"))
@@ -97,6 +100,8 @@ public class ClientController {
         ModelAndView mv = new ModelAndView("ProductPages/AllPrdouctsPage");
         mv.addObject("productListByCategory", productListByCategory);
         mv.addObject("pageName", pageName); // Add pageName to the model
+        mv.addObject("FirstName", FirstName); // Add pageName to the model
+        mv.addObject("Balance", Balance); // Add pageName to the model
 
         return mv;
     }
@@ -153,7 +158,7 @@ public class ClientController {
             cartService.removeProductFromCart(pRemove);
         }
 
-        return cart();
+        return cart(clientEmail);
     }
 
     // add image - post
@@ -205,15 +210,19 @@ public class ClientController {
 
     // method that rediects to VitaminsPage after pressing the Perfumes Page button
     @PostMapping("/Redirect2VitaminsPage")
-    public ModelAndView toVitaminsPage() {
-        System.out.println("rederciting to vitamins page");
+    public ModelAndView toVitaminsPage(@RequestParam("Email") String email) {
+        clientEmail = email;
+        currentUser = userService.getUserByEmail(email);
+        System.out.println("redirecting to vitamins page");
         chosenProductCatagory = "Vitamins";
         return home();
     }
 
     // method that rediects to PrefumesPage after pressing the Perfumes Page button
     @PostMapping("/Redirect2PerfumesPage")
-    public ModelAndView toPrefumesPage() {
+    public ModelAndView toPrefumesPage(@RequestParam("Email") String email) {
+        clientEmail = email;
+        currentUser = userService.getUserByEmail(email);
         System.out.println("rederciting to prefumes page");
         chosenProductCatagory = "Perfumes";
         return home();
@@ -223,7 +232,7 @@ public class ClientController {
     public ModelAndView toCartPage() {
         System.out.println(" \\t\\t--> rederciting to Cart page");
         chosenProductCatagory = "Perfumes";
-        return cart();
+        return cart(clientEmail);
     }
 
     // Is the financial balance positive?
@@ -254,13 +263,14 @@ public class ClientController {
             userService.addNewUser(currentCartUser);// update the user int the users table
         } else
             insufficientFunds = true;
-        return cart();
+        return cart(clientEmail);
     }
 
     // getProductQuantityAdded
     // method that shows the product of store by catagory
     @GetMapping("/allPrdocutInCart")
-    public ModelAndView cart() {
+    public ModelAndView cart(@RequestParam("Email") String Email) {
+        clientEmail = Email;
         String pageName = "cart";
         User currentCartUser = userService.getUserByEmail(clientEmail);
 
