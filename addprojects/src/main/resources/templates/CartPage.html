@@ -13,12 +13,29 @@
             margin-left: auto;
             margin-right: 20px; /* Added margin-right to push the client name to the right */
         }
+        .subTotal {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4CAF50;
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .balance {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FF69B4;
+            display: block;
+            text-align: righ;
+            margin: 20px;
+        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
+            <span class="balance" th:text="'Balance: $' + ${userBalance}"></span>
             <a class="navbar-brand" href="#">Navbar</a>
             <span class="client-name" th:text="${clientName}"></span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,6 +105,11 @@
         <form action="GetToCheackOut" method="post">
             <button type="submit" class="btn btn-secondary">CheackOut</button>
         </form>
+    </div>
+
+    <!-- Subtotal Display -->
+    <div class="mt-3" th:if="${subTotal != null}">
+        <span class="subTotal" th:text="'Subtotal: $' + ${subTotal}"></span>
     </div>
 
     <!--Bootstrap JS -->

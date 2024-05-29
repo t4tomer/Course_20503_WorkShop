@@ -84,13 +84,7 @@ public class User {
 
 	}
 
-	public String getBalance() {
-		return balance;
-	}
 
-	public void setBalance(String balance) {
-		this.balance = balance;
-	}
 
 	public String getFname() {
 		return fname;
@@ -146,6 +140,15 @@ public class User {
 
 	public void setTemp_passwd(String temp_passwd) {
 		this.temp_passwd = temp_passwd;
+	}
+
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
 	}
 
 	@Override

@@ -53,7 +53,8 @@ public class ClientController {
     private String chosenProductCatagory; // the current category of a product that was just added
     // ----------------> used for the clients that want to register/login to the
     // site
-    String clientEmail = "test1";
+    String clientEmail = "tomer.polsky1@gmail.com";
+    boolean insufficientFunds = false;
 
     @GetMapping("/ping")
     @ResponseBody
@@ -136,11 +137,10 @@ public class ClientController {
         return "ProductDetails"; // Return the view name for the current page
     }
 
+    // this method is used to update the quantity of the products in the user's cart
     @PostMapping("/changeProductQuantity")
     public ModelAndView changeProductQuantity(@RequestParam String productCodeInCart, @RequestParam int quantity,
             Model model) {
-        System.out.println(
-                "\t\t\t-->#### the product code is: " + productCodeInCart + " and the quantity is :" + quantity);
 
         // ---> update the profuct quantity in the cart of the user
         Product currentProduct = productService.getProductByProductCode(productCodeInCart);
@@ -226,11 +226,34 @@ public class ClientController {
         return cart();
     }
 
+    // Is the financial balance positive?
+    // IsFinancialBalancePositive
+    public int calculateBlanceBeforeProuch(User currentUser, int purchase_Value) {
+        String currentBalanceStr = currentUser.getBalance();
+        int currentBalance = Integer.parseInt(currentBalanceStr) - purchase_Value;
+        return currentBalance;
+    }
+
+    public boolean FinancialBalancePositive(int currentBalance) {
+        if (0 <= currentBalance)
+            return true;
+        return false;
+    }
+
     @PostMapping("/GetToCheackOut")
     public ModelAndView calculateSubTotal() {
         List<CartProduct> productsInCart = cartService.getAllProductsInCartOfUser(clientEmail);
         int subTotal = cartService.getSubTotal(productsInCart);
         System.out.println("\t\t---> the sub total is :" + subTotal);
+        User currentCartUser = userService.getUserByEmail(clientEmail);
+        int currentBalance = calculateBlanceBeforeProuch(currentCartUser, subTotal);
+        // if the balance of the user is positive,update the use'rs balnce after the
+        // purchase
+        if (FinancialBalancePositive(currentBalance)) {
+            currentCartUser.setBalance(currentBalance + "");
+            userService.addNewUser(currentCartUser);// update the user int the users table
+        } else
+            insufficientFunds = true;
         return cart();
     }
 
@@ -239,19 +262,22 @@ public class ClientController {
     @GetMapping("/allPrdocutInCart")
     public ModelAndView cart() {
         String pageName = "cart";
+        User currentCartUser = userService.getUserByEmail(clientEmail);
+
         System.out.println("\t\t--> PAGE CART!!!");
         // List<CartProduct> cartProductsList = cartService.viewAll();// orginal code
         List<CartProduct> cartProductsList = cartService.getAllProductsInCartOfUser(clientEmail);
 
-        long a = userService.getUserCount();
-        System.out.println("\t\t---> user count is(Client Controller) :" + a);
         String clientName = userService.getUserFirstNameByEmail(clientEmail);
+        String userBalance = currentCartUser.getBalance();
+        int subTotal = cartService.getSubTotal(cartProductsList);
 
         ModelAndView mv = new ModelAndView("CartPage");
         mv.addObject("cartProductsList", cartProductsList);
         mv.addObject("pageName", pageName); // Add pageName to the model
         mv.addObject("clientName", "hi " + clientName); // Add pageName to the model
-
+        mv.addObject("subTotal", subTotal);// show the subtotal of the cart
+        mv.addObject("userBalance", userBalance);// show the balance of the user
         return mv;
     }
 
