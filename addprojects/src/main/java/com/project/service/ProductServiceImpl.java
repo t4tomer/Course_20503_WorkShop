@@ -19,6 +19,14 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.findByProductCode(productCode);
     }
 
+
+    @Override // this method must be aded in the ProductRepostory&ProductService
+    public String getProductPriceByProductCode(String productCode) {
+        Product p1=productRepo.findByProductCode(productCode);
+        String productPrice=p1.getProductPrice();
+        return productPrice;
+    }
+
     @Override
     public void removeProductByProductCode(String productCode) {
         System.out.println("\t\t-->product" + productCode + " has been removed");

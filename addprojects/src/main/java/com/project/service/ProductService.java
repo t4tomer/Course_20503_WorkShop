@@ -29,6 +29,8 @@ public interface ProductService {
 
     Product getProductByProductCode(String productCode);
 
+    String getProductPriceByProductCode(String productCode);
+
     // ! findByProductCategory -explanantion
     /*
      * The findByProductCategory method is automatically implemented by Spring Data

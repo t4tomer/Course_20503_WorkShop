@@ -21,7 +21,8 @@
                 <p class="card-text">Available Quantity: <span th:text="${currentProduct.productQuantity}"></span></p>
                 <img th:src="@{'/display?id=' + ${currentProduct.productCode}}" alt="Product Image" class="img-fluid">
                 
-                <form th:action="@{/confirmPurchase}" method="post">
+                  <!-- Button to Buy product now  -->
+                <form th:action="@{/buyProductNow}" method="post">
                     <input type="hidden" name="productCode" th:value="${currentProduct.productCode}">
                     <div class="mb-3">
                         <label for="quantity" class="form-label">Quantity to Buy</label>
@@ -29,7 +30,8 @@
                     </div>
                     <button type="submit" class="btn btn-primary mt-3">Buy Now</button>
                 </form>
-                <!-- Add product to the cart of the user -->
+
+                <!-- Button to Add product to the cart of the user -->
                 <form th:action="@{/add2Cart}" method="post">
                     <input type="hidden" name="productCode" th:value="${currentProduct.productCode}">
                     <div class="mb-3">

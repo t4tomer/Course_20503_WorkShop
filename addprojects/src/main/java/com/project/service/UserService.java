@@ -7,7 +7,7 @@ import com.project.model.User;
 public interface UserService {
     User addNewUser(User newUser);
 
-    User getUserByEmail(String productCode);
+    User getUserByEmail(String userEmail);
 
     void removeUserByEmail(String email);
 

@@ -132,22 +132,56 @@ public class ClientController {
         return currentProduct;
     }
 
-    @PostMapping("/add2Cart")
-    public String add2Cart(@RequestParam String productCode, @RequestParam int quantity, Model model) {
+    // this method is used to culculate the of single buy blance of the user
+    // after he made single prouch
+    public void updateBalanceAftereSingleBuy(String currentBalance, String productCode, int quantity) {
+
+        String productPrice = productService.getProductPriceByProductCode(productCode);
+        int purchaseAmount = quantity * Integer.parseInt(productPrice);// calculate single but
+
+        int newBalance = Integer.parseInt(currentBalance) - purchaseAmount;
+        String newBalanceStr = newBalance + "";
+        currentUser.setBalance(newBalanceStr);
+        // update the user's balance in the Users_Table database
+        userService.addNewUser(currentUser);
+    }
+
+    // $ method that is used to add products to cart
+    @PostMapping("/buyProductNow")
+    public String buyProductNow(@RequestParam String productCode, @RequestParam int quantity, Model model) {
         System.out.println("Pressed the add to cart");
 
-        // Retrieve the current product again to add to the model after the update of
-        // the quantity.
         Product currentProduct = productService.getProductByProductCode(productCode);
-        // ---> add currentProduct to the Cart Table
-        CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
-        cartService.addProductToCart(p1);
 
         // update the quantity of the product in the Product Table
         currentProduct = updateProductQuantity(quantity, currentProduct);
 
         // update the sql database with the currentPrdouct with the updated quantity
         productService.addNewProduct(currentProduct);
+        model.addAttribute("currentProduct", currentProduct);
+
+        String currentBalance = currentUser.getBalance();
+        System.out.println("Current Balance: " + currentBalance);
+        updateBalanceAftereSingleBuy(currentBalance, productCode, quantity);
+
+        return "ProductPages/ProductDetails"; // Return the view name for the current page
+    }
+
+    // $ method that is used to add products to cart
+    @PostMapping("/add2Cart")
+    public String add2Cart(@RequestParam String productCode, @RequestParam int quantity, Model model) {
+        System.out.println("Pressed the add to cart");
+
+        Product currentProduct = productService.getProductByProductCode(productCode);
+        // ---> add currentProduct to the Cart Table
+        CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
+        cartService.addProductToCart(p1);
+
+        // // update the quantity of the product in the Product Table
+        // currentProduct = updateProductQuantity(quantity, currentProduct);
+
+        // // update the sql database with the currentPrdouct with the updated quantity
+        // productService.addNewProduct(currentProduct);
         model.addAttribute("currentProduct", currentProduct);
 
         return "ProductPages/ProductDetails"; // Return the view name for the current page
