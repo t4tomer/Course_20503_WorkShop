@@ -30,7 +30,8 @@ public class CartProductServiceImpl implements CartProductService {
 
     public int NumProd = 1;
 
-    @Override
+
+    @Override //used to update the quantity of products after cheack out of the user
     public void updateQuantityInProductTable(List<CartProduct> productInCart) {
 
         for (CartProduct cartProduct : productInCart) {

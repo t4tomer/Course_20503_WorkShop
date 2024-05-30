@@ -13,21 +13,26 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepo; // ---> Inject your ProductRepository
     public int NumProd = 1;
 
-
-
-
-    
+    @Override
+    public List<Product> removeZeroQunantityProducts(List<Product> productListByCategory) {
+        for (Product product : productListByCategory) {
+            if (product.getProductQuantity().equals("0")) {
+                String idProduct = product.getProductCode();
+                productRepo.deleteById(idProduct);
+            }
+        }
+        return productListByCategory;
+    }
 
     @Override // this method must be aded in the ProductRepostory&ProductService
     public Product getProductByProductCode(String productCode) {
         return productRepo.findByProductCode(productCode);
     }
 
-
     @Override // this method must be aded in the ProductRepostory&ProductService
     public String getProductPriceByProductCode(String productCode) {
-        Product p1=productRepo.findByProductCode(productCode);
-        String productPrice=p1.getProductPrice();
+        Product p1 = productRepo.findByProductCode(productCode);
+        String productPrice = p1.getProductPrice();
         return productPrice;
     }
 
@@ -72,8 +77,6 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-
-
     public Product getLastProductAdded() {
         List<Product> productsList = (List<Product>) productRepo.findAll(); // Assuming productService.findAll() fetches
                                                                             // all products
@@ -92,7 +95,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.save(newProduct);
     }
 
-
     @Override
     public List<Product> viewAllProduct() {
         return (List<Product>) productRepo.findAll();
@@ -102,8 +104,5 @@ public class ProductServiceImpl implements ProductService {
     public long getSize() {
         return productRepo.count();
     }
-
-
-
 
 }

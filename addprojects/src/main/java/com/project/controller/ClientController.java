@@ -56,6 +56,7 @@ public class ClientController {
     String clientEmail = "test";
     boolean insufficientFunds = false;
     User currentUser = null;
+    List<Product> productListByCategory;
 
     @GetMapping("/ping")
     @ResponseBody
@@ -98,8 +99,8 @@ public class ClientController {
         else if (chosenProductCatagory.equals("Vitamins"))
             pageName = "Vitamins";
 
-        List<Product> productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
-        ModelAndView mv = new ModelAndView("ProductPages/AllPrdouctsPage");
+        productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
+        ModelAndView mv = new ModelAndView("ProductPages/AllProductsPage");
         mv.addObject("productListByCategory", productListByCategory);
         mv.addObject("pageName", pageName); // Add pageName to the model
         mv.addObject("FirstName", FirstName); // Add pageName to the model
@@ -312,11 +313,18 @@ public class ClientController {
         if (FinancialBalancePositive(currentBalance)) {
 
             currentCartUser.setBalance(currentBalance + "");
-            userService.addNewUser(currentCartUser);// update the user int the users table
+            // update the user in the users table
+            userService.addNewUser(currentCartUser);
+
             // update the quantity of the products after user did cheackout
             cartService.updateQuantityInProductTable(productsInCart);
+
             // delete the products in the cart
             cartService.deleteAll();
+            //TODO fix the removing quantity 0 of the products
+            // remove prdoucts with 0 quantity from the products list
+            productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
+
         }
         return cart(clientEmail);
     }

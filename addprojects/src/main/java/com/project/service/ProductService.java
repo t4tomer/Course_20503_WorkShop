@@ -11,6 +11,8 @@ import java.util.List;
 @Service
 public interface ProductService {
 
+    public List<Product> removeZeroQunantityProducts(List<Product> productListByCategory);
+
     public Product addNewProduct(Product newProduct);
 
     List<Product> viewAllProduct();
