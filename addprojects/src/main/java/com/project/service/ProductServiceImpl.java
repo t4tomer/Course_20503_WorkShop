@@ -100,11 +100,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    /*     @Override
-    public void addNewProduct2(Product newProduct) {
-        // return productRepo.save(newProduct);
-        productRepo.saveAll(Arrays.asList(newProduct));
-    }
-    */
+
 
 }

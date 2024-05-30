@@ -20,4 +20,6 @@ public interface CartProductService {
 
     public void removeProductFromCart(CartProduct p1);
 
+    public void deleteAll();
+
 }

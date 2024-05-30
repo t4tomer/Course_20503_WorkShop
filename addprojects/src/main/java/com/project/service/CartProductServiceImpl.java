@@ -36,6 +36,10 @@ public class CartProductServiceImpl implements CartProductService {
         return (List<CartProduct>) cartRepo.findAll();
     }
 
+    public void deleteAll() { // delete all the values in the product repository
+        cartRepo.deleteAll();
+    }
+
     // return list of the products of the same SerachCategory
     public List<CartProduct> getAllProductsInCartOfUser(String clientEmail) {
         List<CartProduct> productsListCartByUser = cartRepo.findByEmailCustomer(clientEmail);

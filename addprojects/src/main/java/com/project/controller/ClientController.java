@@ -312,8 +312,8 @@ public class ClientController {
         if (FinancialBalancePositive(currentBalance)) {
             currentCartUser.setBalance(currentBalance + "");
             userService.addNewUser(currentCartUser);// update the user int the users table
-        } else
-            insufficientFunds = true;
+            cartService.deleteAll();// delete the products in the cart
+        }
         return cart(clientEmail);
     }
 
