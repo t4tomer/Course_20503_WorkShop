@@ -10,6 +10,9 @@ import java.util.List;
 
 @Service
 public interface CartProductService {
+
+    public void updateQuantityInProductTable(List<CartProduct> productInCart);
+
     public CartProduct addProductToCart(CartProduct newProductAdeed);
 
     public List<CartProduct> viewAll();

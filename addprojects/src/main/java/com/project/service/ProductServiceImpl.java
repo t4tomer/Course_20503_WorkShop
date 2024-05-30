@@ -14,6 +14,10 @@ public class ProductServiceImpl implements ProductService {
     public int NumProd = 1;
 
 
+
+
+    
+
     @Override // this method must be aded in the ProductRepostory&ProductService
     public Product getProductByProductCode(String productCode) {
         return productRepo.findByProductCode(productCode);

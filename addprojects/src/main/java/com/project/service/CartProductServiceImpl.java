@@ -24,7 +24,26 @@ public class CartProductServiceImpl implements CartProductService {
 
     @Autowired
     private CartProductRepository cartRepo; // ---> Inject your ProductRepository
+
+    @Autowired
+    private ProductService productService;
+
     public int NumProd = 1;
+
+    @Override
+    public void updateQuantityInProductTable(List<CartProduct> productInCart) {
+
+        for (CartProduct cartProduct : productInCart) {
+            String productCode = cartProduct.getproductCodeInCart();
+            String productQuantityInCart = cartProduct.getProductQuantityInCart();
+            Product productObject = productService.getProductByProductCode(productCode);
+            String productQuantity = productObject.getProductQuantity();
+            int newQunatity = Integer.parseInt(productQuantity) - Integer.parseInt(productQuantityInCart);
+            String newQunatityStr = newQunatity + "";
+            productObject.setProductQuantity(newQunatityStr);
+            productService.addNewProduct(productObject);
+        }
+    }
 
     @Override
     public CartProduct addProductToCart(CartProduct newProductAdeed) {

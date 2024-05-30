@@ -310,9 +310,13 @@ public class ClientController {
         // if the balance of the user is positive,update the use'rs balnce after the
         // purchase
         if (FinancialBalancePositive(currentBalance)) {
+
             currentCartUser.setBalance(currentBalance + "");
             userService.addNewUser(currentCartUser);// update the user int the users table
-            cartService.deleteAll();// delete the products in the cart
+            // update the quantity of the products after user did cheackout
+            cartService.updateQuantityInProductTable(productsInCart);
+            // delete the products in the cart
+            cartService.deleteAll();
         }
         return cart(clientEmail);
     }
