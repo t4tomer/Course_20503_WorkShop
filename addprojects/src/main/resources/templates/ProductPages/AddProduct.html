@@ -79,20 +79,31 @@
     </div>
 </div>
 
+
+
+<li>
+    Hi, <span th:text="${FirstName}">User</span> | Balance: $<span th:text="${Balance}">0.00</span>
+</li>
+
+
 <!-- button to see the Vitamins page-->
 <div class="mt-3">
-    <form action="Redirect2VitaminsPage" method="post">
+    <form action="/Redirect2VitaminsPage" method="post">
+        <input type="hidden" name="Email" th:value="${Email}" />
         <button type="submit" class="btn btn-secondary">Vitamins Page</button>
     </form>
 </div>
+
+
 <!-- button to see the Prefumes page-->
 <div class="mt-4">
-    <form action="Redirect2PerfumesPage" method="post">
+    <form action="/Redirect2PerfumesPage" method="post">
+        <input type="hidden" name="Email" th:value="${Email}" />
         <button type="submit" class="btn btn-secondary">Perfumes Page</button>
     </form>
 </div>
-<!-- button to see the cart page-->
-<div class="mt-5">
+<!-- button to see the cart page(avilable only to clients )-->
+<div class="mt-5"  th:if="${Title == 'client'}">
     <form action="RedirectToCart" method="post">
         <button type="submit" class="btn btn-secondary">Cart</button>
     </form>

@@ -112,7 +112,15 @@ public class ClientController {
     // add image - get
     @GetMapping("/add")
     public ModelAndView AddProduct() {
-        return new ModelAndView("ProductPages/AddProduct");
+        String pageName = "ProductPages/AddProduct";
+        ModelAndView mv = new ModelAndView(pageName);
+        String FirstName = currentUser.getFname();
+        String Balance = currentUser.getBalance();
+        mv.addObject("FirstName", FirstName); // FirstName paramater in AddProduct.html
+        mv.addObject("Balance", Balance); // Balance paramter in AddProduct.html
+        mv.addObject("Email", clientEmail);// Email paramater in AddProduct.html
+        return mv;
+        // return new ModelAndView();
     }
 
     Product updateProductQuantity(int update, Product currentProduct) {
@@ -234,7 +242,13 @@ public class ClientController {
     @PostMapping("/RedirectToCart")
     public ModelAndView toCartPage() {
         System.out.println(" \\t\\t--> rederciting to Cart page");
-        chosenProductCatagory = "Perfumes";
+        // chosenProductCatagory = "Perfumes";
+        return cart(clientEmail);
+    }
+
+    @PostMapping("/RedirectToAddProduct")
+    public ModelAndView buttonAddProduct() {
+        System.out.println(" \\t\\t--> redercting to Add Product page!!!");
         return cart(clientEmail);
     }
 
