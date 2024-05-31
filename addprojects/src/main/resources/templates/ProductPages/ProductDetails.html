@@ -26,9 +26,11 @@
                 <img th:src="@{'/display?id=' + ${currentProduct.productCode}}" alt="Product Image" class="img-fluid">
 
                 <!-- Error message for out of stock -->
-                <div th:if="${outOfStockError}" class="error-message">
-                    error-product is out of stock
+                <div th:if="${outOfStockError}"  style="color: red"> 
+                    error-product is out of stock -choose less than <span th:text="${currentProduct.productQuantity}"></span>
                 </div>
+
+                
                 
                 <!-- Button to Buy product now -->
                 <form th:action="@{/buyProductNow}" method="post">

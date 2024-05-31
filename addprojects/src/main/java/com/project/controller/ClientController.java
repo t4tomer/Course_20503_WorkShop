@@ -100,7 +100,8 @@ public class ClientController {
             pageName = "Vitamins";
 
         productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
-        productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
+        // productListByCategory =
+        // productService.removeZeroQunantityProducts(productListByCategory);
         ModelAndView mv = new ModelAndView("ProductPages/AllProductsPage");
         mv.addObject("productListByCategory", productListByCategory);
         mv.addObject("pageName", pageName); // Add pageName to the model
@@ -158,9 +159,11 @@ public class ClientController {
         System.out.println("Pressed the add to cart");
 
         Product currentProduct = productService.getProductByProductCode(productCode);
+        int max = convertToInt(currentProduct.getProductQuantity());
         int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
-        //TODO fix the problem when quantity is zero of product 
-        productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
+        // TODO fix the problem when quantity is zero of product
+        // productListByCategory =
+        // productService.removeZeroQunantityProducts(productListByCategory);
 
         if (quantityCurrentProduct - quantity >= 0) {
             // update the quantity of the product in the Product Table
@@ -176,9 +179,13 @@ public class ClientController {
         }
         if (quantityCurrentProduct - quantity < 0) {
             // Add an attribute indicating that the pJroduct is out of stock
+            productService.addNewProduct(currentProduct);
+            model.addAttribute("currentProduct", currentProduct);
+
             model.addAttribute("outOfStockError", true);
             // return "ProductPages/ProductDetails";
         }
+
         return "ProductPages/ProductDetails"; // Return the view name for the current page
 
     }
@@ -338,7 +345,8 @@ public class ClientController {
             cartService.deleteAll();
             // TODO fix the removing quantity 0 of the products
             // remove prdoucts with 0 quantity from the products list
-            productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
+            // productListByCategory =
+            // productService.removeZeroQunantityProducts(productListByCategory);
 
         }
         return cart(clientEmail);
