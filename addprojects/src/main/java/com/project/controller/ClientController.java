@@ -165,6 +165,7 @@ public class ClientController {
         // productService.removeZeroQunantityProducts(productListByCategory);
 
         if (quantityCurrentProduct - quantity >= 0) {
+            // ---> buy currentProduct
             // update the quantity of the product in the Product Table
             currentProduct = updateProductQuantity(quantity, currentProduct);
 
@@ -186,9 +187,13 @@ public class ClientController {
         System.out.println("Pressed the add to cart");
 
         Product currentProduct = productService.getProductByProductCode(productCode);
-        // ---> add currentProduct to the Cart Table
-        CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
-        cartService.addProductToCart(p1);
+        int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
+        if (quantityCurrentProduct - quantity >= 0) {
+            // ---> add currentProduct to the Cart Table
+            CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
+            cartService.addProductToCart(p1);
+        } else
+            model.addAttribute("outOfStockError", true);
 
         // // update the quantity of the product in the Product Table
         // currentProduct = updateProductQuantity(quantity, currentProduct);
@@ -201,16 +206,28 @@ public class ClientController {
     }
 
     // this method is used to update the quantity of the products in the user's cart
-    @PostMapping("/changeProductQuantity")
-    public ModelAndView changeProductQuantity(@RequestParam String productCodeInCart, @RequestParam int quantity,
+    @PostMapping("/changeProductQuantityInCart")
+    public ModelAndView changeProductQuantityInCart(@RequestParam String productCodeInCart, @RequestParam int quantity,
             Model model) {
-
-        // ---> update the profuct quantity in the cart of the user
+        // TODO need to fix the problem os user adding quantity of products more than
+        // stock !
+        // ---> update the product quantity in the cart of the user
         Product currentProduct = productService.getProductByProductCode(productCodeInCart);
-        CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
-        cartService.addProductToCart(p1);
+        int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
+        System.out.println("quantityCurrentProduct" + quantityCurrentProduct + ",quantity:" + quantity);
 
-        if (quantity == 0) {
+        if (quantityCurrentProduct - quantity >= 0) {
+            CartProduct p1 = new CartProduct(clientEmail, currentProduct, quantity + "");
+            cartService.addProductToCart(p1);
+
+        } else {
+            model.addAttribute("outOfStockError", true);
+            System.out.println("Error!!!!");
+            model.addAttribute("currentProduct", currentProduct);
+
+        }
+
+        if (quantity == 0) {// remove the product if the quantity is zero
             Product currentProductToRemove = productService.getProductByProductCode(productCodeInCart);
             CartProduct pRemove = new CartProduct(clientEmail, currentProductToRemove, quantity + "");
             cartService.removeProductFromCart(pRemove);

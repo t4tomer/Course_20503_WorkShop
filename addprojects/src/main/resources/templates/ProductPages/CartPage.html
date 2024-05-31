@@ -26,8 +26,15 @@
             font-weight: bold;
             color: #FF69B4;
             display: block;
-            text-align: righ;
+            text-align: right;
             margin: 20px;
+        }
+        .error-message {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: red;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -45,9 +52,6 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/add">Add Image</a>
                     </li>
                 </ul>
             </div>
@@ -85,7 +89,7 @@
                         <td><img height="250px" th:src="@{'/display?id=' + ${productCart.getproductCodeInCart}}" alt="Product Image"></td>
                         <!-- Change quantity of the product in the user cart-->
                         <td>
-                            <form th:action="@{/changeProductQuantity}" method="post">
+                            <form th:action="@{/changeProductQuantityInCart}" method="post">
                                 <input type="hidden" name="productCodeInCart" th:value="${productCart.getproductCodeInCart}">
                                 <div class="mb-3">
                                     <label for="quantityCart" class="form-label">Quantity to Add to Cart</label>
@@ -103,13 +107,18 @@
     <!-- button to see the cart page-->
     <div class="mt-6">
         <form action="GetToCheackOut" method="post">
-            <button type="submit" class="btn btn-secondary">CheackOut</button>
+            <button type="submit" class="btn btn-secondary">Checkout</button>
         </form>
     </div>
 
     <!-- Subtotal Display -->
     <div class="mt-3" th:if="${subTotal != null}">
         <span class="subTotal" th:text="'Subtotal: $' + ${subTotal}"></span>
+    </div>
+
+    <!-- Error message for out of stock -->
+    <div th:if="${outOfStockError}" class="error-message">
+        error-product <span th:text="${currentProduct.getProductName}"></span> is out of stock - choose less than <span th:text="${currentProduct.getProductQuantity}"></span>
     </div>
 
     <!--Bootstrap JS -->
