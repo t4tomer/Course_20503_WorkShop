@@ -30,7 +30,7 @@ public interface ProductService {
     public List<Product> viewAll();
 
     Product getProductByProductCode(String productCode);
-
+    public boolean checkIfNewProductExistsInProductTable(String ProductCode);
     String getProductPriceByProductCode(String productCode);
 
     // ! findByProductCategory -explanantion

@@ -4,6 +4,8 @@ import com.project.model.Product;
 import com.project.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,15 +22,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> removeZeroQunantityProducts(List<Product> productListByCategory) {
+        List<Product> updatedList = new ArrayList<>();
+        if (productListByCategory == null || productListByCategory.isEmpty()) {
+            System.out.println("The product list by category is empty.");
+            return productListByCategory;
+        }
+
         for (Product product : productListByCategory) {
             System.out.println("\t-->Product quality test!!!");
-            if (convertToInt(product.getProductQuantity()) == 0) {
-                System.out.println("\t-->Product quality is zero");
-                String idProduct = product.getProductCode();
-                productRepo.deleteByProductCode(idProduct);
-            }
+            if (convertToInt(product.getProductQuantity()) != 0)
+                updatedList.add(product);
+            else
+                // remove products with quantity zero from product table
+                productRepo.delete(product);
+
         }
-        return productListByCategory;
+        return updatedList;
     }
 
     @Override // this method must be aded in the ProductRepostory&ProductService
@@ -62,6 +71,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> viewAll() {
         return (List<Product>) productRepo.findAll();
+    }
+
+    public boolean checkIfNewProductExistsInProductTable(String ProductCode) {
+        List<Product> productList = (List<Product>) productRepo.findAll();
+        for (Product product : productList) {
+            if (product.getProductCode().equals(ProductCode))
+                return true;
+        }
+        return false;
+
     }
 
     @Override

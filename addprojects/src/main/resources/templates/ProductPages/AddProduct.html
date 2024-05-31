@@ -5,6 +5,15 @@
     <title>Add Image</title>
     <!--Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        .quantity-input {
+            width: 80px; /* Adjust the width as needed */
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -51,13 +60,13 @@
             <!-- Product Price Bar -->
             <div class="input-group mb-3">
                 <span class="input-group-text" id="CatagoryAddon">Product Price</span>
-                <input type="number" name="productPrice" class="form-control" aria-label="Catagory" aria-describedby="catagoryAddon">
+                <input type="number" min="0" name="productPrice" class="form-control" aria-label="Catagory" aria-describedby="catagoryAddon">
             </div>
 
             <!-- Product Quantity Bar -->
             <div class="input-group mb-3">
                 <span class="input-group-text" id="CatagoryAddon">Product Quantity</span>
-                <input type="number" name="productQuantity" class="form-control" aria-label="Catagory" aria-describedby="catagoryAddon">
+                <input type="number" min="0" name="productQuantity" class="form-control" aria-label="Catagory" aria-describedby="catagoryAddon">
             </div>
 
             <!-- Product Catagory Bar -->
@@ -110,7 +119,9 @@
 </div>
 
 
-
+<div class="instruction-label">
+    To remove a product from the stock, put the appropriate PRODUCT CODE and put the value 0 in the quantity.
+</div>
 
 
 

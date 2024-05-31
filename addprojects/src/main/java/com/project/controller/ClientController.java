@@ -94,14 +94,16 @@ public class ClientController {
         String Balance = currentUser.getBalance();
         String Title = currentUser.getTitle();
         System.out.println("the title is :" + Title);
+
         if (chosenProductCatagory.equals("Perfumes"))
             pageName = "Prefumes";
         else if (chosenProductCatagory.equals("Vitamins"))
             pageName = "Vitamins";
 
         productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
-        // productListByCategory =
-        // productService.removeZeroQunantityProducts(productListByCategory);
+        // remove from product list products with zero quantity
+        productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
+
         ModelAndView mv = new ModelAndView("ProductPages/AllProductsPage");
         mv.addObject("productListByCategory", productListByCategory);
         mv.addObject("pageName", pageName); // Add pageName to the model
@@ -161,8 +163,8 @@ public class ClientController {
         Product currentProduct = productService.getProductByProductCode(productCode);
         int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
         // TODO fix the problem when quantity is zero of product
-        // productListByCategory =
-        // productService.removeZeroQunantityProducts(productListByCategory);
+        // remove from product list products with zero quantity
+        productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
 
         if (quantityCurrentProduct - quantity >= 0) {
             // ---> buy currentProduct
@@ -258,6 +260,8 @@ public class ClientController {
             System.out.println("blank textbox");
             return "redirect:/add";
         }
+
+
         chosenProductCatagory = productCategory;
         byte[] bytes = file.getBytes();
         Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
