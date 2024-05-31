@@ -159,7 +159,6 @@ public class ClientController {
         System.out.println("Pressed the add to cart");
 
         Product currentProduct = productService.getProductByProductCode(productCode);
-        int max = convertToInt(currentProduct.getProductQuantity());
         int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
         // TODO fix the problem when quantity is zero of product
         // productListByCategory =
@@ -169,22 +168,13 @@ public class ClientController {
             // update the quantity of the product in the Product Table
             currentProduct = updateProductQuantity(quantity, currentProduct);
 
-            // update the sql database with the currentPrdouct with the updated quantity
             productService.addNewProduct(currentProduct);
-            model.addAttribute("currentProduct", currentProduct);
-
             String currentBalance = currentUser.getBalance();
-            System.out.println("Current Balance: " + currentBalance);
             updateBalanceAftereSingleBuy(currentBalance, productCode, quantity);
-        }
-        if (quantityCurrentProduct - quantity < 0) {
-            // Add an attribute indicating that the pJroduct is out of stock
-            productService.addNewProduct(currentProduct);
-            model.addAttribute("currentProduct", currentProduct);
-
+        } else
             model.addAttribute("outOfStockError", true);
-            // return "ProductPages/ProductDetails";
-        }
+
+        model.addAttribute("currentProduct", currentProduct);
 
         return "ProductPages/ProductDetails"; // Return the view name for the current page
 
