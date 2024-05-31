@@ -17,11 +17,17 @@ select * from Project_Data_Base.Users_Table;
 select * from Project_Data_Base.Cart_Table;   
 
 
+-- Update product quantity 
+UPDATE Project_Data_Base.Product_Table
+SET product_quantity = 10
+WHERE product_code = 'p2cd';
+
+-- Delete user from Users Table
+DELETE FROM Project_Data_Base.Users_Table
+WHERE email = 'tomer.cccp@gmail.com';
 
 
-
-
--- Update the balance
+-- Update the balance of user
 UPDATE Project_Data_Base.Users_Table
 SET balance = 1400
 WHERE email = 'tomer.polsky1@gmail.com';

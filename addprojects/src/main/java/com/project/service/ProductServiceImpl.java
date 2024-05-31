@@ -9,6 +9,11 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    public int convertToInt(String num) {
+        return Integer.parseInt(num);
+    }
+
     @Autowired
     private ProductRepository productRepo; // ---> Inject your ProductRepository
     public int NumProd = 1;
@@ -16,9 +21,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> removeZeroQunantityProducts(List<Product> productListByCategory) {
         for (Product product : productListByCategory) {
-            if (product.getProductQuantity().equals("0")) {
+            System.out.println("\t-->Product quality test!!!");
+            if (convertToInt(product.getProductQuantity()) == 0) {
+                System.out.println("\t-->Product quality is zero");
                 String idProduct = product.getProductCode();
-                productRepo.deleteById(idProduct);
+                productRepo.deleteByProductCode(idProduct);
             }
         }
         return productListByCategory;

@@ -14,5 +14,6 @@ public interface ProductRepository extends CrudRepository<Product, String> {
 
     void deleteByProductCode(String productCode);
 
+    // public void removeProduct()
 
 }

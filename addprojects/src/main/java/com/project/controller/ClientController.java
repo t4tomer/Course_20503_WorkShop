@@ -100,6 +100,7 @@ public class ClientController {
             pageName = "Vitamins";
 
         productListByCategory = productService.getAllProductByCatagory(chosenProductCatagory);
+        productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
         ModelAndView mv = new ModelAndView("ProductPages/AllProductsPage");
         mv.addObject("productListByCategory", productListByCategory);
         mv.addObject("pageName", pageName); // Add pageName to the model
@@ -147,25 +148,39 @@ public class ClientController {
         userService.addNewUser(currentUser);
     }
 
+    public int convertToInt(String num) {
+        return Integer.parseInt(num);
+    }
+
     // $ method that is used to add products to cart
     @PostMapping("/buyProductNow")
     public String buyProductNow(@RequestParam String productCode, @RequestParam int quantity, Model model) {
         System.out.println("Pressed the add to cart");
 
         Product currentProduct = productService.getProductByProductCode(productCode);
+        int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
+        //TODO fix the problem when quantity is zero of product 
+        productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
 
-        // update the quantity of the product in the Product Table
-        currentProduct = updateProductQuantity(quantity, currentProduct);
+        if (quantityCurrentProduct - quantity >= 0) {
+            // update the quantity of the product in the Product Table
+            currentProduct = updateProductQuantity(quantity, currentProduct);
 
-        // update the sql database with the currentPrdouct with the updated quantity
-        productService.addNewProduct(currentProduct);
-        model.addAttribute("currentProduct", currentProduct);
+            // update the sql database with the currentPrdouct with the updated quantity
+            productService.addNewProduct(currentProduct);
+            model.addAttribute("currentProduct", currentProduct);
 
-        String currentBalance = currentUser.getBalance();
-        System.out.println("Current Balance: " + currentBalance);
-        updateBalanceAftereSingleBuy(currentBalance, productCode, quantity);
-
+            String currentBalance = currentUser.getBalance();
+            System.out.println("Current Balance: " + currentBalance);
+            updateBalanceAftereSingleBuy(currentBalance, productCode, quantity);
+        }
+        if (quantityCurrentProduct - quantity < 0) {
+            // Add an attribute indicating that the pJroduct is out of stock
+            model.addAttribute("outOfStockError", true);
+            // return "ProductPages/ProductDetails";
+        }
         return "ProductPages/ProductDetails"; // Return the view name for the current page
+
     }
 
     // $ method that is used to add products to cart
@@ -321,7 +336,7 @@ public class ClientController {
 
             // delete the products in the cart
             cartService.deleteAll();
-            //TODO fix the removing quantity 0 of the products
+            // TODO fix the removing quantity 0 of the products
             // remove prdoucts with 0 quantity from the products list
             productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
 
