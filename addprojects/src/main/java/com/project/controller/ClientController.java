@@ -307,13 +307,9 @@ public class ClientController {
     }
 
     @PostMapping("/RedirectToCart")
-    public ModelAndView toCartPage(@RequestParam("Email") String email) {
+    public ModelAndView toCartPage() {
         System.out.println(" \\t\\t--> rederciting to Cart page");
         // chosenProductCatagory = "Perfumes";
-        // currentUser=userService.getEmail();
-        clientEmail = email;
-
-        System.out.println("the email is :" + clientEmail);
         return cart(clientEmail);
     }
 
