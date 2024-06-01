@@ -162,6 +162,10 @@ public class IndexController {
 			redirectAttributes.addAttribute("LastName", newUser.getLname()); // show name in the validation page
 			redirectAttributes.addAttribute("Balance", newUser.getBalance());
 			redirectAttributes.addAttribute("Email", newUser.getEmail());
+			String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number of
+			System.out.println("the numOfInCart:" + numOfInCart);
+			// products in cart
+			redirectAttributes.addAttribute("cartCount", numOfInCart);
 
 			return "redirect:/LogIn/siteMainPage";
 
@@ -212,6 +216,11 @@ public class IndexController {
 			redirectAttributes.addAttribute("Balance", login.getBalance());
 
 			redirectAttributes.addAttribute("Email", login.getEmail());
+			String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number of
+			System.out.println("the numOfInCart:" + numOfInCart);
+			// products in cart
+			redirectAttributes.addAttribute("cartCount", numOfInCart);
+
 			// redirect URL
 			return "redirect:/LogIn/siteMainPage";// ! the original line
 

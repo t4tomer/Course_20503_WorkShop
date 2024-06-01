@@ -261,7 +261,6 @@ public class ClientController {
             return "redirect:/add";
         }
 
-
         chosenProductCatagory = productCategory;
         byte[] bytes = file.getBytes();
         Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
@@ -308,9 +307,13 @@ public class ClientController {
     }
 
     @PostMapping("/RedirectToCart")
-    public ModelAndView toCartPage() {
+    public ModelAndView toCartPage(@RequestParam("Email") String email) {
         System.out.println(" \\t\\t--> rederciting to Cart page");
         // chosenProductCatagory = "Perfumes";
+        // currentUser=userService.getEmail();
+        clientEmail = email;
+
+        System.out.println("the email is :" + clientEmail);
         return cart(clientEmail);
     }
 

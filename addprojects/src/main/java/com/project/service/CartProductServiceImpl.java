@@ -30,8 +30,7 @@ public class CartProductServiceImpl implements CartProductService {
 
     public int NumProd = 1;
 
-
-    @Override //used to update the quantity of products after cheack out of the user
+    @Override // used to update the quantity of products after cheack out of the user
     public void updateQuantityInProductTable(List<CartProduct> productInCart) {
 
         for (CartProduct cartProduct : productInCart) {
@@ -54,6 +53,20 @@ public class CartProductServiceImpl implements CartProductService {
     @Override
     public List<CartProduct> viewAll() {
         return (List<CartProduct>) cartRepo.findAll();
+    }
+
+    @Override
+    public int getNumberOfItemsInCart() {
+        List<CartProduct> productsListCartByUser = (List<CartProduct>) cartRepo.findAll();
+        int totalItems = 0;
+        for (CartProduct cartProduct : productsListCartByUser) {
+            // Access the product name using getProduct().getProductName() method
+            String productQuantity = cartProduct.getProductQuantityInCart();
+            int productQuantityInt = Integer.parseInt(productQuantity);
+            totalItems = productQuantityInt + totalItems;
+        }
+
+        return totalItems;
     }
 
     public void deleteAll() { // delete all the values in the product repository

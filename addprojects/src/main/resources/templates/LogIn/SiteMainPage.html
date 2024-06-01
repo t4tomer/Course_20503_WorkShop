@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navigation Menu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <!-- Font Awesome for cart icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMw4zztM1t6TEv5Qlv2LO/JiQsGg39LhCZb1+qf" crossorigin="anonymous">
     <style>
-        .menu, .user-menu {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            align-items: center;
+        .nav {
+            background-color: #333;
+            padding: 14px 20px;
+            color: white;
         }
 
-        .menu {
-            flex: 1;
-        }
-
-        .menu li {
-            margin-right: 20px;
+        .nav a {
+            color: white;
+            text-decoration: none;
         }
 
         .submenu-items {
@@ -48,17 +47,26 @@
             background-color: #ddd;
         }
 
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            background-color: #333;
-            padding: 14px 20px;
-            color: white;
+        .cart-icon {
+            position: relative;
+            font-size: 24px;
         }
 
-        .nav a {
+        .cart-counter {
+            position: absolute;
+            top: 100px;
+            right: -30px;
+            background-color: red;
             color: white;
-            text-decoration: none;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+
+        .cart-label {
+            margin-left: 10px;
+            font-size: 18px;
+            color: white;
         }
     </style>
     <script>
@@ -73,20 +81,32 @@
 </head>
 <body>
     <nav class="nav">
-        <ul class="menu">
-            <li class="submenu">
-                <a href="#">Products</a>
-                <ul class="submenu-items">
-                    <li><a href="#" onclick="redirectToPerfumesPage()">Perfumes</a></li>
-                    <li><a href="#" onclick="redirectToVitaminsPage()">Vitamins</a></li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="user-menu">
-            <li>
-                Hi, <span th:text="${param.FirstName}">User</span> | Balance: $<span th:text="${param.Balance}">0.00</span>
-            </li>
-        </ul>
+        <div class="container-fluid">
+            <div class="row w-100">
+                <div class="col-md-4 d-flex align-items-center">
+                    Hi, <span th:text="${param.FirstName}">User</span> | Balance: $<span th:text="${param.Balance}">0.00</span>
+                </div>
+                    <div class="col-md-4 d-flex justify-content-center">
+                        <ul class="menu d-flex">
+                            <li class="submenu">
+                                <a href="#">Products</a>
+                                <ul class="submenu-items">
+                                    <li><a href="#" onclick="redirectToPerfumesPage()">Perfumes</a></li>
+                                    <li><a href="#" onclick="redirectToVitaminsPage()">Vitamins</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                        <!-- button that redirecting to cart page -->
+                    <div class="col-md-4 d-flex justify-content-end align-items-center">
+                        <form action="/RedirectToCart" method="post" class="cart-icon">
+                        <input type="hidden" name="Email" th:value="${param.Email}" />
+                            <button type="submit" class="btn btn-secondary">Cart  <span th:text="${param.cartCount}">10</span></button>
+                        </form>
+                    </div>
+
+            </div>
+        </div>
     </nav>
 
     <!-- Hidden form for redirecting to Perfumes page -->
@@ -111,5 +131,8 @@
             <button type="submit" class="btn btn-secondary">Test123</button>
         </form>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>

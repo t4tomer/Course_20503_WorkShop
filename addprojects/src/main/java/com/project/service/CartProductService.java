@@ -25,4 +25,5 @@ public interface CartProductService {
 
     public void deleteAll();
 
+    public int getNumberOfItemsInCart();
 }
