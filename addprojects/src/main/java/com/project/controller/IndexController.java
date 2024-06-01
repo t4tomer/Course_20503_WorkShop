@@ -72,26 +72,9 @@ public class IndexController {
 	@GetMapping("/")
 	public String index() {
 		return "LogIn/RegistrationPage"; // ! orignal line
-		// return "Product1/pageTest"; // ! works
-		// return "Product1/PrefumePage"; // ! works
-		// return "PrefumePage";
-		// return "PrefumePage";
 
 	}
 
-	// $ used for testing
-	@PostMapping("/page1")
-	public String page1Post(String name, RedirectAttributes redirectAttributes) {
-		redirectAttributes.addAttribute("FirstName", name); // Add name as a URL parameter
-		return "redirect:/page2"; // Redirect to Page 2
-	}
-
-	// $ used for testing
-	@GetMapping("/page2")
-	public String page2(@RequestParam("FirstName") String name, Model model) {
-		model.addAttribute("FirstName", name); // Add name attribute to the model
-		return "page2";
-	}
 
 	// $ when the user registers to the site
 	@PostMapping("/register")
@@ -192,7 +175,8 @@ public class IndexController {
 	}
 
 	@GetMapping("/LogIn/siteMainPage")
-	public String ThreeSiteMainPage(@RequestParam("FirstName") String name, Model model) {
+	public String ThreeSiteMainPage(@RequestParam("FirstName") String name, @RequestParam("Title") String Title,
+			Model model, RedirectAttributes redirectAttributes) {
 		return "LogIn/siteMainPage";
 	}
 
@@ -207,6 +191,9 @@ public class IndexController {
 		Email = user.getEmail();
 		String password = user.getPasswd();
 		User login = userService.getUserByEmail(Email);
+		String Title = login.getTitle();
+		redirectAttributes.addAttribute("Title", Title); // Add first name as a parameter in the
+
 		if (login != null && login.getEmail().equals(Email) && login.getPasswd().equals(password)) {
 			System.out.println("\t-->Login passed successfully");
 			model.addAttribute("loginSuccessful", true);
@@ -220,7 +207,8 @@ public class IndexController {
 			System.out.println("the numOfInCart:" + numOfInCart);
 			// products in cart
 			redirectAttributes.addAttribute("cartCount", numOfInCart);
-
+			redirectAttributes.addAttribute("Title", Title); // Add first name as a parameter in the
+			model.addAttribute("Title", Title);
 			// redirect URL
 			return "redirect:/LogIn/siteMainPage";// ! the original line
 
@@ -240,22 +228,6 @@ public class IndexController {
 	@ResponseBody
 	public String getEmail() {
 		return Email; // Assuming Email is a class-level field in your controller
-	}
-
-	@PostMapping("/test123")
-	public String test123(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
-
-		User login = userService.getUserByEmail(Email);
-
-		redirectAttributes.addAttribute("FirstName", login.getFname()); // Add first name as a parameter in the
-		// redirect URL
-		redirectAttributes.addAttribute("LastName", login.getLname()); // Add last name as a parameter in the
-		// redirect URL
-		long a = userService.getUserCount();
-		System.out.println("\t\t---> user count is :" + a);
-
-		System.out.println(" pressed test123 button ");
-		return "redirect:/LogIn/siteMainPage";// ! the original line
 	}
 
 }

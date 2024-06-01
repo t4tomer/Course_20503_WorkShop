@@ -277,10 +277,6 @@ public class ClientController {
                 productCategory,
                 image.getDate(),
                 image.getImage());
-
-        // System.out.println(newProduct.toString());
-
-        // System.out.println(image.toString());
         productService.addNewProduct(newProduct);
 
         return "redirect:/allImagesPage";
@@ -306,6 +302,7 @@ public class ClientController {
         return home();
     }
 
+    // method that rediects to the cart page after pressing the cart Page button
     @PostMapping("/RedirectToCart")
     public ModelAndView toCartPage() {
         System.out.println(" \\t\\t--> rederciting to Cart page");
@@ -353,16 +350,11 @@ public class ClientController {
 
             // delete the products in the cart
             cartService.deleteAll();
-            // TODO fix the removing quantity 0 of the products
-            // remove prdoucts with 0 quantity from the products list
-            // productListByCategory =
-            // productService.removeZeroQunantityProducts(productListByCategory);
 
         }
         return cart(clientEmail);
     }
 
-    // getProductQuantityAdded
     // method that shows the product of store by catagory
     @GetMapping("/allPrdocutInCart")
     public ModelAndView cart(@RequestParam("Email") String Email) {

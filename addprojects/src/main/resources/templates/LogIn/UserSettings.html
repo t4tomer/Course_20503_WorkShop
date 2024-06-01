@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1Registration_page</title>
+<style>
+    /* CSS for positioning */
+    .container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .left {
+        width: 45%;
+    }
+    .right {
+        width: 45%;
+    }
+    /* Additional styling */
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+
+    
+<h1>Welcome to Tbuy register or login to the site </h1>
+<div class="container">
+    <div class="left">
+        <!-- Register values-->
+        <form action="register" method="post">
+            <label for="firstname">First name :</label> <br/>
+            <input type="text" name="fname"/> <br/>
+
+            <label for="lastname">Last name :</label> <br/>
+            <input type="text" name="lname"/> <br/>
+
+            <label for="email">Email :</label> <br/>
+            <input type="email" name="email"/> <br/>
+
+            <label for="dob">DateOfBirth :</label> <br/>
+            <input type="date" name="dob"/> <br/>
+            
+            <label for="password">Password :</label> <br/>
+            <input type="Password" name="passwd"/> <br/>
+            
+            <label for="balance">The amount of money:</label> <br/>
+            <input type="number" name="balance"/> <br/>
+
+            <label for="gender">Gender :</label> <br/>
+            <select name="gender">
+                <option value=""></option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <br/>
+			<!-- Display login success message -->
+			<div th:if="${userExists}" style="color: red">Email allready registered!</div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+	
+    <div class="right">
+        <!-- Login values-->
+        <form action="login" method="post">
+            <label for="email">Email :</label> <br/>
+            <input type="email" name="email"/> <br/>
+            
+            <label for="password">Password :</label> <br/>
+            <input type="Password" name="passwd"/> <br/>
+			
+            <!-- Display login failure message -->
+            <div th:if="${loginFailed}" style="color: red">Login failed for email : <span th:text="${email}"></span>. Please try again. Number of tries left: <span th:text="${NumberOfLoginAttempts}"></span>.</div>
+			
+			<!-- Display login success message -->
+			<div th:if="${loginSuccessful}" style="color: green">Login successful. Welcome!</div>
+
+            <br/>
+            <button type="submit">Submit login</button>
+
+        </form>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>
