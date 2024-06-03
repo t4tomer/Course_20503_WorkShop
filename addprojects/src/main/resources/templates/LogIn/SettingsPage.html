@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="left">
+        <!-- Register values-->
+        <form action="register" method="post">
+            <label for="firstname">First name :</label> <br/>
+            <input type="text" name="fname"/> <br/>
+
+            <label for="lastname">Last name :</label> <br/>
+            <input type="text" name="lname"/> <br/>
+
+            <label for="email">Email :</label> <br/>
+            <input type="email" name="email"/> <br/>
+
+
+            
+            <label for="password">Password :</label> <br/>
+            <input type="Password" name="passwd"/> <br/>
+            
+            <label for="balance">The amount of money:</label> <br/>
+            <input type="number" name="balance"/> <br/>
+
+
+			<!-- Display login success message -->
+			<div th:if="${userExists}" style="color: red">Email allready registered!</div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>

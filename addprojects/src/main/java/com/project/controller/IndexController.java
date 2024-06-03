@@ -75,7 +75,6 @@ public class IndexController {
 
 	}
 
-
 	// $ when the user registers to the site
 	@PostMapping("/register")
 	public String userRegistration(@ModelAttribute User user, Model model) {
@@ -127,13 +126,68 @@ public class IndexController {
 		// return "1Registration_page";
 	}
 
+	@PostMapping("/RedirectToSettings")
+	public ModelAndView toSettingsPage(@RequestParam("Email") String email) {
+		Email = email;
+		User currentUser = userService.getUserByEmail(email);
+		System.out.println("\t\t --> In Settigs page");
+		User validateUser = userService.getUserByEmail(Email);
+		String validateEmail = validateUser.getEmail();
+		int validatePassWord = Integer.parseInt(validateUser.getPasswd());
+
+		String inputEmail = currentUser.getEmail();
+		int inputPassword = Integer.parseInt(currentUser.getPasswd());
+		String pageName = "LogIn/SettingsValidate";
+
+		ModelAndView mv = new ModelAndView(pageName);
+		mv.addObject("Email", inputEmail);// show the balance of the user
+		return mv;
+	}
+
+	@PostMapping("/validateForChangingUserSettings")
+	public String validateForChangingUserSettings(@RequestParam("email") String email, @RequestParam String authCode,
+			RedirectAttributes redirectAttributes, Model model, @ModelAttribute User user) {
+		Email = email;
+
+		User currentUser = userService.getUserByEmail(email);
+		System.out.println("\t\t --> In Login Settings page");
+		System.out.println("\t\t --> the email is :" + Email);
+
+		User validateUser = userService.getUserByEmail(Email);
+		String validateEmail = validateUser.getEmail();
+		String validatePassWord = (validateUser.getPasswd());
+
+		String inputEmail = user.getEmail();
+		String inputPassword = (user.getPasswd());
+		redirectAttributes.addAttribute("email", Email); // show name in the validation page
+		currentUser = userService.getUserByEmail(Email);
+		String buttonLabel = "Send authcode to mail";
+
+		if (inputEmail.equals(validateEmail) && inputPassword.equals(validatePassWord)) {
+			NewTempPswd = "123";
+			System.out.println("THIS IS TEST!");
+
+			//// ! send mail
+			// try {
+			// senderService.sendSimpleEmail(inputEmail, "authorization code", NewTempPswd);
+			// } catch (MessagingException e) {
+			// System.out.println("Messaging Exception");
+			// e.printStackTrace();
+			// }
+			return "LogIn/SettingsValidate2";
+		}
+		model.addAttribute("cheackValidation", true);
+
+		return "LogIn/SettingsValidate";
+	}
+
 	// $ validate new user via the temp password that is sent to the email new user
 	@PostMapping("/validate")
 	public String validateForm(@RequestParam String email, @RequestParam String authCode, Model model,
 			RedirectAttributes redirectAttributes) {
 		System.out.println("Email html page: " + email);
 		System.out.println("Authorization html page: " + authCode);
-
+		// String NewTempPswd = "123";
 		if (NewTempPswd.equals(authCode)) {
 			model.addAttribute("validationSuccessful", true); // Set validation Successful attribute to true
 			System.out.println("\t-->Verification passed successfully");

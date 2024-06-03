@@ -77,7 +77,12 @@
         function redirectToVitaminsPage() {
             document.getElementById("vitaminsForm").submit();
         }
-        
+
+        function redirectToSettingsPage() {
+            document.getElementById("cartForm").submit();
+        }
+
+
     </script>
 </head>
 <body>
@@ -94,6 +99,8 @@
                                 <ul class="submenu-items">
                                     <li><a href="#" onclick="redirectToPerfumesPage()">Perfumes</a></li>
                                     <li><a href="#" onclick="redirectToVitaminsPage()">Vitamins</a></li>
+                                    <li><a href="#" onclick="redirectToSettingsPage()">User Settings</a></li>
+                                
                                 </ul>
                             </li>
                         </ul>
@@ -121,6 +128,14 @@
         <input type="hidden" name="Email" th:value="${param.Email}" />
         <button type="submit">Submit</button>
     </form>
+
+    <!-- Hidden form for redirecting to Settings page -->
+    <form id="cartForm" action="/RedirectToSettings" method="post" style="display: none;">
+        <input type="hidden" name="Email" th:value="${param.Email}" />
+        <button type="submit">Submit</button>
+    </form>
+
+
 
     <!-- Other content of your page goes here -->
     <p>Welcome Back (First Name): <span th:text="${param.FirstName}"></span></p>

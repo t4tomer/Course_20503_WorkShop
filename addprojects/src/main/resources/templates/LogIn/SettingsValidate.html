@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1Registration_page</title>
+<style>
+    /* CSS for positioning */
+    .container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .left {
+        width: 45%;
+    }
+    .right {
+        width: 45%;
+    }
+    /* Additional styling */
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Validate to change User Settings</h1>
+
+<div class="right">
+    <!-- Login values-->
+    <form action="validateForChangingUserSettings" method="post">
+        <label for="email">Email :</label> <br/>
+        <input type="email" name="email" required/> <br/>
+        
+        <label for="password">Password :</label> <br/>
+        <input type="password" name="passwd" required/> <br/>
+
+        <!-- Display login failure message -->
+        <div th:if="${loginFailed}" style="color: red">Login failed for email: <span th:text="${email}"></span>. Please try again. Number of tries left: <span th:text="${NumberOfLoginAttempts}"></span>.</div>
+        
+
+        <!-- Display login success message -->
+        <div th:if="${cheackValidation}" style="color: green">User mail or password incorrect try again</div>
+
+
+
+        <!-- Authorization code input -->
+        <div>
+            <label for="authCode">Authorization Code:</label><br>
+            <input type="text" id="authCode" name="authCode" placeholder="Enter authorization code">
+            <!-- Display validation success message -->
+            <div th:if="${validationSuccessful}" style="color: green">Validation successful. Please proceed.</div>
+            <!-- Display validation failure message (can still try 3 more times) -->
+            <div th:if="${validationFailedTryAgain}" style="color: red">Validation failed. Number of tries left: <span th:text="${NumberOfLoginAttempts}"></span>.</div>
+        </div>
+
+        <br/>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+</body>
+</html>

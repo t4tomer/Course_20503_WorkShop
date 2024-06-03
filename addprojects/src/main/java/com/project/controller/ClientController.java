@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
@@ -49,6 +52,9 @@ public class ClientController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailController senderService;// used to send mail to new users
 
     private String chosenProductCatagory; // the current category of a product that was just added
     // ----------------> used for the clients that want to register/login to the
@@ -301,6 +307,42 @@ public class ClientController {
         chosenProductCatagory = "Perfumes";
         return home();
     }
+
+
+
+    // $ this method is used to transfer the user if he wants to change one of his
+    // settings
+    // @GetMapping("/RedirectToSettings ")
+    // public ModelAndView userSettings(@RequestParam("Email") String Email) {
+    // clientEmail = Email;
+    // System.out.println("\t\t--> to settings page!!!");
+    // currentUser = userService.getUserByEmail(clientEmail);
+
+    // User validateUser = userService.getUserByEmail(clientEmail);
+    // String validateEmail = validateUser.getEmail();
+    // int validatePassWord = Integer.parseInt(validateUser.getPasswd());
+
+    // String inputEmail = currentUser.getEmail();
+    // int inputPassword = Integer.parseInt(currentUser.getPasswd());
+
+    // // if (inputEmail.equals(validateEmail) && validatePassWord == inputPassword)
+    // {
+    // // String NewTempPswd = senderService.generateRandomString();// ! generate
+    // // random
+    // // try {
+    // // senderService.sendSimpleEmail(inputEmail, "authorization code",
+    // NewTempPswd);
+    // // } catch (MessagingException e) {
+    // // System.out.println("Messagin Excpection");
+    // // e.printStackTrace();
+    // // }
+    // // return "LogIn/ValidationPage";
+    // // }
+    // // model.addAttribute("loginFailed", true);
+    // // return "LogIn/SettingsValidate";
+    // return home();
+
+    // }
 
     // method that rediects to the cart page after pressing the cart Page button
     @PostMapping("/RedirectToCart")
