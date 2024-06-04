@@ -126,6 +126,106 @@ public class IndexController {
 		// return "1Registration_page";
 	}
 
+
+	// $ validate new user via the temp password that is sent to the email new user
+	@PostMapping("/validate")
+	public String validateForm(@RequestParam String email, @RequestParam String authCode, Model model,
+			RedirectAttributes redirectAttributes) {
+		System.out.println("Email html page: " + email);
+		System.out.println("Authorization html page: " + authCode);
+		// String NewTempPswd = "123";
+		if (NewTempPswd.equals(authCode)) {
+			model.addAttribute("validationSuccessful", true); // Set validation Successful attribute to true
+			System.out.println("\t-->Verification passed successfully");
+			// ! Adding newUSer to a SQL db
+			userService.addNewUser(newUser);
+			Email = email;
+			model.addAttribute("email", Email);
+			redirectAttributes.addAttribute("FirstName", newUser.getFname()); // show name in the validation page
+			redirectAttributes.addAttribute("LastName", newUser.getLname()); // show name in the validation page
+			redirectAttributes.addAttribute("Balance", newUser.getBalance());
+			redirectAttributes.addAttribute("Email", newUser.getEmail());
+			String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number of
+			System.out.println("the numOfInCart:" + numOfInCart);
+			// products in cart
+			redirectAttributes.addAttribute("cartCount", numOfInCart);
+			redirectAttributes.addAttribute("Title", newUser.getTitle());
+
+			return "redirect:/LogIn/siteMainPage";
+
+		} else {
+			model.addAttribute("validationFailedTryAgain", true);
+			NumberOfLoginAttempts--;
+			model.addAttribute("NumberOfLoginAttempts", NumberOfLoginAttempts); // Add the number of tries remaining to
+			if (NumberOfLoginAttempts == 0) {
+				System.out.println("\t-->removing newUser object");
+				NumberOfLoginAttempts = 3;
+				newUser = null;
+			}
+			// TODO add NumberOfTries-need to add the feature that counts the number of
+
+		}
+
+		return "LogIn/ValidationPage"; // Return the name of the HTML file to be loaded after form submission
+	}
+
+	// $ used for testing
+	@GetMapping("/pageTest123")
+	public String pageTest123(@RequestParam("FirstName") String name, Model model) {
+		return "pageTest123";
+	}
+
+	@GetMapping("/LogIn/siteMainPage")
+	public String ThreeSiteMainPage(@RequestParam("FirstName") String name, @RequestParam("Title") String Title,
+			Model model, RedirectAttributes redirectAttributes) {
+		return "LogIn/siteMainPage";
+	}
+
+	@GetMapping("/PerfumePage")
+	public String PerfumePage(@RequestParam("FirstName") String name, Model model) {
+		return "PerfumePage";
+	}
+
+	// $ when the user loges in to the server
+	@PostMapping("/login")
+	public String loginRegistration(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
+		Email = user.getEmail();
+		String password = user.getPasswd();
+		User login = userService.getUserByEmail(Email);
+		String Title = login.getTitle();
+		redirectAttributes.addAttribute("Title", Title); // Add first name as a parameter in the
+
+		if (login != null && login.getEmail().equals(Email) && login.getPasswd().equals(password)) {
+			System.out.println("\t-->Login passed successfully");
+			model.addAttribute("loginSuccessful", true);
+			redirectAttributes.addAttribute("FirstName", login.getFname()); // Add first name as a parameter in the
+																			// redirect URL
+			redirectAttributes.addAttribute("LastName", login.getLname()); // Add last name as a parameter in the
+			redirectAttributes.addAttribute("Balance", login.getBalance());
+
+			redirectAttributes.addAttribute("Email", login.getEmail());
+			String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number of
+			System.out.println("the numOfInCart:" + numOfInCart);
+			// products in cart
+			redirectAttributes.addAttribute("cartCount", numOfInCart);
+			redirectAttributes.addAttribute("Title", Title); // Add first name as a parameter in the
+			model.addAttribute("Title", Title);
+			// redirect URL
+			return "redirect:/LogIn/siteMainPage";// ! the original line
+
+		} else {
+			NumberOfLoginAttempts--;
+			System.out.println("\t-->Login failed $$!,number of login attempts: " + NumberOfLoginAttempts);
+			model.addAttribute("loginFailed", true);
+			model.addAttribute("email", Email);// the value of email in the LogIn/RegistrationPage
+			model.addAttribute("NumberOfLoginAttempts", NumberOfLoginAttempts); // Add the number of tries remaining to
+																				// the model
+
+			return "LogIn/RegistrationPage";
+		}
+	}
+
+	//$--> methods that are used to change the user settings 
 	@PostMapping("/changeUserSettings")
 	public String changeUserSettings(
 			@RequestParam(required = false) String updateFname,
@@ -267,103 +367,11 @@ public class IndexController {
 	}
 	
 
-	// $ validate new user via the temp password that is sent to the email new user
-	@PostMapping("/validate")
-	public String validateForm(@RequestParam String email, @RequestParam String authCode, Model model,
-			RedirectAttributes redirectAttributes) {
-		System.out.println("Email html page: " + email);
-		System.out.println("Authorization html page: " + authCode);
-		// String NewTempPswd = "123";
-		if (NewTempPswd.equals(authCode)) {
-			model.addAttribute("validationSuccessful", true); // Set validation Successful attribute to true
-			System.out.println("\t-->Verification passed successfully");
-			// ! Adding newUSer to a SQL db
-			userService.addNewUser(newUser);
-			Email = email;
-			model.addAttribute("email", Email);
-			redirectAttributes.addAttribute("FirstName", newUser.getFname()); // show name in the validation page
-			redirectAttributes.addAttribute("LastName", newUser.getLname()); // show name in the validation page
-			redirectAttributes.addAttribute("Balance", newUser.getBalance());
-			redirectAttributes.addAttribute("Email", newUser.getEmail());
-			String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number of
-			System.out.println("the numOfInCart:" + numOfInCart);
-			// products in cart
-			redirectAttributes.addAttribute("cartCount", numOfInCart);
-			redirectAttributes.addAttribute("Title", newUser.getTitle());
 
-			return "redirect:/LogIn/siteMainPage";
 
-		} else {
-			model.addAttribute("validationFailedTryAgain", true);
-			NumberOfLoginAttempts--;
-			model.addAttribute("NumberOfLoginAttempts", NumberOfLoginAttempts); // Add the number of tries remaining to
-			if (NumberOfLoginAttempts == 0) {
-				System.out.println("\t-->removing newUser object");
-				NumberOfLoginAttempts = 3;
-				newUser = null;
-			}
-			// TODO add NumberOfTries-need to add the feature that counts the number of
 
-		}
 
-		return "LogIn/ValidationPage"; // Return the name of the HTML file to be loaded after form submission
-	}
 
-	// $ used for testing
-	@GetMapping("/pageTest123")
-	public String pageTest123(@RequestParam("FirstName") String name, Model model) {
-		return "pageTest123";
-	}
-
-	@GetMapping("/LogIn/siteMainPage")
-	public String ThreeSiteMainPage(@RequestParam("FirstName") String name, @RequestParam("Title") String Title,
-			Model model, RedirectAttributes redirectAttributes) {
-		return "LogIn/siteMainPage";
-	}
-
-	@GetMapping("/PerfumePage")
-	public String PerfumePage(@RequestParam("FirstName") String name, Model model) {
-		return "PerfumePage";
-	}
-
-	// $ when the user loges in to the server
-	@PostMapping("/login")
-	public String loginRegistration(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
-		Email = user.getEmail();
-		String password = user.getPasswd();
-		User login = userService.getUserByEmail(Email);
-		String Title = login.getTitle();
-		redirectAttributes.addAttribute("Title", Title); // Add first name as a parameter in the
-
-		if (login != null && login.getEmail().equals(Email) && login.getPasswd().equals(password)) {
-			System.out.println("\t-->Login passed successfully");
-			model.addAttribute("loginSuccessful", true);
-			redirectAttributes.addAttribute("FirstName", login.getFname()); // Add first name as a parameter in the
-																			// redirect URL
-			redirectAttributes.addAttribute("LastName", login.getLname()); // Add last name as a parameter in the
-			redirectAttributes.addAttribute("Balance", login.getBalance());
-
-			redirectAttributes.addAttribute("Email", login.getEmail());
-			String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number of
-			System.out.println("the numOfInCart:" + numOfInCart);
-			// products in cart
-			redirectAttributes.addAttribute("cartCount", numOfInCart);
-			redirectAttributes.addAttribute("Title", Title); // Add first name as a parameter in the
-			model.addAttribute("Title", Title);
-			// redirect URL
-			return "redirect:/LogIn/siteMainPage";// ! the original line
-
-		} else {
-			NumberOfLoginAttempts--;
-			System.out.println("\t-->Login failed $$!,number of login attempts: " + NumberOfLoginAttempts);
-			model.addAttribute("loginFailed", true);
-			model.addAttribute("email", Email);// the value of email in the LogIn/RegistrationPage
-			model.addAttribute("NumberOfLoginAttempts", NumberOfLoginAttempts); // Add the number of tries remaining to
-																				// the model
-
-			return "LogIn/RegistrationPage";
-		}
-	}
 
 	@GetMapping("/getEmail")
 	@ResponseBody

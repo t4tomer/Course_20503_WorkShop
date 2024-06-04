@@ -11,13 +11,12 @@ import com.project.model.Image;
 public class Product {
     @Id
     private String productCode;// primary key of the product db
-    private String productName;
-    private String productPrice;// The price on one product
-    private String productQuantity; // The quantity of the product
-    private Date productDate;// The date the product was uploaded to the website
-
+    private String productName;// name of the product
+    private String productPrice;//  price of one product
+    private String productQuantity; //  quantity of the product
+    private Date productDate;// the date the product was uploaded to the website
     @Lob
-    private Blob productImage;
+    private Blob productImage;// image of the product
 
     private String productCategory;// The category of the product
 

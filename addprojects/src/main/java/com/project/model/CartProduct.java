@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @IdClass(CartProductId.class)
 public class CartProduct {
     @Id
-    private String emailCustomer = "";
+    private String emailCustomer = "";// mail of the costomer
     @Id
     private String productCodeInCart = ""; // code of the product that added to the cart
     private String productNameInCart; // product name of the product that added to the cart

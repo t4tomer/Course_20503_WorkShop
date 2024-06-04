@@ -14,15 +14,15 @@ import org.springframework.data.annotation.CreatedDate;
 
 public class User {
 
-	private String fname;
-	private String lname;
+	private String fname;//user first name
+	private String lname;//user last name
 	@Id // make email the primery key
-	private String email;
-	private String passwd;
-	private String dob;
-	private String gender;
+	private String email;//user email(used as the primary key for the Users_Table)
+	private String passwd;// user passwrod to log in the site
+	private String dob;//date of birth of the user
+	private String gender; //gender of the user 
 	private String balance;// amount of meony in the user account
-	private String title;// the title of the user is it manager or client
+	private String title;// the title of the user, is it manager or client
 
 	// private
 	public User() {
