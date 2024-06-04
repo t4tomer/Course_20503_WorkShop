@@ -31,34 +31,31 @@
     <div class="left">
         <!-- Register values-->
         <form action="changeUserSettings" method="post">
-            <label for="firstname">
-                <input type="checkbox" name="updateFname" value="true"/> First name:
+            <label for="firstname"> 
+                <input type="checkbox" name="updateFname"  value="true"/> First name: 
             </label>
-            <input type="text" name="fname"/> <br/>
+            <input type="text" name="fname"  placeholder="Change first name" /> <br/>
 
             <label for="lastname">
                 <input type="checkbox" name="updateLname" value="true"/> Last name:
             </label>
-            <input type="text" name="lname"/> <br/>
+            <input type="text" name="lname" placeholder="Change last name"/> <br/>
 
             <label for="password">
                 <input type="checkbox" name="updatePasswd" value="true"/> Password:
             </label>
-            <input type="Password" name="passwd"/> <br/>
+            <input type="Password" name="passwd" placeholder="Change password "/> <br/>
 
             <label for="balance">
                 <input type="checkbox" name="updateBalance" value="true"/> The amount of money:
             </label>
-            <input type="number" name="balance"/> <br/>
-
-            <!-- Display login success message -->
-            <div th:if="${userExists}" style="color: red">Email already registered!</div>
-            <button type="submit">Submit</button>
+            <input type="number" name="balance" placeholder="Change balance"/> <br/>
 
             <!-- Other content of your page goes here -->
             <p>Register  (First Name): <span th:text="${param.FirstName}"></span></p>
             <p>Register  ( email): <span th:text="${param.email}"></span></p>
 
+            <button type="submit">Submit</button>
 
 
         </form>

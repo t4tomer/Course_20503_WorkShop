@@ -32,18 +32,15 @@
     <form action="validateForChangingUserSettings2" method="post">
         <label for="email">Email :</label> <br/>
         <input type="email" name="email" required/> <br/>
-        
 
         <!-- Authorization code input -->
         <div>
-            <label for="authCode">Authorization Code:</label><br>
-            <input type="text" id="authCode" name="authCode" placeholder="Enter authorization code">
+            <label for="authCode">Verification Code:</label><br>
+            <input type="text" id="authCode" placeholder="Enter erification code here" name="authCode" >
             <!-- Display validation failure message (can still try 3 more times) -->
-            <div th:if="${cheackValidation2}" style="color: red">Auth Code is wrong. Number of tries left: <span th:text="${NumberOfLoginAttempts}"></span>.</div>
+            <div th:if="${test1}" style="color: red">Auth Code is wrong.</div>
             <!-- Sending mail to user  -->
-            <div th:if="${validationConfirmed}" style="color: green">Sent new auth code to mail... cheack your mail .</div>
-
-
+            <div th:if="${validationConfirmed}" style="color: green">Sent new auth code to mail... check your mail.</div>
         </div>
 
         <br/>
