@@ -1,28 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1Registration_page</title>
+<style>
+    /* CSS for positioning */
+    .container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .left {
+        width: 45%;
+    }
+    .right {
+        width: 45%;
+    }
+    /* Additional styling */
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Validate to change User Settings</h1>
+
 <div class="container">
     <div class="left">
         <!-- Register values-->
-        <form action="register" method="post">
-            <label for="firstname">First name :</label> <br/>
+        <form action="changeUserSettings" method="post">
+            <label for="firstname">
+                <input type="checkbox" name="updateFname" value="true"/> First name:
+            </label>
             <input type="text" name="fname"/> <br/>
 
-            <label for="lastname">Last name :</label> <br/>
+            <label for="lastname">
+                <input type="checkbox" name="updateLname" value="true"/> Last name:
+            </label>
             <input type="text" name="lname"/> <br/>
 
-            <label for="email">Email :</label> <br/>
-            <input type="email" name="email"/> <br/>
-
-
-            
-            <label for="password">Password :</label> <br/>
+            <label for="password">
+                <input type="checkbox" name="updatePasswd" value="true"/> Password:
+            </label>
             <input type="Password" name="passwd"/> <br/>
-            
-            <label for="balance">The amount of money:</label> <br/>
+
+            <label for="balance">
+                <input type="checkbox" name="updateBalance" value="true"/> The amount of money:
+            </label>
             <input type="number" name="balance"/> <br/>
 
-
-			<!-- Display login success message -->
-			<div th:if="${userExists}" style="color: red">Email allready registered!</div>
-
+            <!-- Display login success message -->
+            <div th:if="${userExists}" style="color: red">Email already registered!</div>
             <button type="submit">Submit</button>
+
+            <!-- Other content of your page goes here -->
+            <p>Register  (First Name): <span th:text="${param.FirstName}"></span></p>
+            <p>Register  ( email): <span th:text="${param.email}"></span></p>
+
+
+
         </form>
     </div>
+</div>
+
+</body>
+</html>

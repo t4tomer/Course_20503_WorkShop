@@ -29,7 +29,7 @@
 
 <div class="right">
     <!-- Login values-->
-    <form action="validateForChangingUserSettings" method="post">
+    <form action="validateForChangingUserSettings2" method="post">
         <label for="email">Email :</label> <br/>
         <input type="email" name="email" required/> <br/>
         
@@ -38,10 +38,12 @@
         <div>
             <label for="authCode">Authorization Code:</label><br>
             <input type="text" id="authCode" name="authCode" placeholder="Enter authorization code">
-            <!-- Display validation success message -->
-            <div th:if="${validationSuccessful}" style="color: green">Validation successful. Please proceed.</div>
             <!-- Display validation failure message (can still try 3 more times) -->
-            <div th:if="${validationFailedTryAgain}" style="color: red">Validation failed. Number of tries left: <span th:text="${NumberOfLoginAttempts}"></span>.</div>
+            <div th:if="${cheackValidation2}" style="color: red">Auth Code is wrong. Number of tries left: <span th:text="${NumberOfLoginAttempts}"></span>.</div>
+            <!-- Sending mail to user  -->
+            <div th:if="${validationConfirmed}" style="color: green">Sent new auth code to mail... cheack your mail .</div>
+
+
         </div>
 
         <br/>

@@ -126,6 +126,53 @@ public class IndexController {
 		// return "1Registration_page";
 	}
 
+	@PostMapping("/changeUserSettings")
+	public String changeUserSettings(
+			@RequestParam(required = false) String updateFname,
+			@RequestParam(required = false) String fname,
+			@RequestParam(required = false) String updateLname,
+			@RequestParam(required = false) String lname,
+			@RequestParam(required = false) String updateEmail,
+			@RequestParam(required = false) String email,
+			@RequestParam(required = false) String updatePasswd,
+			@RequestParam(required = false) String passwd,
+			@RequestParam(required = false) String updateBalance,
+			@RequestParam(required = false) String balance,
+			RedirectAttributes redirectAttributes,
+			Model model) {
+
+		User user = userService.getUserByEmail(Email); // Assume a User object to hold the data
+
+		if (updateFname != null) {
+			user.setFname(fname);
+		}
+		if (updateLname != null) {
+			user.setLname(lname);
+		}
+		if (updatePasswd != null) {
+			user.setPasswd(passwd);
+		}
+		if (updateBalance != null) {
+			System.out.println("the new balance is " + balance);
+			user.setBalance(balance);
+		}
+
+		System.out.println("the new balance is " + user.getBalance());
+		// Save the user or perform further processing
+		userService.addNewUser(user);
+		Email = email;
+		redirectAttributes.addAttribute("FirstName", user.getFname()); // show name in the validation page
+		redirectAttributes.addAttribute("LastName", user.getLname()); // show name in the validation page
+		redirectAttributes.addAttribute("Balance", user.getBalance());
+		redirectAttributes.addAttribute("Email", user.getEmail());
+		String numOfInCart = cartService.getNumberOfItemsInCart() + ""; // get number of products in cart
+		System.out.println("the numOfInCart:" + numOfInCart);
+		redirectAttributes.addAttribute("cartCount", numOfInCart);
+		redirectAttributes.addAttribute("Title", user.getTitle());
+
+		return "redirect:/LogIn/siteMainPage"; // Use redirect: prefix to ensure attributes are passed
+	}
+
 	@PostMapping("/RedirectToSettings")
 	public ModelAndView toSettingsPage(@RequestParam("Email") String email) {
 		Email = email;
@@ -161,12 +208,13 @@ public class IndexController {
 		String inputPassword = (user.getPasswd());
 		redirectAttributes.addAttribute("email", Email); // show name in the validation page
 		currentUser = userService.getUserByEmail(Email);
-		String buttonLabel = "Send authcode to mail";
 
 		if (inputEmail.equals(validateEmail) && inputPassword.equals(validatePassWord)) {
+			model.addAttribute("validationConfirmed", true);
 			NewTempPswd = "123";
-			System.out.println("THIS IS TEST!");
+			// NewTempPswd = senderService.generateRandomString();// ! generate random
 
+			System.out.println("THIS IS TEST!");
 			//// ! send mail
 			// try {
 			// senderService.sendSimpleEmail(inputEmail, "authorization code", NewTempPswd);
@@ -177,6 +225,34 @@ public class IndexController {
 			return "LogIn/SettingsValidate2";
 		}
 		model.addAttribute("cheackValidation", true);
+
+		return "LogIn/SettingsValidate";
+	}
+
+	@PostMapping("/validateForChangingUserSettings2")
+	public String validateForChangingUserSettings2(@RequestParam("email") String email, @RequestParam String authCode,
+			RedirectAttributes redirectAttributes, Model model, @ModelAttribute User user) {
+		Email = email;
+
+		User currentUser = userService.getUserByEmail(email);
+		System.out.println("\t\t --> In Login Settings page");
+		System.out.println("\t\t --> the email is :" + Email);
+
+		User validateUser = userService.getUserByEmail(Email);
+		String validateEmail = validateUser.getEmail();
+		String validatePassWord = (validateUser.getPasswd());
+
+		String inputEmail = user.getEmail();
+		String inputPassword = (user.getPasswd());
+		redirectAttributes.addAttribute("email", Email); // show name in the validation page
+		currentUser = userService.getUserByEmail(Email);
+
+		if (inputEmail.equals(validateEmail) && NewTempPswd.equals(authCode)) {
+			NewTempPswd = "123";
+			System.out.println("THIS IS TEST!");
+			return "LogIn/SettingsPage";
+		}
+		model.addAttribute("cheackValidation2", true);
 
 		return "LogIn/SettingsValidate";
 	}
@@ -203,6 +279,7 @@ public class IndexController {
 			System.out.println("the numOfInCart:" + numOfInCart);
 			// products in cart
 			redirectAttributes.addAttribute("cartCount", numOfInCart);
+			redirectAttributes.addAttribute("Title", newUser.getTitle());
 
 			return "redirect:/LogIn/siteMainPage";
 
