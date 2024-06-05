@@ -79,6 +79,10 @@
         }
 
         function redirectToSettingsPage() {
+            document.getElementById("settingsForm").submit();
+        }
+
+        function redirectToCartPage() {
             document.getElementById("cartForm").submit();
         }
 
@@ -90,8 +94,9 @@
         <div class="container-fluid">
             <div class="row w-100">
                 <div class="col-md-4 d-flex align-items-center">
-                    Hi, <span th:text="${param.FirstName}">User</span> | Balance: $<span th:text="${param.Balance}">0.00</span>
+                    Hi, <span th:text="${FirstName}">User</span> | Balance: $<span th:text="${Balance}">0.00</span>
                 </div>
+                    <!-- sub menu to see the cantagories of the products-->
                     <div class="col-md-4 d-flex justify-content-center">
                         <ul class="menu d-flex">
                             <li class="submenu">
@@ -105,41 +110,47 @@
                             </li>
                         </ul>
                     </div>
-                        <!-- button that redirecting to cart page -->
-                    <div class="col-md-4 d-flex justify-content-end align-items-center"   th:if="${param.Title == 'client'}">
-                        <form action="/RedirectToCart" method="post" class="cart-icon">
-                        <input type="hidden" name="Email" th:value="${param.Email}" />
-                            <button type="submit" class="btn btn-secondary">Cart  <span th:text="${param.cartCount}">10</span></button>
-                        </form>
-                    </div>
 
+                    <!-- button that redirecting to cart page -->
+                    <div class="col-md-4 d-flex justify-content-right">
+                        <div th:if="${Title == 'client'}">                    
+                            <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                <form action="/RedirectToCart" method="post" class="cart-icon">
+                                <input type="hidden" name="Email" th:value="${Email}" />
+                                    <button type="submit" class="btn btn-secondary">Cart  <span th:text="${cartCount}">10</span></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </nav>
 
     <!-- Hidden form for redirecting to Perfumes page -->
     <form id="perfumesForm" action="/Redirect2PerfumesPage" method="post" style="display: none;">
-        <input type="hidden" name="Email" th:value="${param.Email}" />
+        <input type="hidden" name="Email" th:value="${Email}" />
         <button type="submit">Submit</button>
     </form>
 
     <!-- Hidden form for redirecting to Vitamins page -->
     <form id="vitaminsForm" action="/Redirect2VitaminsPage" method="post" style="display: none;">
-        <input type="hidden" name="Email" th:value="${param.Email}" />
+        <input type="hidden" name="Email" th:value="${Email}" />
         <button type="submit">Submit</button>
     </form>
 
     <!-- Hidden form for redirecting to Settings page -->
-    <form id="cartForm" action="/RedirectToSettings" method="post" style="display: none;">
-        <input type="hidden" name="Email" th:value="${param.Email}" />
+    <form id="settingsForm" action="/RedirectToSettings" method="post" style="display: none;">
+        <input type="hidden" name="Email" th:value="${Email}" />
         <button type="submit">Submit</button>
     </form>
 
 
+    <p>User Title: <span th:text="${Title}"></span></p>
+
 
     <!-- Other content of your page goes here -->
-    <p>Welcome Back (First Name): <span th:text="${param.FirstName}"></span></p>
-    <p>Welcome Back (Last Name): <span th:text="${param.LastName}"></span></p>
+    <p>Welcome Back (First Name): <span th:text="${FirstName}"></span></p>
+    <p>Welcome Back (Last Name): <span th:text="${LastName}"></span></p>
 
 
 

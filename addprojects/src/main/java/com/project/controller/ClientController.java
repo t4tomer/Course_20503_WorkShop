@@ -337,8 +337,10 @@ public class ClientController {
 
     // method that rediects to the cart page after pressing the cart Page button
     @PostMapping("/RedirectToCart")
-    public ModelAndView toCartPage() {
+    public ModelAndView toCartPage(@RequestParam("Email") String email) {
+        clientEmail = email;
         System.out.println(" \\t\\t--> rederciting to Cart page");
+        System.out.println("-------->>" + clientEmail);
         // chosenProductCatagory = "Perfumes";
         return cart(clientEmail);
     }
