@@ -4,7 +4,7 @@ sources:
 
 
 ### Products page:
-![Products page](adaddprojectsprojects/Pics/pic1.png)
+![Products page](addprojects/Pics/pic1.png)
 ## User products cart
 ![User products cart ](addprojects/Pics/pic2.png)
 ## Product details page
