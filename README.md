@@ -4,11 +4,11 @@ sources:
 
 
 ### Products page:
-![Products page](adaddprojectsprojects/pics/pic1.png)
+![Products page](adaddprojectsprojects/Pics/pic1.png)
 ## User products cart
-![User products cart ](addprojects/pics/pic2.png)
+![User products cart ](addprojects/Pics/pic2.png)
 ## Product details page
-![Product details page](addprojects/pics/pic3.png)
+![Product details page](addprojects/Pics/pic3.png)
 
 1) book store git url : https://github.com/Kirti-salunkhe/bookstore_spring_boot_project, YOUTUBE link:https://www.youtube.com/watch?v=xnur2ujza6k&t=2079s
 2) uploade image girl url : https://github.com/charan-sai-v/spring-boot-mysql-image-upload-view, YOUTUBE line:https://www.youtube.com/watch?v=ft7wuamqBGA
