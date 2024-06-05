@@ -244,6 +244,33 @@ public class ClientController {
         return cart(clientEmail);
     }
 
+    @PostMapping("/returnToMainPage")
+    public String returnToMainPage(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
+        // return "LogIn/Test";
+        System.out.println("\t\t--> returnToMainPage!!!");
+        User login = userService.getUserByEmail(clientEmail);
+
+        redirectAttributes.addAttribute("FirstName", login.getFname()); // Add first
+        // name as a parameter in the
+        // redirect URL
+        redirectAttributes.addAttribute("LastName", login.getLname()); // Add last
+        // name as a parameter in the
+        redirectAttributes.addAttribute("Balance", login.getBalance());
+
+        redirectAttributes.addAttribute("Email", login.getEmail());
+        String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number
+        // of
+        System.out.println("the numOfInCart:" + numOfInCart);
+        // products in cart
+        redirectAttributes.addAttribute("cartCount", numOfInCart);
+
+        redirectAttributes.addAttribute("Title", login.getTitle()); // Add first name
+        // as a parameter in the
+        model.addAttribute("Title", login.getTitle());
+
+        return "redirect:/LogIn/siteMainPage";// ! the original line
+    }
+
     // add image - post
     @PostMapping("/add")
     public String AddProductPost(HttpServletRequest request,
@@ -307,42 +334,6 @@ public class ClientController {
         chosenProductCatagory = "Perfumes";
         return home();
     }
-
-
-
-    // $ this method is used to transfer the user if he wants to change one of his
-    // settings
-    // @GetMapping("/RedirectToSettings ")
-    // public ModelAndView userSettings(@RequestParam("Email") String Email) {
-    // clientEmail = Email;
-    // System.out.println("\t\t--> to settings page!!!");
-    // currentUser = userService.getUserByEmail(clientEmail);
-
-    // User validateUser = userService.getUserByEmail(clientEmail);
-    // String validateEmail = validateUser.getEmail();
-    // int validatePassWord = Integer.parseInt(validateUser.getPasswd());
-
-    // String inputEmail = currentUser.getEmail();
-    // int inputPassword = Integer.parseInt(currentUser.getPasswd());
-
-    // // if (inputEmail.equals(validateEmail) && validatePassWord == inputPassword)
-    // {
-    // // String NewTempPswd = senderService.generateRandomString();// ! generate
-    // // random
-    // // try {
-    // // senderService.sendSimpleEmail(inputEmail, "authorization code",
-    // NewTempPswd);
-    // // } catch (MessagingException e) {
-    // // System.out.println("Messagin Excpection");
-    // // e.printStackTrace();
-    // // }
-    // // return "LogIn/ValidationPage";
-    // // }
-    // // model.addAttribute("loginFailed", true);
-    // // return "LogIn/SettingsValidate";
-    // return home();
-
-    // }
 
     // method that rediects to the cart page after pressing the cart Page button
     @PostMapping("/RedirectToCart")

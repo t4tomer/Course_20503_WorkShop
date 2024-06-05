@@ -126,7 +126,6 @@ public class IndexController {
 		// return "1Registration_page";
 	}
 
-
 	// $ validate new user via the temp password that is sent to the email new user
 	@PostMapping("/validate")
 	public String validateForm(@RequestParam String email, @RequestParam String authCode, Model model,
@@ -225,7 +224,7 @@ public class IndexController {
 		}
 	}
 
-	//$--> methods that are used to change the user settings 
+	// $--> methods that are used to change the user settings
 	@PostMapping("/changeUserSettings")
 	public String changeUserSettings(
 			@RequestParam(required = false) String updateFname,
@@ -301,6 +300,7 @@ public class IndexController {
 		System.out.println("\t\t --> the email is :" + Email);
 
 		User validateUser = userService.getUserByEmail(Email);
+		String titleUser = validateUser.getTitle();
 		String validateEmail = validateUser.getEmail();
 		String validatePassWord = (validateUser.getPasswd());
 
@@ -309,14 +309,19 @@ public class IndexController {
 		redirectAttributes.addAttribute("email", Email); // show name in the validation page
 		currentUser = userService.getUserByEmail(Email);
 
-
 		if (inputEmail.equals(validateEmail) && inputPassword.equals(validatePassWord)) {
 			model.addAttribute("validationConfirmed", true);
-			NewTempPswd = "123";
-			NewTempPswd = senderService.generateRandomString();// ! generate random
 
+			// if (titleUser.equals("client")) {
+			// // ! generate random verfication password that will be sent to email
+			// NewTempPswd = senderService.generateRandomString();
+			// } else {
+			// NewTempPswd = "123";
+			// System.out.println("THIS IS MANAGER!");
+			// }
+			NewTempPswd = "123";
 			System.out.println("THIS IS TEST!");
-			//// ! send mail
+			//// ! send mail with verifaction code
 			try {
 				String subject = "Verification code -Tbuy";
 				String msg = "your verification code is: " + NewTempPswd + "";
@@ -339,39 +344,34 @@ public class IndexController {
 			RedirectAttributes redirectAttributes,
 			Model model,
 			@ModelAttribute User user) {
-	
+
 		Email = email;
-	
+
 		User currentUser = userService.getUserByEmail(email);
 		System.out.println("\t\t --> In Login Settings page");
 		System.out.println("\t\t --> the email is :" + Email);
 		System.out.println("\t\t--> authCode:" + authCode);
 		System.out.println("\t\t--> NewTempPswd:" + NewTempPswd);
-	
+
 		User validateUser = userService.getUserByEmail(Email);
 		String validateEmail = validateUser.getEmail();
 		String validatePassWord = (validateUser.getPasswd());
-	
+
 		String inputEmail = user.getEmail();
 		String inputPassword = (user.getPasswd());
-	
+
 		if (inputEmail.equals(validateEmail) && NewTempPswd.equals(authCode)) {
 			// NewTempPswd = "123";
 			System.out.println("THIS IS TEST!");
+			redirectAttributes.addAttribute("Title", currentUser.getTitle()); // show name in the validation page
+
 			return "LogIn/SettingsPage";
 		}
-	
+
 		model.addAttribute("test1", true); // Ensure attribute is set correctly
-	
+
 		return "LogIn/SettingsValidate"; // Ensure this returns the correct view
 	}
-	
-
-
-
-
-
-
 
 	@GetMapping("/getEmail")
 	@ResponseBody
