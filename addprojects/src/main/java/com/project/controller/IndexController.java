@@ -128,30 +128,37 @@ public class IndexController {
 
 	// $ validate new user via the temp password that is sent to the email new user
 	@PostMapping("/validate")
-	public String validateForm(@RequestParam String email, @RequestParam String authCode, Model model,
+	public String validateForm(@ModelAttribute User user, @RequestParam String authCode, Model model,
 			RedirectAttributes redirectAttributes) {
+		String email = user.getEmail();
+		// User newUser = userService.getUserByEmail(email);
+
 		System.out.println("Email html page: " + email);
 		System.out.println("Authorization html page: " + authCode);
 		// String NewTempPswd = "123";
+
 		if (NewTempPswd.equals(authCode)) {
 			model.addAttribute("validationSuccessful", true); // Set validation Successful attribute to true
 			System.out.println("\t-->Verification passed successfully");
 			// ! Adding newUSer to a SQL db
 			userService.addNewUser(newUser);
 			Email = email;
-			model.addAttribute("email", Email);
-			redirectAttributes.addAttribute("FirstName", newUser.getFname()); // show name in the validation page
-			redirectAttributes.addAttribute("LastName", newUser.getLname()); // show name in the validation page
-			redirectAttributes.addAttribute("Balance", newUser.getBalance());
-			redirectAttributes.addAttribute("Email", newUser.getEmail());
+			model.addAttribute("loginSuccessful", true);
+			model.addAttribute("FirstName", newUser.getFname()); // Add first name as a parameter in the
+																	// redirect URL
+			model.addAttribute("LastName", newUser.getLname()); // Add last name as a parameter in the
+			model.addAttribute("Balance", newUser.getBalance());
+
+			model.addAttribute("Email", newUser.getEmail());
 			String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number of
 			System.out.println("the numOfInCart:" + numOfInCart);
 			// products in cart
-			redirectAttributes.addAttribute("cartCount", numOfInCart);
-			redirectAttributes.addAttribute("Title", newUser.getTitle());
-			model.addAttribute("email", Email);
+			model.addAttribute("cartCount", numOfInCart);
+			// model.addAttribute("Title", Title); // Add fi
 
-			return "redirect:/LogIn/SiteMainPage";
+			model.addAttribute("Title", newUser.getTitle());
+
+			return "LogIn/SiteMainPage";
 
 		} else {
 			model.addAttribute("validationFailedTryAgain", true);
@@ -197,23 +204,6 @@ public class IndexController {
 
 		if (login != null && login.getEmail().equals(Email) && login.getPasswd().equals(password)) {
 			System.out.println("\t-->Login passed successfully");
-			// model.addAttribute("loginSuccessful", true);
-			// redirectAttributes.addAttribute("FirstName", login.getFname()); // Add first
-			// name as a parameter in the
-			// // redirect URL
-			// redirectAttributes.addAttribute("LastName", login.getLname()); // Add last
-			// name as a parameter in the
-			// redirectAttributes.addAttribute("Balance", login.getBalance());
-
-			// redirectAttributes.addAttribute("Email", login.getEmail());
-			// String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number
-			// of
-			// System.out.println("the numOfInCart:" + numOfInCart);
-			// // products in cart
-			// redirectAttributes.addAttribute("cartCount", numOfInCart);
-			// redirectAttributes.addAttribute("Title", Title); // Add first name as a
-			// parameter in the
-
 			model.addAttribute("loginSuccessful", true);
 			model.addAttribute("FirstName", login.getFname()); // Add first name as a parameter in the
 																// redirect URL

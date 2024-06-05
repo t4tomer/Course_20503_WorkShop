@@ -116,6 +116,7 @@ public class ClientController {
         mv.addObject("FirstName", FirstName); // Add pageName to the model
         mv.addObject("Balance", Balance); // Add pageName to the model
         mv.addObject("Title", Title); // Add Title to the model
+        mv.addObject("Email", clientEmail);// Email to the model
 
         return mv;
     }
@@ -248,27 +249,28 @@ public class ClientController {
     public String returnToMainPage(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
         // return "LogIn/Test";
         System.out.println("\t\t--> returnToMainPage!!!");
+        System.out.println("\t\t--> the mail is :" + clientEmail);
         User login = userService.getUserByEmail(clientEmail);
 
-        redirectAttributes.addAttribute("FirstName", login.getFname()); // Add first
+        model.addAttribute("FirstName", login.getFname()); // Add first
         // name as a parameter in the
         // redirect URL
-        redirectAttributes.addAttribute("LastName", login.getLname()); // Add last
+        model.addAttribute("LastName", login.getLname()); // Add last
         // name as a parameter in the
-        redirectAttributes.addAttribute("Balance", login.getBalance());
+        model.addAttribute("Balance", login.getBalance());
 
-        redirectAttributes.addAttribute("Email", login.getEmail());
+        model.addAttribute("Email", login.getEmail());
         String numOfInCart = cartService.getNumberOfItemsInCart() + "";// get number
         // of
         System.out.println("the numOfInCart:" + numOfInCart);
         // products in cart
-        redirectAttributes.addAttribute("cartCount", numOfInCart);
+        model.addAttribute("cartCount", numOfInCart);
 
-        redirectAttributes.addAttribute("Title", login.getTitle()); // Add first name
+        model.addAttribute("Title", login.getTitle()); // Add first name
         // as a parameter in the
         model.addAttribute("Title", login.getTitle());
 
-        return "redirect:/LogIn/siteMainPage";// ! the original line
+        return "LogIn/siteMainPage";// ! the original line
     }
 
     // add image - post
@@ -337,10 +339,14 @@ public class ClientController {
 
     // method that rediects to the cart page after pressing the cart Page button
     @PostMapping("/RedirectToCart")
-    public ModelAndView toCartPage(@RequestParam("Email") String email) {
+    public ModelAndView toCartPage(@RequestParam("Email") String email, Model model, @ModelAttribute User user) {
+        String mailnew = user.getEmail();
+        System.out.println("mailnew:" + mailnew);
         clientEmail = email;
+        model.addAttribute("Email", clientEmail);
+
         System.out.println(" \\t\\t--> rederciting to Cart page");
-        System.out.println("-------->>" + clientEmail);
+        System.out.println("-------->>:" + clientEmail);
         // chosenProductCatagory = "Perfumes";
         return cart(clientEmail);
     }
