@@ -82,16 +82,23 @@ public class IndexController {
 		// validate
 		NewFirstName = user.getFname();
 		NewLastName = user.getLname();
-		NewEmail = user.getEmail();
+		NewEmail = user.getEmail(); 	 
 		NewPass = user.getPasswd();
 		NewDateOfB = user.getDob();
 		gender = user.getGender();
 		NewTempPswd = "123";// ! test password
 		// tempral password that is sent to email
-		// NewTempPswd = senderService.generateRandomString();//! generate random
+		// NewTempPswd = senderService.generateRandomString();// ! generate random
 		// password that is sent to email
 		NewBalance = user.getBalance();
 		NewTitle = user.getUserRole(NewEmail);
+
+		// cheack birthday
+		if (!user.cheackDateIsInValid(NewDateOfB)) {
+			model.addAttribute("invalidDateOfB", true); // Set userExists Failed attribute to
+			return "LogIn/RegistrationPage";
+
+		}
 
 		// !Check if the email exists in UserDB
 		User existingUser = userService.getUserByEmail(NewEmail);
@@ -114,9 +121,8 @@ public class IndexController {
 		// eRepo.saveAll(Arrays.asList(newUser));
 
 		// ! send verefication mail-by sending NewTempPswd
-
 		try {
-			senderService.sendSimpleEmail(NewEmail, "authorization code", NewTempPswd);
+			senderService.sendSimpleEmail(NewEmail, "Welcome to T-Buy ", NewTempPswd);
 		} catch (MessagingException e) {
 			System.out.println("Messagin Excpection");
 			e.printStackTrace();
@@ -154,7 +160,6 @@ public class IndexController {
 			System.out.println("the numOfInCart:" + numOfInCart);
 			// products in cart
 			model.addAttribute("cartCount", numOfInCart);
-			// model.addAttribute("Title", Title); // Add fi
 
 			model.addAttribute("Title", newUser.getTitle());
 

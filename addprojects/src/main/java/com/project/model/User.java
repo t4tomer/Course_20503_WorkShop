@@ -4,8 +4,13 @@ package com.project.model;
 import java.util.Random;
 import javax.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -49,6 +54,27 @@ public class User {
 		this.title = title;
 		if (title.equals("manager"))
 			this.balance = "XXX";
+	}
+
+	public boolean cheackDateIsInValid(String NewDateOfB) {
+	    // Check if the date of birth is valid
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate currentDate = LocalDate.now();
+		LocalDate minValidDate = LocalDate.of(1924, 1, 1); // Minimum valid date
+		LocalDate maxValidDate = currentDate; // Maximum valid date
+	
+		LocalDate dob;
+		try {
+			dob = LocalDate.parse(NewDateOfB, formatter);
+			if (dob.isBefore(minValidDate) || dob.isAfter(maxValidDate)) {
+				// Date of birth is not within the valid range
+				return false;
+			}
+		} catch (DateTimeParseException e) {
+			// Date format is invalid
+			return false;
+		}
+		return true;
 	}
 
 	public String getUserRole(String input) {

@@ -40,9 +40,16 @@
             <label for="email">Email :</label> <br/>
             <input type="email" name="email"/> <br/>
 
+            <!-- Display user allready exists message error -->
+			<div th:if="${userExists}" style="color: red">Email allready registered!</div>
+
             <label for="dob">DateOfBirth :</label> <br/>
             <input type="date" name="dob"/> <br/>
-            
+
+            <!-- Display date of birth invalid   message error -->
+			<div th:if="${invalidDateOfB}" style="color: red">Invalid birth date!</div>
+
+
             <label for="password">Password :</label> <br/>
             <input type="Password" name="passwd"/> <br/>
             
@@ -56,8 +63,6 @@
                 <option value="female">Female</option>
             </select>
             <br/>
-			<!-- Display login success message -->
-			<div th:if="${userExists}" style="color: red">Email allready registered!</div>
 
             <button type="submit">Submit</button>
         </form>

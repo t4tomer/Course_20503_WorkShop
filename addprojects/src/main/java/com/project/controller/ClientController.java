@@ -87,6 +87,8 @@ public class ClientController {
         Product currentProduct = productService.getProductByProductCode(productCode);
         ModelAndView mav = new ModelAndView("ProductPages/ProductDetails"); // This should match the HTML file name
         mav.addObject("currentProduct", currentProduct); // Add the product object to the model
+        mav.addObject("Email", clientEmail);// Email to the model
+
         return mav;
     }
 
@@ -204,11 +206,6 @@ public class ClientController {
         } else
             model.addAttribute("outOfStockError", true);
 
-        // // update the quantity of the product in the Product Table
-        // currentProduct = updateProductQuantity(quantity, currentProduct);
-
-        // // update the sql database with the currentPrdouct with the updated quantity
-        // productService.addNewProduct(currentProduct);
         model.addAttribute("currentProduct", currentProduct);
 
         return "ProductPages/ProductDetails"; // Return the view name for the current page
