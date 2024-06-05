@@ -46,15 +46,17 @@
             </label>
             <input type="Password" name="passwd" placeholder="Change password "/> <br/>
 
-            <label for="balance">
-                <input type="checkbox" name="updateBalance" value="true"/> The amount of money:
-            </label>
-            <input type="number" name="balance" placeholder="Change balance"/> <br/>
+            <!-- Thymeleaf conditional for balance field(show the blance input only to clients)-->
+            <div th:if="${Title == 'client'}">
+                <label for="balance">
+                    <input type="checkbox" name="updateBalance" value="true"/> The amount of money:
+                </label>
+                <input type="number" name="balance" placeholder="Change balance"/> <br/>
+            </div>
 
             <!-- Other content of your page goes here -->
-            <p>Register  (First Name): <span th:text="${param.FirstName}"></span></p>
             <p>Register  ( email): <span th:text="${param.email}"></span></p>
-            <p>Register  ( email): <span th:text="${param.Title}"></span></p>
+            <p>User Title: <span th:text="${Title}"></span></p>
             
             <button type="submit">Submit</button>
 
