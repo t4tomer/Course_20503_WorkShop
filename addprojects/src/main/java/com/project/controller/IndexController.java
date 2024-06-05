@@ -307,10 +307,15 @@ public class IndexController {
 		String inputEmail = user.getEmail();
 		String inputPassword = (user.getPasswd());
 		redirectAttributes.addAttribute("email", Email); // show name in the validation page
+		System.out.println("the title of the user" + currentUser.getTitle());
+		redirectAttributes.addAttribute("Title", currentUser.getTitle()); // show name in the validation page
+
 		currentUser = userService.getUserByEmail(Email);
 
 		if (inputEmail.equals(validateEmail) && inputPassword.equals(validatePassWord)) {
 			model.addAttribute("validationConfirmed", true);
+			redirectAttributes.addAttribute("Title", currentUser.getTitle()); // show name in the validation page
+			
 
 			// if (titleUser.equals("client")) {
 			// // ! generate random verfication password that will be sent to email
@@ -359,6 +364,7 @@ public class IndexController {
 
 		String inputEmail = user.getEmail();
 		String inputPassword = (user.getPasswd());
+		redirectAttributes.addAttribute("Title", currentUser.getTitle()); // show name in the validation page
 
 		if (inputEmail.equals(validateEmail) && NewTempPswd.equals(authCode)) {
 			// NewTempPswd = "123";
