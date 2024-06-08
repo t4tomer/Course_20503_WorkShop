@@ -12,3 +12,6 @@ sources:
 
 1) book store git url : https://github.com/Kirti-salunkhe/bookstore_spring_boot_project, YOUTUBE link:https://www.youtube.com/watch?v=xnur2ujza6k&t=2079s
 2) uploade image girl url : https://github.com/charan-sai-v/spring-boot-mysql-image-upload-view, YOUTUBE line:https://www.youtube.com/watch?v=ft7wuamqBGA
+
+## Link for explaining the pages of the site : 
+https://www.figma.com/board/aYmgCE38iqOhfjk8XwHqha/Untitled?node-id=0-1&t=sySR6E71ETR637rx-1
