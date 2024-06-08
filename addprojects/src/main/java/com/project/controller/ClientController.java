@@ -124,12 +124,31 @@ public class ClientController {
     }
 
     // add image - get
+    @PostMapping("/addProductFromMainPage")
+    public ModelAndView addProductFromMainPage(@RequestParam("Email") String email) {
+        clientEmail = email;
+        System.out.println("\t-->addProductFromMainPage email:" + clientEmail);
+        currentUser = userService.getUserByEmail(email);
+        String pageName = "ProductPages/AddProduct";
+        ModelAndView mv = new ModelAndView(pageName);
+        String FirstName = currentUser.getFname();
+        String Balance = currentUser.getBalance();
+        System.out.println("\t\t-->the email is :" + clientEmail + "first name:" + FirstName);
+        mv.addObject("FirstName", FirstName); // FirstName paramater in AddProduct.html
+        mv.addObject("Balance", Balance); // Balance paramter in AddProduct.html
+        mv.addObject("Email", clientEmail);// Email paramater in AddProduct.html
+        return mv;
+
+    }
+
+    // add image - get
     @GetMapping("/add")
     public ModelAndView AddProduct() {
         String pageName = "ProductPages/AddProduct";
         ModelAndView mv = new ModelAndView(pageName);
         String FirstName = currentUser.getFname();
         String Balance = currentUser.getBalance();
+        System.out.println("\t\t-->the email is :" + clientEmail);
         mv.addObject("FirstName", FirstName); // FirstName paramater in AddProduct.html
         mv.addObject("Balance", Balance); // Balance paramter in AddProduct.html
         mv.addObject("Email", clientEmail);// Email paramater in AddProduct.html

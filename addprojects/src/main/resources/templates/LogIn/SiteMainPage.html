@@ -122,7 +122,25 @@
                             </div>
                         </div>
                     </div>
-            </div>
+
+                    <!--Add product to prdoucts list of the site (avilable only to mangers)-->
+                    <div class="col-md-4 d-flex justify-content-right">
+                        <div th:if="${Title == 'manager'}">                    
+                            <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                <form action="/addProductFromMainPage" method="post" >
+                                <input type="hidden" name="Email" th:value="${Email}" />
+                                    <button type="submit" class="btn btn-secondary">Add Prdocut</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+
+
+
+                </div>
         </div>
     </nav>
 
@@ -145,13 +163,14 @@
     </form>
 
 
-    <p>User Title: <span th:text="${Title}"></span></p>
 
 
     <!-- Other content of your page goes here -->
+     <!-- the lines below are use for testing purposes 
+    <p>User Title: <span th:text="${Title}"></span></p>
     <p>Welcome Back (First Name): <span th:text="${FirstName}"></span></p>
     <p>Welcome Back (Last Name): <span th:text="${LastName}"></span></p>
-
+    -->
 
 
     <!-- Bootstrap JS -->
