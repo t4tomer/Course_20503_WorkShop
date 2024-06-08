@@ -123,7 +123,7 @@ public class ClientController {
         return mv;
     }
 
-    // add image - get
+    // transfer to add product from the main site
     @PostMapping("/addProductFromMainPage")
     public ModelAndView addProductFromMainPage(@RequestParam("Email") String email) {
         clientEmail = email;

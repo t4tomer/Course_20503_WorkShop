@@ -68,6 +68,17 @@
             font-size: 18px;
             color: white;
         }
+
+        .btn-blue {
+            background-color: blue;
+            border-color: blue;
+            color: white;
+        }
+
+        .btn-blue:hover {
+            background-color: darkblue;
+            border-color: darkblue;
+        }
     </style>
     <script>
         function redirectToPerfumesPage() {
@@ -111,7 +122,7 @@
                         </ul>
                     </div>
 
-                    <!-- button that redirecting to cart page -->
+                    <!-- button that redirecting to cart page (avilable only to costumers) -->
                     <div class="col-md-4 d-flex justify-content-right">
                         <div th:if="${Title == 'client'}">                    
                             <div class="col-md-4 d-flex justify-content-end align-items-center">
@@ -123,19 +134,17 @@
                         </div>
                     </div>
 
-                    <!--Add product to prdoucts list of the site (avilable only to mangers)-->
+                    <!-- Add product to products list of the site (available only to managers) -->
                     <div class="col-md-4 d-flex justify-content-right">
                         <div th:if="${Title == 'manager'}">                    
                             <div class="col-md-4 d-flex justify-content-end align-items-center">
-                                <form action="/addProductFromMainPage" method="post" >
-                                <input type="hidden" name="Email" th:value="${Email}" />
-                                    <button type="submit" class="btn btn-secondary">Add Prdocut</button>
+                                <form action="/addProductFromMainPage" method="post">
+                                    <input type="hidden" name="Email" th:value="${Email}" />
+                                    <button type="submit" class="btn btn-blue">Add Product</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-
-                    
 
 
 
