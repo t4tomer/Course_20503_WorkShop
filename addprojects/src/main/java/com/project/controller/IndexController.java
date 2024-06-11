@@ -82,7 +82,7 @@ public class IndexController {
 		// validate
 		NewFirstName = user.getFname();
 		NewLastName = user.getLname();
-		NewEmail = user.getEmail(); 	 
+		NewEmail = user.getEmail();
 		NewPass = user.getPasswd();
 		NewDateOfB = user.getDob();
 		gender = user.getGender();
@@ -93,7 +93,7 @@ public class IndexController {
 		NewBalance = user.getBalance();
 		NewTitle = user.getUserRole(NewEmail);
 
-		// cheack birthday
+		// cheack if birthday is valid date
 		if (!user.cheackDateIsInValid(NewDateOfB)) {
 			model.addAttribute("invalidDateOfB", true); // Set userExists Failed attribute to
 			return "LogIn/RegistrationPage";
@@ -130,6 +130,33 @@ public class IndexController {
 
 		return "LogIn/ValidationPage";
 		// return "1Registration_page";
+	}
+
+	@PostMapping("/VistorsOnly")
+	public String vistorLogIn(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
+		System.out.println("\t\t-->you pressed the vistor button");
+		User visitorUser = new User("Visitor");
+		userService.addNewUser(visitorUser);
+
+		System.out.println("\t-->Login passed successfully");
+		model.addAttribute("loginSuccessful", true);
+		model.addAttribute("FirstName", visitorUser.getFname()); // Add first name as a parameter in the
+															// redirect URL
+		model.addAttribute("LastName", visitorUser.getLname()); // Add last name as a parameter in the
+		model.addAttribute("Balance", visitorUser.getBalance());
+
+		model.addAttribute("Email", visitorUser.getEmail());
+		String numOfInCart = "0";
+		// products in cart
+		model.addAttribute("cartCount", numOfInCart);
+		model.addAttribute("Title", "visitor"); // Add fi
+
+		model.addAttribute("Title", visitorUser.getTitle());
+		return "LogIn/SiteMainPage";// ! the original lin
+
+
+
+
 	}
 
 	// $ validate new user via the temp password that is sent to the email new user
@@ -174,7 +201,6 @@ public class IndexController {
 				NumberOfLoginAttempts = 3;
 				newUser = null;
 			}
-			// TODO add NumberOfTries-need to add the feature that counts the number of
 
 		}
 
@@ -223,8 +249,6 @@ public class IndexController {
 			model.addAttribute("Title", Title); // Add fi
 
 			model.addAttribute("Title", login.getTitle());
-			// redirect URL
-			// return "redirect:/LogIn/SiteMainPage";// ! the original line
 			return "LogIn/SiteMainPage";// ! the original line
 
 		} else {

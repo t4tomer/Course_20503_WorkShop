@@ -19,18 +19,32 @@ import org.springframework.data.annotation.CreatedDate;
 
 public class User {
 
-	private String fname;//user first name
-	private String lname;//user last name
+	private String fname;// user first name
+	private String lname;// user last name
 	@Id // make email the primery key
-	private String email;//user email(used as the primary key for the Users_Table)
+	private String email;// user email(used as the primary key for the Users_Table)
 	private String passwd;// user passwrod to log in the site
-	private String dob;//date of birth of the user
-	private String gender; //gender of the user 
+	private String dob;// date of birth of the user
+	private String gender; // gender of the user
 	private String balance;// amount of meony in the user account
 	private String title;// the title of the user, is it manager or client
 
-	// private
 	public User() {
+		System.out.println("empty constructor");
+	}
+
+	// object used for users of type vistor
+	public User(String fname) {
+		System.out.println("Visitor object created!!!");
+		this.fname = "vistor";
+		this.lname = "nonvalid";
+		this.email = "nonvalid";
+		this.passwd = "123";
+		this.dob = "visitor@gmail.com";
+		this.gender = "male";
+		this.balance = "0";
+		this.title = "visitor";
+
 		System.out.println("empty constructor");
 	}
 
@@ -57,12 +71,12 @@ public class User {
 	}
 
 	public boolean cheackDateIsInValid(String NewDateOfB) {
-	    // Check if the date of birth is valid
+		// Check if the date of birth is valid
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate currentDate = LocalDate.now();
 		LocalDate minValidDate = LocalDate.of(1924, 1, 1); // Minimum valid date
 		LocalDate maxValidDate = currentDate; // Maximum valid date
-	
+
 		LocalDate dob;
 		try {
 			dob = LocalDate.parse(NewDateOfB, formatter);
