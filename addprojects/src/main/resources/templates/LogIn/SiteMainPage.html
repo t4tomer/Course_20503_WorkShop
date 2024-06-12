@@ -90,6 +90,10 @@
             document.getElementById("vitaminsForm").submit();
         }
 
+        function redirectToWheyProtein() {
+            document.getElementById("wheyProteinForm").submit();
+        }
+
         function redirectToSettingsPage() {
             document.getElementById("settingsForm").submit();
         }
@@ -119,6 +123,8 @@
                             <ul class="submenu-items">
                                 <li><a href="#" onclick="redirectToPerfumesPage()">Perfumes</a></li>
                                 <li><a href="#" onclick="redirectToVitaminsPage()">Vitamins</a></li>
+                                <li><a href="#" onclick="redirectToWheyProtein()">WheyProtein</a></li>
+
                                 <li th:if="${Title != 'visitor'}"><a href="#" onclick="redirectToSettingsPage()">User Settings</a></li>
                             </ul>
                         </li>
@@ -166,6 +172,12 @@
         <input type="hidden" name="Email" th:value="${Email}" />
         <button type="submit">Submit</button>
     </form>
+
+        <!-- Hidden form for redirecting to WheyProtein page -->
+        <form id="wheyProteinForm" action="/Redirect2WheyProtein" method="post" style="display: none;">
+            <input type="hidden" name="Email" th:value="${Email}" />
+            <button type="submit">Submit</button>
+        </form>
 
     <!-- Hidden form for redirecting to Settings page -->
     <form id="settingsForm" action="/RedirectToSettings" method="post" style="display: none;">

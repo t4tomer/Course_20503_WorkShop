@@ -36,6 +36,13 @@
             text-align: center;
             margin-top: 20px;
         }
+        .thank_you_message {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: green;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -122,6 +129,12 @@
     <div th:if="${outOfStockError}" class="error-message">
         error-product <span th:text="${currentProduct.getProductName}"></span> is out of stock - choose less than <span th:text="${currentProduct.getProductQuantity}"></span>
     </div>
+    <!-- Thank user for buying -->
+    <div th:if="${thankMessage}" class="thank_you_message">
+        Thank you for prouching from Tbuy! 
+    </div>
+
+    
 
     <!-- Error message if user's blance is too low to cheackout -->
     <div th:if="${notEnoughMoneyError}" class="error-message">

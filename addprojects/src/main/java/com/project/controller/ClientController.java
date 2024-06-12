@@ -141,7 +141,7 @@ public class ClientController {
 
     }
 
-    // add image - get
+    // add prodcut
     @GetMapping("/add")
     public ModelAndView AddProduct() {
         String pageName = "ProductPages/AddProduct";
@@ -190,10 +190,7 @@ public class ClientController {
 
         Product currentProduct = productService.getProductByProductCode(productCode);
         int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());// the total quantity of the
-                                                                                       // product in the site
-        // int priceCurrentProduct = convertToInt(currentProduct.getProductPrice());
-        // int subTotal = priceCurrentProduct * quantityCurrentProduct;// the price of
-        // the BuyNot products
+
         productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
         User currentUser = userService.getUserByEmail(clientEmail);
 
@@ -246,8 +243,6 @@ public class ClientController {
     @PostMapping("/changeProductQuantityInCart")
     public ModelAndView changeProductQuantityInCart(@RequestParam String productCodeInCart, @RequestParam int quantity,
             Model model) {
-        // TODO need to fix the problem os user adding quantity of products more than
-        // stock !
         // ---> update the product quantity in the cart of the user
         Product currentProduct = productService.getProductByProductCode(productCodeInCart);
         int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
@@ -264,7 +259,7 @@ public class ClientController {
 
         }
 
-        if (quantity == 0) {// remove the product if the quantity is zero
+        if (quantity==0) {// remove the product if the quantity is zero
             Product currentProductToRemove = productService.getProductByProductCode(productCodeInCart);
             CartProduct pRemove = new CartProduct(clientEmail, currentProductToRemove, quantity + "");
             cartService.removeProductFromCart(pRemove);
@@ -365,6 +360,19 @@ public class ClientController {
         return home();
     }
 
+    // method that rediects to oWheyProteinPage after pressing the Perfumes Page button
+    @PostMapping("/Redirect2WheyProtein")
+    public ModelAndView toWheyProtein(@RequestParam("Email") String email) {
+        clientEmail = email;
+        currentUser = userService.getUserByEmail(email);
+        System.out.println("rederciting to oWheyProtein page");
+        chosenProductCatagory = "WheyProtein";
+        return home();
+    }
+
+
+
+
     // method that rediects to the cart page after pressing the cart Page button
     @PostMapping("/RedirectToCart")
     public ModelAndView toCartPage(@RequestParam("Email") String email, Model model, @ModelAttribute User user) {
@@ -408,6 +416,8 @@ public class ClientController {
 
             // delete the products in the cart
             cartService.deleteAll();
+
+            model.addAttribute("thankMessage", true);
 
         } else // show error message in cartpage for not having enought funds to cheackout
         {

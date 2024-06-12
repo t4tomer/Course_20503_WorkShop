@@ -39,7 +39,7 @@
                     <div class="nav-link" >
                         <form action="/Redirect2VitaminsPage" method="post">
                             <input type="hidden" name="Email" th:value="${Email}" />
-                            <button type="submit" class="btn btn-secondary">Vitamins Page</button>
+                            <button type="submit" class="btn btn-secondary">Vitamins section</button>
                         </form>
                     </div>
                 </li>
@@ -48,7 +48,17 @@
                     <div class="nav-link" >
                         <form action="/Redirect2PerfumesPage" method="post">
                             <input type="hidden" name="Email" th:value="${Email}" />
-                            <button type="submit" class="btn btn-secondary">Perfumes Page</button>
+                            <button type="submit" class="btn btn-secondary">Perfumes section </button>
+                        </form>
+                    </div>
+                </li>
+
+                <!-- button to see the WheyProtein page-->
+                <li class="nav-item">
+                    <div class="nav-link" >
+                        <form action="/Redirect2WheyProtein" method="post">
+                            <input type="hidden" name="Email" th:value="${Email}" />
+                            <button type="submit" class="btn btn-secondary">Whey Protein section</button>
                         </form>
                     </div>
                 </li>
@@ -109,6 +119,8 @@
                         <option value=""></option>
                         <option value="Vitamins">Vitamins</option>
                         <option value="Perfumes">Perfumes</option>
+                        <option value="WheyProtein">WheyProtein</option>
+
                     </select>
                 </div>
             </div>
