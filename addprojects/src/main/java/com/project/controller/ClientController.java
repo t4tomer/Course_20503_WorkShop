@@ -189,27 +189,33 @@ public class ClientController {
         System.out.println("Pressed the add to cart");
 
         Product currentProduct = productService.getProductByProductCode(productCode);
-        int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
-        int priceCurrentProduct=convertToInt(currentProduct.getProductPrice());
-        int subTotal=priceCurrentProduct*quantityCurrentProduct;// the price of the BuyNot products
+        int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());// the total quantity of the
+                                                                                       // product in the site
+        // int priceCurrentProduct = convertToInt(currentProduct.getProductPrice());
+        // int subTotal = priceCurrentProduct * quantityCurrentProduct;// the price of
+        // the BuyNot products
         productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
-        User currentUser = userService.getUserByEmail(clientEmail);
-        int userCurrentBalance = currentUser.calculateBlanceBeforePurchase(currentUser, subTotal);
-        
-        if (quantityCurrentProduct - quantity >= 0) {
-            // ---> buy currentProduct
-            // update the quantity of the product in the Product Table
-            currentProduct = updateProductQuantity(quantity, currentProduct);
 
-            productService.addNewProduct(currentProduct);
-            String currentBalance = currentUser.getBalance();
-            updateBalanceAftereSingleBuy(currentBalance, productCode, quantity);
+        if (quantityCurrentProduct - quantity >= 0) {
+            int priceCurrentProduct = convertToInt(currentProduct.getProductPrice());
+            int subTotal = priceCurrentProduct * quantity;// the price of the BuyNow products
+            User currentUser = userService.getUserByEmail(clientEmail);
+            int userCurrentBalance = currentUser.calculateBlanceBeforePurchase(currentUser, subTotal);
+            if (currentUser.FinancialBalancePositive(userCurrentBalance)) {
+                System.out.println("balance is positive!!!");
+                // ---> buy currentProduct
+                // update the quantity of the product in the Product Table
+                currentProduct = updateProductQuantity(quantity, currentProduct);
+                productService.addNewProduct(currentProduct);
+                String currentBalance = currentUser.getBalance();
+                updateBalanceAftereSingleBuy(currentBalance, productCode, quantity);
+            } else
+                model.addAttribute("notEnoughMoneyError", true);
         } else
             model.addAttribute("outOfStockError", true);
 
         model.addAttribute("currentProduct", currentProduct);
         model.addAttribute("Email", clientEmail);
-
 
         return "ProductPages/ProductDetails"; // Return the view name for the current page
 
@@ -380,7 +386,6 @@ public class ClientController {
         return cart(clientEmail);
     }
 
-
     @PostMapping("/GetToCheackOut")
     public ModelAndView calculateSubTotal(Model model) {
         List<CartProduct> productsInCart = cartService.getAllProductsInCartOfUser(clientEmail);
@@ -388,9 +393,7 @@ public class ClientController {
         System.out.println("\t\t---> the sub total is :" + subTotal);
         User currentCartUser = userService.getUserByEmail(clientEmail);
         int currentBalance = currentCartUser.calculateBlanceBeforePurchase(currentCartUser, subTotal);
-        
-        
-        
+
         // if the balance of the user is positive,update the use'rs balnce after the
         // purchase
         if (currentCartUser.FinancialBalancePositive(currentBalance)) {
