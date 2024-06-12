@@ -9,5 +9,9 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, String> {
     // Method to find a user by email
     User findByEmail(String email);
+    // Method to remove user by email
     void removeByEmail(String email);
+
+    // Method that cheacks if user in db
+    boolean existsByEmail(String email);
 }

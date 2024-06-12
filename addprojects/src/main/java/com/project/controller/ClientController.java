@@ -165,7 +165,7 @@ public class ClientController {
         return currentProduct;
     }
 
-    // this method is used to culculate the of single buy blance of the user
+    // this method is used to calculate the of single buy blance of the user
     // after he made single prouch
     public void updateBalanceAftereSingleBuy(String currentBalance, String productCode, int quantity) {
 
@@ -190,10 +190,12 @@ public class ClientController {
 
         Product currentProduct = productService.getProductByProductCode(productCode);
         int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
-        // TODO fix the problem when quantity is zero of product
-        // remove from product list products with zero quantity
+        int priceCurrentProduct=convertToInt(currentProduct.getProductPrice());
+        int subTotal=priceCurrentProduct*quantityCurrentProduct;// the price of the BuyNot products
         productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
-
+        User currentUser = userService.getUserByEmail(clientEmail);
+        int userCurrentBalance = currentUser.calculateBlanceBeforePurchase(currentUser, subTotal);
+        
         if (quantityCurrentProduct - quantity >= 0) {
             // ---> buy currentProduct
             // update the quantity of the product in the Product Table
@@ -206,6 +208,8 @@ public class ClientController {
             model.addAttribute("outOfStockError", true);
 
         model.addAttribute("currentProduct", currentProduct);
+        model.addAttribute("Email", clientEmail);
+
 
         return "ProductPages/ProductDetails"; // Return the view name for the current page
 
@@ -214,7 +218,7 @@ public class ClientController {
     // $ method that is used to add products to cart
     @PostMapping("/add2Cart")
     public String add2Cart(@RequestParam String productCode, @RequestParam int quantity, Model model) {
-        System.out.println("Pressed the add to cart");
+        System.out.println("Pressed the add to cart,the mail is :" + clientEmail);
 
         Product currentProduct = productService.getProductByProductCode(productCode);
         int quantityCurrentProduct = convertToInt(currentProduct.getProductQuantity());
@@ -226,6 +230,7 @@ public class ClientController {
             model.addAttribute("outOfStockError", true);
 
         model.addAttribute("currentProduct", currentProduct);
+        model.addAttribute("Email", clientEmail);
 
         return "ProductPages/ProductDetails"; // Return the view name for the current page
     }
@@ -356,6 +361,8 @@ public class ClientController {
     // method that rediects to the cart page after pressing the cart Page button
     @PostMapping("/RedirectToCart")
     public ModelAndView toCartPage(@RequestParam("Email") String email, Model model, @ModelAttribute User user) {
+        System.out.println("email!!!:" + email);
+
         String mailnew = user.getEmail();
         System.out.println("mailnew:" + mailnew);
         clientEmail = email;
@@ -373,30 +380,20 @@ public class ClientController {
         return cart(clientEmail);
     }
 
-    // Is the financial balance positive?
-    // IsFinancialBalancePositive
-    public int calculateBlanceBeforeProuch(User currentUser, int purchase_Value) {
-        String currentBalanceStr = currentUser.getBalance();
-        int currentBalance = Integer.parseInt(currentBalanceStr) - purchase_Value;
-        return currentBalance;
-    }
-
-    public boolean FinancialBalancePositive(int currentBalance) {
-        if (0 <= currentBalance)
-            return true;
-        return false;
-    }
 
     @PostMapping("/GetToCheackOut")
-    public ModelAndView calculateSubTotal() {
+    public ModelAndView calculateSubTotal(Model model) {
         List<CartProduct> productsInCart = cartService.getAllProductsInCartOfUser(clientEmail);
         int subTotal = cartService.getSubTotal(productsInCart);
         System.out.println("\t\t---> the sub total is :" + subTotal);
         User currentCartUser = userService.getUserByEmail(clientEmail);
-        int currentBalance = calculateBlanceBeforeProuch(currentCartUser, subTotal);
+        int currentBalance = currentCartUser.calculateBlanceBeforePurchase(currentCartUser, subTotal);
+        
+        
+        
         // if the balance of the user is positive,update the use'rs balnce after the
         // purchase
-        if (FinancialBalancePositive(currentBalance)) {
+        if (currentCartUser.FinancialBalancePositive(currentBalance)) {
 
             currentCartUser.setBalance(currentBalance + "");
             // update the user in the users table
@@ -408,7 +405,13 @@ public class ClientController {
             // delete the products in the cart
             cartService.deleteAll();
 
+        } else // show error message in cartpage for not having enought funds to cheackout
+        {
+            System.out.println("\t\t--> no meony!!!");
+            model.addAttribute("notEnoughMoneyError", true);
+
         }
+
         return cart(clientEmail);
     }
 

@@ -26,14 +26,12 @@ public class UserServiceImpl implements UserService {
 
     @Override // this method must be aded in the ProductRepostory&ProductService
     public String getUserFirstNameByEmail(String emailClient) {
-        User currentUser= userRepo.findByEmail(emailClient);
-        if (currentUser==null)
-            return emailClient; 
+        User currentUser = userRepo.findByEmail(emailClient);
+        if (currentUser == null)
+            return emailClient;
         return currentUser.getFname();
-    
+
     }
-
-
 
     @Override
     public void removeUserByEmail(String email) {
@@ -43,6 +41,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public long getUserCount() {
         return userRepo.count(); // Add this method
+    }
+
+    // Add this method
+    @Override
+    public boolean userExistsInDB(String email) {
+        return userRepo.existsByEmail(email);
     }
 
 }

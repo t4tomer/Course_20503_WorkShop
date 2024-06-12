@@ -70,14 +70,19 @@
 	
     <div class="right">
         <!-- Login values-->
-        <form action="login" method="post">
+        <form action="loginToSite" method="post">
             <label for="email">Email :</label> <br/>
             <input type="email" name="email"/> <br/>
             
             <label for="password">Password :</label> <br/>
             <input type="Password" name="passwd"/> <br/>
-			
-            <!-- Display login failure message -->
+
+            <!-- Display login(if the user's mail not in the Users_table) failure message -->
+            <div th:if="${emailIsNotInUsersTable}" style="color: red">The email: <span th:text="${email}"></span>  is not registered to Tbuy,please try other mail or register to the site.</div>
+
+
+
+            <!-- Display login(if the user's mail in the Users_table) failure message -->
             <div th:if="${loginFailed}" style="color: red">Login failed for email : <span th:text="${email}"></span>. Please try again. Number of tries left: <span th:text="${NumberOfLoginAttempts}"></span>.</div>
 			
 			<!-- Display login success message -->

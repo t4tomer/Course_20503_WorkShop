@@ -141,7 +141,7 @@ public class IndexController {
 		System.out.println("\t-->Login passed successfully");
 		model.addAttribute("loginSuccessful", true);
 		model.addAttribute("FirstName", visitorUser.getFname()); // Add first name as a parameter in the
-															// redirect URL
+		// redirect URL
 		model.addAttribute("LastName", visitorUser.getLname()); // Add last name as a parameter in the
 		model.addAttribute("Balance", visitorUser.getBalance());
 
@@ -153,9 +153,6 @@ public class IndexController {
 
 		model.addAttribute("Title", visitorUser.getTitle());
 		return "LogIn/SiteMainPage";// ! the original lin
-
-
-
 
 	}
 
@@ -225,9 +222,17 @@ public class IndexController {
 	}
 
 	// $ when the user loges in to the server
-	@PostMapping("/login")
+	@PostMapping("/loginToSite")
 	public String loginRegistration(@ModelAttribute User user, Model model, RedirectAttributes redirectAttributes) {
 		Email = user.getEmail();
+		if (!userService.userExistsInDB(Email)) {
+			System.out.println("user does not exists in the db!!!!!:" + Email);
+			model.addAttribute("emailIsNotInUsersTable", true);
+			model.addAttribute("email", Email);
+
+			return "LogIn/RegistrationPage";
+
+		}
 		String password = user.getPasswd();
 		User login = userService.getUserByEmail(Email);
 		String Title = login.getTitle();
@@ -258,7 +263,6 @@ public class IndexController {
 			model.addAttribute("email", Email);// the value of email in the LogIn/RegistrationPage
 			model.addAttribute("NumberOfLoginAttempts", NumberOfLoginAttempts); // Add the number of tries remaining to
 																				// the model
-
 			return "LogIn/RegistrationPage";
 		}
 	}

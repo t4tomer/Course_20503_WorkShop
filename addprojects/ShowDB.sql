@@ -29,8 +29,8 @@ WHERE email = 'tomer.cccp@gmail.com';
 
 -- Update the balance of user
 UPDATE Project_Data_Base.Users_Table
-SET balance = 1400
-WHERE email = 'tomer.polsky1@gmail.com';
+SET balance = 20
+WHERE email = 'tomer.cccp@gmail.com';
 
 -- ! delete all the raws of the Project_Data_Base.Image_Table
 DELETE FROM Project_Data_Base.Image_Table;

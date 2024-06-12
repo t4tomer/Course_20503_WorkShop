@@ -14,4 +14,6 @@ public interface UserService {
     public long getUserCount();
 
     public String getUserFirstNameByEmail(String emailClient);
+
+    public boolean userExistsInDB(String email);
 }

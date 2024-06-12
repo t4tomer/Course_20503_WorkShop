@@ -164,6 +164,27 @@ public class User {
 		this.title = title;
 	}
 
+    /* calculateBlanceBeforePurchase-explaining
+     * This method is designed to check whether the
+     * current customer can allow the purchase of the
+     * product based on the amount he has in
+     * the user account
+     */
+	public int calculateBlanceBeforePurchase(User currentUser, int purchase_Value) {
+		String currentBalanceStr = currentUser.getBalance();
+		int currentBalance = Integer.parseInt(currentBalanceStr) - purchase_Value;
+		return currentBalance;
+	}
+
+    public boolean FinancialBalancePositive(int currentBalance) {
+        if (0 <= currentBalance)
+            return true;
+        return false;
+    }
+
+
+
+
 	@Override
 	public String toString() {
 		return "User [fname=" + fname + ", lname=" + lname + ", email=" + email + ", passwd=" + passwd + ", dob=" + dob
