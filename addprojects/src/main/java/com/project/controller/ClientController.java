@@ -195,16 +195,16 @@ public class ClientController {
         // int subTotal = priceCurrentProduct * quantityCurrentProduct;// the price of
         // the BuyNot products
         productListByCategory = productService.removeZeroQunantityProducts(productListByCategory);
+        User currentUser = userService.getUserByEmail(clientEmail);
 
         if (quantityCurrentProduct - quantity >= 0) {
             int priceCurrentProduct = convertToInt(currentProduct.getProductPrice());
             int subTotal = priceCurrentProduct * quantity;// the price of the BuyNow products
-            User currentUser = userService.getUserByEmail(clientEmail);
             int userCurrentBalance = currentUser.calculateBlanceBeforePurchase(currentUser, subTotal);
             if (currentUser.FinancialBalancePositive(userCurrentBalance)) {
                 System.out.println("balance is positive!!!");
-                // ---> buy currentProduct
-                // update the quantity of the product in the Product Table
+                // ---> buy currentProduct and update the quantity of the product in the Product
+                // Table
                 currentProduct = updateProductQuantity(quantity, currentProduct);
                 productService.addNewProduct(currentProduct);
                 String currentBalance = currentUser.getBalance();
@@ -216,6 +216,7 @@ public class ClientController {
 
         model.addAttribute("currentProduct", currentProduct);
         model.addAttribute("Email", clientEmail);
+        model.addAttribute("currentBalance", currentUser.getBalance());
 
         return "ProductPages/ProductDetails"; // Return the view name for the current page
 

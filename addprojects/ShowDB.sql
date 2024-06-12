@@ -2,7 +2,7 @@
 
 -- ! create new Project_Data_Base  databse 
 Create DataBase Project_Data_Base;
-
+Create DataBase book;
 Create DAtaBase book;
 -- ! delete databse
 DROP database Project_Data_Base;
@@ -29,7 +29,7 @@ WHERE email = 'tomer.cccp@gmail.com';
 
 -- Update the balance of user
 UPDATE Project_Data_Base.Users_Table
-SET balance = 20
+SET balance =100
 WHERE email = 'tomer.cccp@gmail.com';
 
 -- ! delete all the raws of the Project_Data_Base.Image_Table

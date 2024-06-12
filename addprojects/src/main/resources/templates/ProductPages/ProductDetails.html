@@ -45,6 +45,8 @@
                         <input type="number" class="form-control quantity-input" id="quantity" name="quantity" min="1" max="100" value="1" required>
                     </div>
                     <button type="submit" class="btn btn-primary mt-3">Buy Now</button>
+                    <p>your current balance is now : <span th:text="${currentBalance}" style="color: green;"></span></p>
+
                 </form>
 
                 <!-- Button to Add product to the cart of the user -->

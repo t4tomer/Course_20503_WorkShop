@@ -11,7 +11,7 @@
     <style>
         .nav {
             background-color: #333;
-            padding: 14px 20px;
+            padding: 20px 20px;
             color: white;
         }
 
@@ -49,7 +49,7 @@
 
         .cart-icon {
             position: relative;
-            font-size: 24px;
+            font-size: 30px;
         }
 
         .cart-counter {
@@ -80,6 +80,7 @@
             border-color: darkblue;
         }
     </style>
+
     <script>
         function redirectToPerfumesPage() {
             document.getElementById("perfumesForm").submit();
@@ -98,6 +99,11 @@
         }
     </script>
 </head>
+
+
+
+
+
 <body>
     <nav class="nav">
         <div class="container-fluid">
@@ -141,6 +147,13 @@
             </div>
         </div>
     </nav>
+
+    <!-- logo page of the store-->
+    <div class="container text-left my-5">
+        <h1></h1>
+        <img src="/images/LogoStore.png" width="1200x"/>
+    </div>
+    
 
     <!-- Hidden form for redirecting to Perfumes page -->
     <form id="perfumesForm" action="/Redirect2PerfumesPage" method="post" style="display: none;">

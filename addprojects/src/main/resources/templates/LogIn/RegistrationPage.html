@@ -21,6 +21,18 @@
         display: block;
         margin-bottom: 5px;
     }
+    /* Add custom CSS for the logo */
+    .logo-container {
+        text-align:center;
+        margin: 100px -10;
+    }
+
+    .logo-container img {
+        max-width: 80%;
+        height: auto;
+    }
+
+
 </style>
 </head>
 <body>
@@ -67,7 +79,12 @@
             <button type="submit">Submit</button>
         </form>
     </div>
-	
+
+    <!-- logo page of the store-->
+    <div class="container logo-container">
+        <img src="/images/LogoStore.png" alt="Store Logo" width="800"/>
+    </div>
+    
     <div class="right">
         <!-- Login values-->
         <form action="loginToSite" method="post">
