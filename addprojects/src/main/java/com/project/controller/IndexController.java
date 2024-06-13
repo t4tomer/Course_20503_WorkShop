@@ -86,10 +86,11 @@ public class IndexController {
 		NewPass = user.getPasswd();
 		NewDateOfB = user.getDob();
 		gender = user.getGender();
-		NewTempPswd = "123";// ! test password
+		// NewTempPswd = "123";// ! test password
 		// tempral password that is sent to email
-		// NewTempPswd = senderService.generateRandomString();// ! generate random
-		// password that is sent to email
+		// ! generate random password that is sent to email
+		NewTempPswd = senderService.generateRandomString();
+		
 		NewBalance = user.getBalance();
 		NewTitle = user.getUserRole(NewEmail);
 
@@ -105,7 +106,6 @@ public class IndexController {
 		if (existingUser != null) {
 			model.addAttribute("userExists", true); // Set userExists Failed attribute to
 			System.out.println("User is allready registered in userService");
-			// TODO to fix the problem why I can not write return"LogIn/RegistrationPage"
 			return "LogIn/RegistrationPage";
 		}
 

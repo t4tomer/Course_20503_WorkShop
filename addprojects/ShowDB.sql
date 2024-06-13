@@ -24,7 +24,7 @@ WHERE product_code = 'p2xcd';
 
 -- Delete user from Users Table
 DELETE FROM Project_Data_Base.Users_Table
-WHERE email = 'tomer.cccp@gmail.com';
+WHERE email = 'tomer.polsky27@gmail.com';
 
 
 -- Update the balance of user
