@@ -1,6 +1,6 @@
 This project is a client server type project where clients can connect to the server. The server creates an online site where you can buy products and upload products for sale. 
 While the customers can buy products and edit their user information and the manager can download or add products from the site.
-sources:
+
 
 
 ### Products page:
